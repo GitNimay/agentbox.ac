@@ -13,7 +13,7 @@
   else new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) s.classList.add('on'); }); }, { threshold: 0.05 }).observe(s);
 
   // On a wide screen the headline stays one line.
-  var h1 = q(s, 'h1'), l1 = q(h1, '.l1');
+  var h1 = q(s, 'h1'), l1 = q(h1, '.l1') || h1;
   function fit() {
     h1.style.fontSize = '';
     if ((window.innerWidth || 1440) <= 860) return;
