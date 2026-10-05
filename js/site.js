@@ -12,15 +12,15 @@
   if (reduce || !('IntersectionObserver' in window)) s.classList.add('on');
   else new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) s.classList.add('on'); }); }, { threshold: 0.05 }).observe(s);
 
-  // On a wide screen each line of the headline stays one line.
-  var h1 = q(s, 'h1'), l1 = q(h1, '.l1'), l2 = q(h1, '.l2');
+  // On a wide screen the headline stays one line.
+  var h1 = q(s, 'h1'), l1 = q(h1, '.l1') || h1;
   function fit() {
     h1.style.fontSize = '';
     if ((window.innerWidth || 1440) <= 860) return;
     var fs = parseFloat(getComputedStyle(h1).fontSize);
     for (var n = 0; n < 30 && fs > 44; n++) {
       var lh = parseFloat(getComputedStyle(h1).lineHeight) || fs * .98;
-      if (l1.offsetHeight < lh * 1.5 && l2.offsetHeight < lh * 1.5) break;
+      if (l1.offsetHeight < lh * 1.5) break;
       fs -= 2; h1.style.fontSize = fs + 'px';
     }
   }
@@ -910,3 +910,82 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
     }, 0.3);
   })();
 })();
+
+/* ===== TWEAKS PANEL (review only, remove before launch) =====
+   A floating panel, bottom right, for trying a subheader under the hero headline.
+   It only ever runs on localhost, 127.0.0.1 and *.vercel.app previews; on agentbox.ac and every
+   other host it does nothing, whatever the URL says. ?tweaks opens it expanded.
+   To remove: delete this block, the TWEAKS PANEL block at the end of css/site.css, and the
+   README checklist line. */
+(function () {
+  var host = location.hostname;
+  var allowed = host === 'localhost' || host === '127.0.0.1' || /\.vercel\.app$/.test(host);
+  if (!allowed) return;
+  var hero = document.getElementById('hero'), h1 = hero && hero.querySelector('h1');
+  if (!h1) return;
+  var forced = /[?&]tweaks(=|&|$)/.test(location.search);
+  var SUBS = [
+    { id: 'none', t: 'None' },
+    { id: 'a', t: 'Hand off a dozen tasks. Each agent comes back when it needs you.' },
+    { id: 'b', t: 'Every task gets its own agent. You answer the ones that need you.' },
+    { id: 'c', t: 'Run more agents than you can watch, and step in only when one needs you.' },
+    { id: 'd', t: 'A Mac app for managing many Claude Code and Codex agents.' },
+    { id: 'e', t: 'Free and open source, on the Claude Code or Codex plan you already have.' }
+  ];
+  var SIZES = [{ id: 's', t: 'Small' }, { id: 'm', t: 'Medium' }, { id: 'l', t: 'Large' }];
+  var KEY = 'agentbox-tweaks', st = { sub: 'none', size: 'm', open: false };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); if (saved && typeof saved === 'object') { for (var k in st) if (k in saved) st[k] = saved[k]; } } catch (e) {}
+  if (!SUBS.some(function (x) { return x.id === st.sub; })) st.sub = 'none';
+  if (!SIZES.some(function (x) { return x.id === st.size; })) st.size = 'm';
+  if (forced) st.open = true;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  /* the subheader, under the headline: its height eases so the page below never jumps */
+  var box = document.createElement('div'); box.className = 'tw-sub';
+  var inner = document.createElement('p'); inner.className = 'tw-sub-p rv d1';
+  box.appendChild(inner); h1.parentNode.insertBefore(box, h1.nextSibling);
+  function paintSub(animate) {
+    var s = SUBS.filter(function (x) { return x.id === st.sub; })[0], on = s.id !== 'none';
+    var from = box.offsetHeight;
+    if (on) inner.textContent = s.t;
+    box.dataset.size = st.size; box.classList.toggle('on', on);
+    box.style.transition = 'none'; box.style.height = 'auto';
+    var to = on ? box.scrollHeight : 0;
+    if (!animate) { box.style.height = to + 'px'; if (!on) inner.textContent = ''; return; }
+    box.style.height = from + 'px'; void box.offsetHeight;
+    box.style.transition = ''; box.style.height = to + 'px';
+  }
+  box.addEventListener('transitionend', function (e) { if (e.propertyName === 'height' && !box.classList.contains('on')) inner.textContent = ''; });
+  window.addEventListener('resize', function () { paintSub(false); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { paintSub(false); });
+
+  /* the panel */
+  var p = document.createElement('aside'); p.className = 'tw-panel'; p.setAttribute('aria-label', 'Tweaks');
+  p.innerHTML =
+    '<button type="button" class="tw-head" aria-expanded="false"><span><i></i>Tweaks</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5L6 4.5l3 3"/></svg></button>' +
+    '<div class="tw-body">' +
+      '<div class="tw-lbl">Subheader</div>' +
+      '<div class="tw-subs">' + SUBS.map(function (x) { return '<button type="button" data-sub="' + x.id + '"><b>' + (x.id === 'none' ? '&ndash;' : x.id) + '</b><span>' + esc(x.t) + '</span></button>'; }).join('') + '</div>' +
+      '<div class="tw-lbl">Size</div>' +
+      '<div class="tw-sizes">' + SIZES.map(function (x) { return '<button type="button" data-size="' + x.id + '">' + x.t + '</button>'; }).join('') + '</div>' +
+      '<div class="tw-note">Review only. Never shown on agentbox.ac.</div>' +
+    '</div>';
+  document.body.appendChild(p);
+  var head = p.querySelector('.tw-head');
+  function paintPanel() {
+    p.classList.toggle('open', !!st.open); head.setAttribute('aria-expanded', st.open ? 'true' : 'false');
+    Array.prototype.forEach.call(p.querySelectorAll('[data-sub]'), function (b) { b.setAttribute('aria-pressed', b.dataset.sub === st.sub ? 'true' : 'false'); });
+    Array.prototype.forEach.call(p.querySelectorAll('[data-size]'), function (b) { b.setAttribute('aria-pressed', b.dataset.size === st.size ? 'true' : 'false'); b.disabled = st.sub === 'none'; });
+  }
+  head.addEventListener('click', function () { st.open = !st.open; save(); paintPanel(); });
+  p.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sub], [data-size]'); if (!b) return;
+    if (b.dataset.sub) st.sub = b.dataset.sub; else st.size = b.dataset.size;
+    save(); paintPanel(); paintSub(true);
+  });
+  /* keys typed into the panel stay in the panel (the hero answers 1, 2, 3 and R) */
+  p.addEventListener('keydown', function (e) { if (e.key !== 'Tab' && e.key !== 'Enter' && e.key !== ' ') e.stopPropagation(); });
+  paintPanel(); paintSub(false);
+})();
+/* ===== END TWEAKS PANEL ===== */

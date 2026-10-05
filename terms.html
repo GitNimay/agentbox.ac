@@ -13,22 +13,22 @@
 :root{
   --display:Geist,Inter,"Helvetica Neue",Helvetica,Arial,sans-serif;
   --sans:Geist,Inter,-apple-system,"Helvetica Neue",Helvetica,"Segoe UI",Arial,sans-serif;
-  --ground:#0b0d13;
-  --ink:#f2f3f6;
-  --sub:#c2c7d1;
-  --faint:#878d99;
-  --hair:rgba(255,255,255,.09);
-  --glow:#e2a97e;
+  --ground:#1a1817;
+  --ink:#efebe7;
+  --sub:#c4bdb8;
+  --faint:#a09994;
+  --hair:#2a2827;
+  --glow:#ee6018;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{background-color:var(--ground);background-image:radial-gradient(60% 420px at 50% 0%,rgba(238,96,24,.13),rgba(238,96,24,0) 72%),radial-gradient(rgba(239,235,231,.055) 1px,transparent 1.3px);background-size:100% 100%,32px 32px;background-repeat:no-repeat,repeat;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 .wrap{max-width:700px;margin:0 auto;padding:0 32px}
 h1{margin:0;font-family:var(--display);font-weight:300;letter-spacing:-.03em;font-size:clamp(32px,4.4vw,44px);line-height:1.08}
 h2{margin:0;font-family:var(--display);font-weight:400;letter-spacing:-.02em;font-size:19px;line-height:1.3;color:var(--ink)}
 h3{margin:26px 0 0;font-weight:400;font-size:16px;line-height:1.4;color:var(--ink)}
 p{margin:0;font-weight:300;font-size:16px;line-height:1.66;color:var(--sub)}
-a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid #464443}
 a:hover{border-bottom-color:var(--glow)}
 header.top{padding:64px 0 0}
 .kicker{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:400}
@@ -46,7 +46,7 @@ section.cl .num{font-size:13px;color:var(--faint);font-weight:400;min-width:20px
 ul.plain{margin:16px 0 0;padding:0;list-style:none;border-top:1px solid var(--hair)}
 ul.plain li{padding:11px 0;border-bottom:1px solid var(--hair);font-size:15.5px;font-weight:300;color:var(--sub);line-height:1.5}
 ul.plain li b{font-weight:400;color:var(--ink)}
-.fill{color:var(--glow)}
+.fill{color:#e9a77f}
 footer{margin-top:74px;padding:30px 0 84px;border-top:1px solid var(--hair)}
 footer p{font-size:13.5px;color:var(--faint)}
 footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
