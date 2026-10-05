@@ -24,8 +24,20 @@
       fs -= 2; h1.style.fontSize = fs + 'px';
     }
   }
-  fit(); window.addEventListener('resize', fit);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  // The background's rays and horizon are drawn from the app window, so they follow its centre and
+  // size. Offsets, not getBoundingClientRect, so the reveal's slide never moves them.
+  var win = q(s, '.win');
+  function place() {
+    var y = 0, x = 0, n = win;
+    while (n && n !== s) { y += n.offsetTop; x += n.offsetLeft; n = n.offsetParent; }
+    s.style.setProperty('--wx', Math.round(x + win.offsetWidth / 2) + 'px');
+    s.style.setProperty('--wy', Math.round(y + win.offsetHeight / 2) + 'px');
+    s.style.setProperty('--ww', win.offsetWidth + 'px');
+    s.style.setProperty('--wh', win.offsetHeight + 'px');
+  }
+  function layout() { fit(); place(); }
+  layout(); window.addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
 
   /* ---------- the four tasks that need you, highest priority first ---------- */
   var ICON = {
@@ -912,80 +924,68 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
 })();
 
 /* ===== TWEAKS PANEL (review only, remove before launch) =====
-   A floating panel, bottom right, for trying a subheader under the hero headline.
+   A floating panel, bottom right, for comparing the hero's background and the feature section's headline.
    It only ever runs on localhost, 127.0.0.1 and *.vercel.app previews; on agentbox.ac and every
    other host it does nothing, whatever the URL says. ?tweaks opens it expanded.
    To remove: delete this block, the TWEAKS PANEL block at the end of css/site.css, and the
-   README checklist line. */
+   README checklist line. index.html already carries the defaults (the sunburst, the first headline). */
 (function () {
   var host = location.hostname;
   var allowed = host === 'localhost' || host === '127.0.0.1' || /\.vercel\.app$/.test(host);
   if (!allowed) return;
-  var hero = document.getElementById('hero'), h1 = hero && hero.querySelector('h1');
-  if (!h1) return;
+  var hero = document.getElementById('hero'), fh = document.querySelector('#features .features-h');
+  if (!hero) return;
   var forced = /[?&]tweaks(=|&|$)/.test(location.search);
-  var SUBS = [
-    { id: 'none', t: 'None' },
-    { id: 'a', t: 'Hand off a dozen tasks. Each agent comes back when it needs you.' },
-    { id: 'b', t: 'Every task gets its own agent. You answer the ones that need you.' },
-    { id: 'c', t: 'Run more agents than you can watch, and step in only when one needs you.' },
-    { id: 'd', t: 'A Mac app for managing many Claude Code and Codex agents.' },
-    { id: 'e', t: 'Free and open source, on the Claude Code or Codex plan you already have.' }
+  var BGS = [{ id: 'sunburst', t: 'Sunburst' }, { id: 'grid', t: 'Grid and glow' }, { id: 'horizon', t: 'Horizon' }, { id: 'plain', t: 'Plain' }];
+  var HEADS = [
+    { id: 'a', t: 'Everything else you’d reach for, already there.' },
+    { id: 'b', t: 'The rest of the workflow, handled.' },
+    { id: 'c', t: 'Made for days with many agents.' },
+    { id: 'd', t: 'All the parts you’d otherwise build yourself.' },
+    { id: 'e', t: 'Every detail of working with agents, covered.' },
+    { id: 'f', t: 'Less juggling, more shipping.' },
+    { id: 'g', t: 'Built for the way you work with agents.' },
+    { id: 'h', t: 'The tools around the inbox.' },
+    { id: 'i', t: 'What you get on day one.' },
+    { id: 'j', t: 'Everything else, already built in.' }
   ];
-  var SIZES = [{ id: 's', t: 'Small' }, { id: 'm', t: 'Medium' }, { id: 'l', t: 'Large' }];
-  var KEY = 'agentbox-tweaks', st = { sub: 'none', size: 'm', open: false };
+  var KEY = 'agentbox-tweaks', st = { bg: 'sunburst', head: 'a', open: false };
   try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); if (saved && typeof saved === 'object') { for (var k in st) if (k in saved) st[k] = saved[k]; } } catch (e) {}
-  if (!SUBS.some(function (x) { return x.id === st.sub; })) st.sub = 'none';
-  if (!SIZES.some(function (x) { return x.id === st.size; })) st.size = 'm';
+  if (!BGS.some(function (x) { return x.id === st.bg; })) st.bg = 'sunburst';
+  if (!HEADS.some(function (x) { return x.id === st.head; })) st.head = 'a';
   if (forced) st.open = true;
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-
-  /* the subheader, under the headline: its height eases so the page below never jumps */
-  var box = document.createElement('div'); box.className = 'tw-sub';
-  var inner = document.createElement('p'); inner.className = 'tw-sub-p rv d1';
-  box.appendChild(inner); h1.parentNode.insertBefore(box, h1.nextSibling);
-  function paintSub(animate) {
-    var s = SUBS.filter(function (x) { return x.id === st.sub; })[0], on = s.id !== 'none';
-    var from = box.offsetHeight;
-    if (on) inner.textContent = s.t;
-    box.dataset.size = st.size; box.classList.toggle('on', on);
-    box.style.transition = 'none'; box.style.height = 'auto';
-    var to = on ? box.scrollHeight : 0;
-    if (!animate) { box.style.height = to + 'px'; if (!on) inner.textContent = ''; return; }
-    box.style.height = from + 'px'; void box.offsetHeight;
-    box.style.transition = ''; box.style.height = to + 'px';
+  function paintPage() {
+    hero.setAttribute('data-bg', st.bg);
+    if (fh) fh.textContent = HEADS.filter(function (x) { return x.id === st.head; })[0].t;
   }
-  box.addEventListener('transitionend', function (e) { if (e.propertyName === 'height' && !box.classList.contains('on')) inner.textContent = ''; });
-  window.addEventListener('resize', function () { paintSub(false); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { paintSub(false); });
 
-  /* the panel */
   var p = document.createElement('aside'); p.className = 'tw-panel'; p.setAttribute('aria-label', 'Tweaks');
   p.innerHTML =
     '<button type="button" class="tw-head" aria-expanded="false"><span><i></i>Tweaks</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5L6 4.5l3 3"/></svg></button>' +
     '<div class="tw-body">' +
-      '<div class="tw-lbl">Subheader</div>' +
-      '<div class="tw-subs">' + SUBS.map(function (x) { return '<button type="button" data-sub="' + x.id + '"><b>' + (x.id === 'none' ? '&ndash;' : x.id) + '</b><span>' + esc(x.t) + '</span></button>'; }).join('') + '</div>' +
-      '<div class="tw-lbl">Size</div>' +
-      '<div class="tw-sizes">' + SIZES.map(function (x) { return '<button type="button" data-size="' + x.id + '">' + x.t + '</button>'; }).join('') + '</div>' +
+      '<div class="tw-lbl">Hero background</div>' +
+      '<div class="tw-bgs">' + BGS.map(function (x) { return '<button type="button" data-bg="' + x.id + '">' + esc(x.t) + '</button>'; }).join('') + '</div>' +
+      '<div class="tw-lbl">Features headline</div>' +
+      '<div class="tw-subs">' + HEADS.map(function (x, i) { return '<button type="button" data-head="' + x.id + '"><b>' + (i + 1) + '</b><span>' + esc(x.t) + '</span></button>'; }).join('') + '</div>' +
       '<div class="tw-note">Review only. Never shown on agentbox.ac.</div>' +
     '</div>';
   document.body.appendChild(p);
   var head = p.querySelector('.tw-head');
   function paintPanel() {
     p.classList.toggle('open', !!st.open); head.setAttribute('aria-expanded', st.open ? 'true' : 'false');
-    Array.prototype.forEach.call(p.querySelectorAll('[data-sub]'), function (b) { b.setAttribute('aria-pressed', b.dataset.sub === st.sub ? 'true' : 'false'); });
-    Array.prototype.forEach.call(p.querySelectorAll('[data-size]'), function (b) { b.setAttribute('aria-pressed', b.dataset.size === st.size ? 'true' : 'false'); b.disabled = st.sub === 'none'; });
+    Array.prototype.forEach.call(p.querySelectorAll('[data-bg]'), function (b) { b.setAttribute('aria-pressed', b.dataset.bg === st.bg ? 'true' : 'false'); });
+    Array.prototype.forEach.call(p.querySelectorAll('[data-head]'), function (b) { b.setAttribute('aria-pressed', b.dataset.head === st.head ? 'true' : 'false'); });
   }
   head.addEventListener('click', function () { st.open = !st.open; save(); paintPanel(); });
   p.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-sub], [data-size]'); if (!b) return;
-    if (b.dataset.sub) st.sub = b.dataset.sub; else st.size = b.dataset.size;
-    save(); paintPanel(); paintSub(true);
+    var b = e.target.closest('[data-bg], [data-head]'); if (!b) return;
+    if (b.dataset.bg) st.bg = b.dataset.bg; else st.head = b.dataset.head;
+    save(); paintPanel(); paintPage();
   });
   /* keys typed into the panel stay in the panel (the hero answers 1, 2, 3 and R) */
   p.addEventListener('keydown', function (e) { if (e.key !== 'Tab' && e.key !== 'Enter' && e.key !== ' ') e.stopPropagation(); });
-  paintPanel(); paintSub(false);
+  paintPanel(); paintPage();
 })();
 /* ===== END TWEAKS PANEL ===== */
