@@ -924,11 +924,11 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
 })();
 
 /* ===== TWEAKS PANEL (review only, remove before launch) =====
-   A floating panel, bottom right, for comparing the hero's background and the feature section's headline.
+   A floating panel, bottom right, for comparing the feature section's headline.
    It only ever runs on localhost, 127.0.0.1 and *.vercel.app previews; on agentbox.ac and every
    other host it does nothing, whatever the URL says. ?tweaks opens it expanded.
    To remove: delete this block, the TWEAKS PANEL block at the end of css/site.css, and the
-   README checklist line. index.html already carries the defaults (the sunburst, the first headline). */
+   README checklist line. index.html already carries the defaults (grid and glow, the first headline). */
 (function () {
   var host = location.hostname;
   var allowed = host === 'localhost' || host === '127.0.0.1' || /\.vercel\.app$/.test(host);
@@ -936,22 +936,24 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
   var hero = document.getElementById('hero'), fh = document.querySelector('#features .features-h');
   if (!hero) return;
   var forced = /[?&]tweaks(=|&|$)/.test(location.search);
-  var BGS = [{ id: 'sunburst', t: 'Sunburst' }, { id: 'grid', t: 'Grid and glow' }, { id: 'horizon', t: 'Horizon' }, { id: 'plain', t: 'Plain' }];
+  // Grid and glow won (2026-10-05), so the hero background is fixed in index.html and no longer a choice here.
+  var BGS = [];
+  // Written for developers: name what is in the grid rather than sell it.
   var HEADS = [
-    { id: 'a', t: 'Everything else you’d reach for, already there.' },
-    { id: 'b', t: 'The rest of the workflow, handled.' },
-    { id: 'c', t: 'Made for days with many agents.' },
-    { id: 'd', t: 'All the parts you’d otherwise build yourself.' },
-    { id: 'e', t: 'Every detail of working with agents, covered.' },
-    { id: 'f', t: 'Less juggling, more shipping.' },
-    { id: 'g', t: 'Built for the way you work with agents.' },
-    { id: 'h', t: 'The tools around the inbox.' },
-    { id: 'i', t: 'What you get on day one.' },
-    { id: 'j', t: 'Everything else, already built in.' }
+    { id: 'a', t: 'Worktrees, terminals and diffs, built in.' },
+    { id: 'b', t: 'Under the hood.' },
+    { id: 'c', t: 'Each task gets a worktree, a terminal and a diff.' },
+    { id: 'd', t: 'The plumbing you’d otherwise script yourself.' },
+    { id: 'e', t: 'The boring parts, already wired up.' },
+    { id: 'f', t: 'Built on git worktrees, with a terminal for every task.' },
+    { id: 'g', t: 'Git worktrees, terminals, schedules, notifications.' },
+    { id: 'h', t: 'Also in the app.' },
+    { id: 'i', t: 'The details.' },
+    { id: 'j', t: 'What else is in the app.' }
   ];
-  var KEY = 'agentbox-tweaks', st = { bg: 'sunburst', head: 'a', open: false };
+  var KEY = 'agentbox-tweaks-2', st = { bg: 'grid', head: 'a', open: false };
   try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); if (saved && typeof saved === 'object') { for (var k in st) if (k in saved) st[k] = saved[k]; } } catch (e) {}
-  if (!BGS.some(function (x) { return x.id === st.bg; })) st.bg = 'sunburst';
+  st.bg = 'grid';
   if (!HEADS.some(function (x) { return x.id === st.head; })) st.head = 'a';
   if (forced) st.open = true;
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
@@ -965,8 +967,6 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
   p.innerHTML =
     '<button type="button" class="tw-head" aria-expanded="false"><span><i></i>Tweaks</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5L6 4.5l3 3"/></svg></button>' +
     '<div class="tw-body">' +
-      '<div class="tw-lbl">Hero background</div>' +
-      '<div class="tw-bgs">' + BGS.map(function (x) { return '<button type="button" data-bg="' + x.id + '">' + esc(x.t) + '</button>'; }).join('') + '</div>' +
       '<div class="tw-lbl">Features headline</div>' +
       '<div class="tw-subs">' + HEADS.map(function (x, i) { return '<button type="button" data-head="' + x.id + '"><b>' + (i + 1) + '</b><span>' + esc(x.t) + '</span></button>'; }).join('') + '</div>' +
       '<div class="tw-note">Review only. Never shown on agentbox.ac.</div>' +
