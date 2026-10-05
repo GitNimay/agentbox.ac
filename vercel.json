@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/download",
+      "destination": "https://github.com/Astral-Agent/astral-releases/releases/latest/download/Astral-arm64.dmg",
+      "permanent": false
+    }
+  ]
+}
