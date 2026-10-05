@@ -36,7 +36,7 @@ That is the app's current release feed. **A new signed Agentbox build has to be 
 - [ ] A signed and notarized Agentbox build is published to the release feed, and `/download` returns it.
 - [ ] Legal review of `privacy.html` and `terms.html`. Both were renamed from an earlier product and have not been reviewed for Agentbox. They also need a contact email, which is left as a visible placeholder.
 - [ ] The domain agentbox.ac points at the Vercel project, with HTTPS.
-- [ ] Remove the Tweaks panel, a review-only tool for comparing the hero background and the feature section's headline. Delete the `TWEAKS PANEL` block at the end of `js/site.js` and the `TWEAKS PANEL` block at the end of `css/site.css`, then put the chosen ones into `index.html` (the hero's `data-bg` and the `features-h` headline). It only runs on localhost, 127.0.0.1 and `*.vercel.app` previews, never on agentbox.ac.
+- [x] Remove the review-only Tweaks panel (done, with grid and glow and "Worktrees, terminals and diffs, built in." chosen).
 - [ ] An og:image for link previews. There is none yet. Add a 1200x630 image at `assets/og.png` and a `<meta property="og:image" content="https://agentbox.ac/assets/og.png">` tag (plus `twitter:card` set to `summary_large_image`) in the head of `index.html`.
 
 ## Open source

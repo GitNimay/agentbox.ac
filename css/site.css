@@ -765,7 +765,7 @@ body {
 }
 #features { padding: 128px 40px 136px; color: #efebe7; }
 #features::before { background: radial-gradient(52% 34% at 14% 14%, rgba(238,96,24,.13), rgba(238,96,24,0) 70%), radial-gradient(40% 28% at 90% 84%, rgba(238,96,24,.07), rgba(238,96,24,0) 70%); }
-#features .features-hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 44px; padding-bottom: 26px; }
+#features .features-hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 36px; padding-bottom: 0; }
 #features .features-hd .fx-h2 { max-width: 620px; }
 #features .features-gh { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #464443; background: rgba(40,38,37,.7); color: #efebe7; text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: -.01em; transition: border-color .2s, background .2s; }
 #features .features-gh:hover { border-color: #6a6563; background: #2f2d2c; }
@@ -1135,32 +1135,3 @@ body {
   .site-foot .ft-base { flex-direction: column; gap: 6px; margin-top: 40px; }
 }
 
-/* ========== TWEAKS PANEL (review only, remove before launch) ==========
-   Styles for the review panel made by the TWEAKS PANEL block in js/site.js.
-   Delete this block together with that one. */
-.tw-panel { position: fixed; right: 16px; bottom: 16px; z-index: 1000; width: min(320px, calc(100vw - 32px)); background: rgba(33,31,30,.96); color: #efebe7; border: 1px solid #464443; box-shadow: 0 24px 60px -20px rgba(0,0,0,.9); font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-.tw-panel * { box-sizing: border-box; }
-.tw-panel:not(.open) { width: auto; }
-.tw-panel:not(.open) .tw-head { gap: 18px; }
-.tw-panel button { all: unset; box-sizing: border-box; cursor: pointer; }
-.tw-panel button:focus-visible { outline: 1px solid #ee6018; outline-offset: -1px; }
-.tw-panel .tw-head { display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 11px 14px; font: 500 11px/1 'Geist Mono', ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; color: #c4bdb8; }
-.tw-panel .tw-head span { display: inline-flex; align-items: center; gap: 9px; }
-.tw-panel .tw-head i { width: 6px; height: 6px; border-radius: 50%; background: #ee6018; }
-.tw-panel .tw-head svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.4; transition: transform .2s; }
-.tw-panel.open .tw-head svg { transform: rotate(180deg); }
-.tw-panel .tw-body { display: none; padding: 2px 14px 14px; border-top: 1px solid #2c2a29; max-height: calc(100vh - 80px); overflow: auto; }
-.tw-panel.open .tw-body { display: block; }
-.tw-panel .tw-lbl { margin: 14px 0 8px; font: 500 10px/1 'Geist Mono', ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; color: #8f8883; }
-.tw-panel .tw-subs { display: grid; gap: 4px; }
-.tw-panel .tw-subs button { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 8px; padding: 8px 9px; border: 1px solid #353230; background: #1c1a19; font-size: 12.5px; line-height: 1.35; color: #c4bdb8; }
-.tw-panel .tw-subs button b { font: 500 11px/1.5 'Geist Mono', ui-monospace, monospace; color: #8f8883; text-transform: uppercase; }
-.tw-panel .tw-subs button:hover { border-color: #5a5653; color: #efebe7; }
-.tw-panel .tw-subs button[aria-pressed="true"] { border-color: rgba(238,96,24,.75); background: #2a1d16; color: #efebe7; }
-.tw-panel .tw-subs button[aria-pressed="true"] b { color: #ee6018; }
-.tw-panel .tw-bgs { display: grid; grid-template-columns: repeat(2, 1fr); padding: 3px; gap: 3px; border: 1px solid #353230; background: #1c1a19; }
-.tw-panel .tw-bgs button { padding: 8px 0; text-align: center; font-size: 12.5px; color: #8f8883; }
-.tw-panel .tw-bgs button:hover { color: #efebe7; }
-.tw-panel .tw-bgs button[aria-pressed="true"] { background: #2f2d2c; color: #efebe7; box-shadow: inset 0 0 0 1px rgba(238,96,24,.75); }
-.tw-panel .tw-note { margin-top: 12px; font-size: 11.5px; color: #8f8883; }
-/* ========== END TWEAKS PANEL ========== */
