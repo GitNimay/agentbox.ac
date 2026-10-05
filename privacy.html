@@ -60,7 +60,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <div class="kicker">Astral AI Inc.</div>
     <h1 style="margin-top:18px">Privacy policy</h1>
     <p class="scope">This policy states what information the Agentbox application for macOS and the Agentbox website collect, why they collect it, who receives it, how long it is held and what you can require of us. It is given by Astral AI Inc. and covers no other company.</p>
-    <p class="stamp">Last changed 18 September 2026. This version replaces every earlier version.</p>
+    <p class="stamp">Last changed 5 October 2026. This version replaces every earlier version.</p>
   </div>
   <div class="wrap">
     <nav class="toc">
@@ -114,7 +114,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <p>In personal Claude Code conversations, requests that need your approval can be shown in Agentbox. The request and your decision are kept locally so the waiting agent can receive your answer. This approval channel does not give the conversation access to Agentbox task store tools and does not send approval records to us.</p>
     <p>Commands you invoke can also request code review, manage conversation goals, or inspect the connected provider and local project. Provider commands use your existing provider account. Review may send project content to that provider as part of its normal operation. Command results, model and effort choices, and the available Claude Code command names are kept locally. These results and command names are not sent to us.</p>
     <p>When you enable Remote Control for a Claude Code conversation, the installed Claude Code connects that conversation to Anthropic so you can continue it in Claude on another device. Anthropic receives the conversation history and subsequent messages under your agreement with it. Tool execution remains on your computer. Agentbox stores remote replies and connection state locally and does not receive a cloud copy of the conversation. Turning Remote Control off disconnects access through this local session. It does not promise deletion of records held by Anthropic.</p>
-    <p>Agentbox has no sign in, no user account and no cloud copy of your work. We therefore hold no name, no password and no profile of you, and nothing in this policy should be read as saying otherwise. We hold no email address for you either, unless you type one into the feedback box yourself, which is described in section 5.4 and is never required.</p>
+    <p>Agentbox has no sign in, no user account and no cloud copy of your work. We therefore hold no name, no password and no profile of you, and nothing in this policy should be read as saying otherwise. We hold no email address for you either, and the feedback box described in section 5.4 has nowhere to type one.</p>
     <p>Agentbox can also use the services you have connected to Claude&nbsp;Code, such as Slack or Linear. When an agent reads from one of them, the request goes from your computer to that service through Claude&nbsp;Code, signed in as you, under your own account with that service and its own terms. Agentbox holds no password, key or token for any of them, and nothing an agent reads there reaches us. In this version an agent can only read from a connected service. It cannot send or post anything through one, and a version that can will change this policy and section 7 of the terms before it is released.</p>
   </div>
 </section>
@@ -165,11 +165,10 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <p>What we receive when you do press send is this.</p>
     <ul class="plain">
       <li>What you write in the feedback box, and any file you attach to it, when you press send</li>
-      <li>The address you type in the feedback box, if you choose to type one</li>
-      <li>The version of Agentbox, the release of macOS and the installation identifier described in section 5.2, so that a report about a fault can be read against the version it happened on</li>
+      <li>The version of Agentbox and the release of macOS, so that a report about a fault can be read against the version it happened on</li>
     </ul>
-    <p>The address is optional and it is the one thing in Agentbox that can identify you, because you typed it. It is used to answer you about your message and for nothing else. It is not added to a mailing list, it is not used to advertise to you, and leaving it blank does not stop your message arriving.</p>
-    <p>Your message is written to a file on your own computer before it is sent, so that it is not lost if you are offline, and it stays there afterwards. A message that cannot be delivered is tried again the next time Agentbox opens, and after thirty days it is no longer tried and simply remains on your computer.</p>
+    <p>There is nowhere to type an address, so nothing you send from the box tells us who you are unless you write it in the box yourself. The installation identifier described in section 5.2 is not sent with a feedback message.</p>
+    <p>Your message is not written to a file and it is not held anywhere for sending later. It is sent when you press send, and if it cannot be sent, Agentbox says so and leaves what you wrote in the box so you can send it again. Nothing is tried again on its own, and closing the box without sending discards what is in it.</p>
     <p>Section 4 governs this section as it governs every other. We do not attach your files, your code, your prompts, your keys or your paths to a feedback message, and a file you attach yourself is sent by its contents and its name, never by where it was on your computer. If you write any of those things into the box yourself, they reach us because you chose to send them.</p>
 
     <h3>5.5 Checking whether there is a newer version</h3>
@@ -199,7 +198,8 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
 <section class="cl" id="s8">
   <div class="wrap">
     <div class="hd"><span class="num">8</span><h2>Who else receives it</h2></div>
-        <p>One outside service stores the counts and the crash reports for us and processes them only on our instructions and for no purpose of its own. That service is PostHog. No other company receives any of it.</p>
+    <p>One outside service stores the counts and the crash reports for us and processes them only on our instructions and for no purpose of its own. That service is PostHog. No other company receives any of it.</p>
+    <p>A feedback message takes a different path and passes through two other companies, which receive only what is in the feedback box and nothing else in this policy. Supabase hosts the small program the application sends it to, and Resend delivers it to us as an email. Both act only on our instructions, neither keeps it for any purpose of its own, and neither receives the counts or the crash reports.</p>
     <p>The one thing that goes anywhere else is the question in section 5.5, which asks GitHub whether a newer version of Agentbox has been released. GitHub is not storing anything for us and receives none of the counts, none of the crash reports and nothing from the feedback box.</p>
     <p>We may disclose what we hold if the law requires it of us, such as under a valid legal demand, or where it is necessary to establish or defend a legal claim or to protect the safety of a person. If we are ever asked for information in a way we are permitted to tell you about, we will.</p>
     <p>If Astral AI Inc. is sold, merged or reorganised, what we hold may pass to the buyer. The buyer would be bound by this policy until it gives notice of a different one.</p>
@@ -209,7 +209,8 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
 <section class="cl" id="s9">
   <div class="wrap">
     <div class="hd"><span class="num">9</span><h2>Where it is held</h2></div>
-    <p>What section 5 describes is stored by the service named in section 8, in the United States. If you use Agentbox from another country, using it sends that information there.</p>
+    <p>The counts and the crash reports described in sections 5.1 to 5.3 are stored by the service named first in section 8, in the United States. If you use Agentbox from another country, using it sends that information there.</p>
+    <p>A feedback message is not stored by that service at all. It passes through the two companies named after it in section 8 and arrives with us as an email, which we hold in our own mailbox.</p>
   </div>
 </section>
 
@@ -233,7 +234,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
   <div class="wrap">
     <div class="hd"><span class="num">12</span><h2>Your rights</h2></div>
     <p>Depending on where you live you may have the right to ask what we hold about you, to receive a copy of it, to have it corrected, to have it deleted, to object to or restrict how we use it, and to complain to your data protection authority. We will not treat you differently for exercising any of them, and there is nothing to treat differently, because Agentbox has no account and no paid tier that could be withdrawn.</p>
-    <p>Because Agentbox holds no account, what we receive is tied to the installation identifier in section 5.2 and to nothing else. To act on a request we need that identifier, since without it we cannot find your records among anyone else's, and we will not ask you for identity documents or any other personal information in order to answer. Requests are made in the way section 17 states.</p>
+    <p>Because Agentbox holds no account, what we receive from the counts and the crash reports is tied to the installation identifier in section 5.2 and to nothing else. To act on a request we need that identifier, since without it we cannot find your records among anyone else's, and we will not ask you for identity documents or any other personal information in order to answer. Requests are made in the way section 17 states.</p>
   </div>
 </section>
 
