@@ -2,7 +2,7 @@
 
 /* ===== Hero: one task at a time, answered with 1, 2, 3 or R ===== */
 (function () {
-  var s = document.getElementById('h07'); if (!s) return;
+  var s = document.getElementById('hero'); if (!s) return;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function q(r, sel) { return r.querySelector(sel); }
   function qa(r, sel) { return Array.prototype.slice.call(r.querySelectorAll(sel)); }
@@ -337,7 +337,7 @@ function watch(el, cb) {
 }
 function pressKey(el) { if (!el) return; el.classList.add('down'); setTimeout(function () { el.classList.remove('down'); }, 150); }
 /* reveal on scroll */
-['t08', 't09', 't10', 't11b'].forEach(function (id) {
+['inbox', 'command-k', 'features', 'plans'].forEach(function (id) {
   var s = document.getElementById(id); if (!s) return;
   qa(s, '.fx-rv').forEach(function (el) { onceSeen(el, function () { el.classList.add('fx-on'); }, 0.15); });
 });
@@ -354,9 +354,9 @@ document.addEventListener('keydown', function (e) {
 });
 
 
-/* ---------------- t08  inbox or board, B flips the same threads between them ---------------- */
+/* ---------------- inbox  inbox or board, B flips the same threads between them ---------------- */
 (function () {
-  var s = document.getElementById('t08'); if (!s) return;
+  var s = document.getElementById('inbox'); if (!s) return;
   var COLS = [['w', 'Waiting'], ['i', 'In progress'], ['l', 'Later'], ['d', 'Done today']];
   var PC = { desktop: '#ee6018', api: '#c4bdb8', site: '#8a7d70' };
   var PR = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
@@ -385,23 +385,23 @@ document.addEventListener('keydown', function (e) {
     ['d', 'Plan the offline mode', 'desktop', 'm', '6h', 'Plan approved'],
     ['d', 'Cache the project list on launch', 'desktop', 'l', '7h', 'Merged into main']
   ];
-  var stage = q(s, '.t08-stage'), scroll = q(s, '.t08-scroll'), keyB = q(s, '.t08-b');
-  var segBtns = qa(s, '.t08-seg button');
+  var stage = q(s, '.inbox-stage'), scroll = q(s, '.inbox-scroll'), keyB = q(s, '.inbox-b');
+  var segBtns = qa(s, '.inbox-seg button');
   var board = false, busy = false, touched = false, onScreen = false, auto = null;
   var cols = COLS.map(function (c) {
     var n = T.filter(function (t) { return t[0] === c[0]; }).length;
-    var d = document.createElement('div'); d.className = 't08-col c-' + c[0];
-    d.innerHTML = '<header><span class="t08-g"></span>' + c[1] + ' <b>' + n + '</b></header>';
+    var d = document.createElement('div'); d.className = 'inbox-col c-' + c[0];
+    d.innerHTML = '<header><span class="inbox-g"></span>' + c[1] + ' <b>' + n + '</b></header>';
     stage.appendChild(d); return d;
   });
-  var fade = document.createElement('div'); fade.className = 't08-fade'; fade.setAttribute('aria-hidden', 'true');
+  var fade = document.createElement('div'); fade.className = 'inbox-fade'; fade.setAttribute('aria-hidden', 'true');
   var maxD = 0;
   var cards = T.map(function (t) {
-    var d = document.createElement('div'); d.className = 't08-c s-' + t[0];
-    d.innerHTML = '<div class="t08-ci"><span class="t08-g"></span><span class="t08-t">' + esc(t[1]) + '</span>' +
-      '<span class="t08-p" style="--pc:' + PC[t[2]] + '">' + t[2] + '</span>' +
-      '<span class="t08-pr pr-' + t[3] + '"><span>' + PR[t[3]] + '</span></span><span class="t08-tm">' + t[4] + '</span>' +
-      '<span class="t08-s">' + esc(t[5]) + '</span></div>';
+    var d = document.createElement('div'); d.className = 'inbox-c s-' + t[0];
+    d.innerHTML = '<div class="inbox-ci"><span class="inbox-g"></span><span class="inbox-t">' + esc(t[1]) + '</span>' +
+      '<span class="inbox-p" style="--pc:' + PC[t[2]] + '">' + t[2] + '</span>' +
+      '<span class="inbox-pr pr-' + t[3] + '"><span>' + PR[t[3]] + '</span></span><span class="inbox-tm">' + t[4] + '</span>' +
+      '<span class="inbox-s">' + esc(t[5]) + '</span></div>';
     stage.appendChild(d); return d;
   });
   stage.appendChild(fade);
@@ -455,7 +455,7 @@ document.addEventListener('keydown', function (e) {
   function user() { touched = true; if (auto) { clearInterval(auto); auto = null; } }
   segBtns.forEach(function (b) { b.addEventListener('click', function () { user(); set(b.getAttribute('data-v') === 'board'); }); });
   keyB.addEventListener('click', function () { user(); pressKey(keyB); set(!board); });
-  KEYS.push({ el: q(s, '.t08-win'), fn: function (e) {
+  KEYS.push({ el: q(s, '.inbox-win'), fn: function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return false;
     if (e.key === 'b' || e.key === 'B') { user(); pressKey(keyB); set(!board); return true; }
     return false;
@@ -471,11 +471,11 @@ document.addEventListener('keydown', function (e) {
   });
 })();
 
-/* ---------------- t09  command k ---------------- */
+/* ---------------- command-k  command k ---------------- */
 (function () {
-  var s = document.getElementById('t09'); if (!s) return;
-  var stage = q(s, '.t09-stage'), input = q(s, '.t09-in'), list = q(s, '.t09-list'), toastEl = q(s, '.t09-toast');
-  var term = q(s, '.t09-term'), pri = q(s, '.t09-pri'), tries = q(s, '.t09-tries');
+  var s = document.getElementById('command-k'); if (!s) return;
+  var stage = q(s, '.command-k-stage'), input = q(s, '.command-k-in'), list = q(s, '.command-k-list'), toastEl = q(s, '.command-k-toast');
+  var term = q(s, '.command-k-term'), pri = q(s, '.command-k-pri'), tries = q(s, '.command-k-tries');
   var CTX = 'Dark mode flashes white on launch';
   /* [group, glyph, label, key, what happens] all real rows from the app */
   var ROWS = [
@@ -540,18 +540,18 @@ document.addEventListener('keydown', function (e) {
       var mk = words.length ? match(r[2], words) : [];
       if (!mk) return;
       if (r[0] !== last) {
-        html += r[0] === 't' ? '<div class="t09-gh">This thread <span>' + esc(CTX) + '</span></div>' : '<div class="t09-gh">Anywhere</div>';
+        html += r[0] === 't' ? '<div class="command-k-gh">This thread <span>' + esc(CTX) + '</span></div>' : '<div class="command-k-gh">Anywhere</div>';
         last = r[0];
       }
-      html += '<div class="t09-r" role="option" data-i="' + shown.length + '"><i>' + esc(r[1]) + '</i><span>' + hl(r[2], mk) + '</span>' + (r[3] ? '<kbd>' + esc(r[3]) + '</kbd>' : '') + '</div>';
+      html += '<div class="command-k-r" role="option" data-i="' + shown.length + '"><i>' + esc(r[1]) + '</i><span>' + hl(r[2], mk) + '</span>' + (r[3] ? '<kbd>' + esc(r[3]) + '</kbd>' : '') + '</div>';
       shown.push(r);
     });
-    list.innerHTML = html || '<div class="t09-none">Nothing matches every word yet</div>';
+    list.innerHTML = html || '<div class="command-k-none">Nothing matches every word yet</div>';
     sel = Math.min(sel, Math.max(0, shown.length - 1));
     paintSel();
   }
   function paintSel() {
-    qa(list, '.t09-r').forEach(function (el, i) {
+    qa(list, '.command-k-r').forEach(function (el, i) {
       el.classList.toggle('sel', i === sel);
       el.setAttribute('aria-selected', String(i === sel));
       if (i === sel) { var lt = el.offsetTop, lb = lt + el.offsetHeight; if (lt < list.scrollTop + 30) list.scrollTop = lt - 30; else if (lb > list.scrollTop + list.clientHeight) list.scrollTop = lb - list.clientHeight + 6; }
@@ -567,23 +567,23 @@ document.addEventListener('keydown', function (e) {
     clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('on'); }, 2200);
   }
   function run(r) {
-    var el = q(list, '.t09-r.sel'); if (el) el.classList.add('run');
+    var el = q(list, '.command-k-r.sel'); if (el) el.classList.add('run');
     setTimeout(function () {
       setOpen(false);
       var a = r[4];
       if (r[5]) { pri.textContent = r[2].replace('Priority ', ''); pri.classList.toggle('u', r[5] === 'u'); pri.classList.remove('flash'); void pri.offsetWidth; pri.classList.add('flash'); toast(a); }
       else if (a === 'term') { term.classList.add('on'); toast('Terminal open in agentbox/w-7c21'); timers.push(setTimeout(function () { term.classList.remove('on'); }, 3200)); }
       else if (a.indexOf('rank:') === 0) { rank(a.slice(5)); toast(a.slice(5) + ' now ranks first. Its work starts first'); }
-      else if (a === 'pause') { stage.classList.add('paused'); q(s, '.t09-livet').textContent = 'Agents paused, nothing new starts'; toast('Every agent paused'); }
-      else if (a === 'resume') { stage.classList.remove('paused'); q(s, '.t09-livet').textContent = 'Finished 2m ago, 14 steps, 31 tests passed'; toast('Agents resumed'); }
+      else if (a === 'pause') { stage.classList.add('paused'); q(s, '.command-k-livet').textContent = 'Agents paused, nothing new starts'; toast('Every agent paused'); }
+      else if (a === 'resume') { stage.classList.remove('paused'); q(s, '.command-k-livet').textContent = 'Finished 2m ago, 14 steps, 31 tests passed'; toast('Agents resumed'); }
       else toast(a);
     }, 160);
   }
   function rank(p) {
-    var box = q(s, '.t09-projs'), el = q(box, '[data-p="' + p + '"]');
+    var box = q(s, '.command-k-projs'), el = q(box, '[data-p="' + p + '"]');
     if (!el || box.firstElementChild === el) return;
-    var before = qa(box, '.t09-proj').map(function (x) { return x.getBoundingClientRect().top; });
-    var items = qa(box, '.t09-proj');
+    var before = qa(box, '.command-k-proj').map(function (x) { return x.getBoundingClientRect().top; });
+    var items = qa(box, '.command-k-proj');
     box.insertBefore(el, box.firstElementChild);
     items.forEach(function (x, i) { var d = before[i] - x.getBoundingClientRect().top; x.style.transition = 'none'; x.style.transform = 'translateY(' + d + 'px)'; void x.offsetWidth; x.style.transition = ''; x.style.transform = ''; });
   }
@@ -594,19 +594,19 @@ document.addEventListener('keydown', function (e) {
     else if (e.key === 'Enter') { if (shown[sel]) run(shown[sel]); e.preventDefault(); }
     else if (e.key === 'Escape') { setOpen(false); e.preventDefault(); }
   });
-  list.addEventListener('mousemove', function (e) { var r = e.target.closest('.t09-r'); if (r && +r.dataset.i !== sel) { sel = +r.dataset.i; paintSel(); } });
-  list.addEventListener('click', function (e) { var r = e.target.closest('.t09-r'); if (r) { user(); sel = +r.dataset.i; paintSel(); run(shown[sel]); } });
-  q(s, '.t09-esc').addEventListener('click', function (e) { e.preventDefault(); user(); setOpen(false); });
-  q(s, '.t09-dim').addEventListener('click', function () { user(); setOpen(false); });
+  list.addEventListener('mousemove', function (e) { var r = e.target.closest('.command-k-r'); if (r && +r.dataset.i !== sel) { sel = +r.dataset.i; paintSel(); } });
+  list.addEventListener('click', function (e) { var r = e.target.closest('.command-k-r'); if (r) { user(); sel = +r.dataset.i; paintSel(); run(shown[sel]); } });
+  q(s, '.command-k-esc').addEventListener('click', function (e) { e.preventDefault(); user(); setOpen(false); });
+  q(s, '.command-k-dim').addEventListener('click', function () { user(); setOpen(false); });
   function user() { if (touched) return; touched = true; timers.forEach(clearTimeout); timers = []; }
   function openByUser() { user(); term.classList.remove('on'); setOpen(!open, true); }
-  var keyCaps = qa(s, '.t09-k');
+  var keyCaps = qa(s, '.command-k-k');
   function pressCaps() { keyCaps.forEach(pressKey); }
   keyCaps.forEach(function (k) { k.addEventListener('click', function () { pressCaps(); openByUser(); }); });
   input.addEventListener('pointerdown', user);
   input.addEventListener('keydown', user);
   ['urg pri', 'term', 'rank site', 'pause', 'resume int', 'import cl'].forEach(function (t) {
-    var b = document.createElement('button'); b.type = 'button'; b.className = 't09-try'; b.textContent = t;
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'command-k-try'; b.textContent = t;
     b.addEventListener('click', function () { user(); term.classList.remove('on'); if (!open) setOpen(true, false); input.value = ''; typeOut(t, function () { input.focus({ preventScroll: true }); }); });
     tries.appendChild(b);
   });
@@ -649,11 +649,11 @@ document.addEventListener('keydown', function (e) {
   });
 })();
 
-/* ---------------- t10  the feature index ---------------- */
+/* ---------------- features  the feature index ---------------- */
 (function () {
-  var s = document.getElementById('t10'); if (!s) return;
-  watch(q(s, '.t10-grid'), function (v) { s.classList.toggle('t10-run', v); });
-  qa(s, '.t10-t').forEach(function (t) {
+  var s = document.getElementById('features'); if (!s) return;
+  watch(q(s, '.features-grid'), function (v) { s.classList.toggle('features-run', v); });
+  qa(s, '.features-t').forEach(function (t) {
     t.addEventListener('pointermove', function (e) {
       var r = t.getBoundingClientRect();
       t.style.setProperty('--mx', (e.clientX - r.left) + 'px'); t.style.setProperty('--my', (e.clientY - r.top) + 'px');
@@ -661,24 +661,24 @@ document.addEventListener('keydown', function (e) {
   });
 })();
 
-/* ---------------- t11b  your own plan: tasks flow out of the app to Claude Code and Codex ---------------- */
+/* ---------------- plans  your own plan: tasks flow out of the app to Claude Code and Codex ---------------- */
 (function () {
-  var s = document.getElementById('t11b'); if (!s) return;
-  var stage = q(s, '.t11b-stage'), icon = q(s, '.t11b-icon'), wk = q(s, '.t11b-wk'), wt = q(s, '.t11b-wt');
+  var s = document.getElementById('plans'); if (!s) return;
+  var stage = q(s, '.plans-stage'), icon = q(s, '.plans-icon'), wk = q(s, '.plans-wk'), wt = q(s, '.plans-wt');
   var SIDES = {
-    claude: { card: q(s, '[data-e="claude"]'), wire: q(s, '.t11b-wire.l i'), model: 'OPUS 5.5',
+    claude: { card: q(s, '[data-e="claude"]'), wire: q(s, '.plans-wire.l i'), model: 'OPUS 5.5',
       tasks: ['Snooze survives a restart', 'Dark mode flashes white on launch', 'Untangle the auth middleware', 'Flaky e2e on CI', 'Tray icon blurry on Retina'] },
-    codex: { card: q(s, '[data-e="codex"]'), wire: q(s, '.t11b-wire.r i'), model: 'GPT-6-ASTRA',
+    codex: { card: q(s, '[data-e="codex"]'), wire: q(s, '.plans-wire.r i'), model: 'GPT-6-ASTRA',
       tasks: ['Search misses archived threads', 'Blog RSS feed', 'Usage meter onto the billing week', 'Export a thread as markdown', 'Settings page loses focus'] }
   };
   Object.keys(SIDES).forEach(function (k) {
-    var d = SIDES[k]; d.rows = q(d.card, '.t11b-rows'); d.n = 2; d.list = [];
-    d.bars = qa(d.card, '.t11b-bar i'); d.pv = qa(d.card, '.t11b-pv');
+    var d = SIDES[k]; d.rows = q(d.card, '.plans-rows'); d.n = 2; d.list = [];
+    d.bars = qa(d.card, '.plans-bar i'); d.pv = qa(d.card, '.plans-pv');
     d.p = d.pv.map(function (b) { return parseInt(b.textContent, 10); });
     [d.tasks[1], d.tasks[0]].forEach(function (t, i) { d.list.push(addRow(d, t, i)); });
   });
   function addRow(d, t, slot) {
-    var r = document.createElement('div'); r.className = 't11b-row';
+    var r = document.createElement('div'); r.className = 'plans-row';
     r.innerHTML = '<span>' + esc(t) + '</span><em>' + d.model + '</em>';
     r.style.transform = 'translateY(' + (slot * 42) + 'px)';
     d.rows.appendChild(r); return r;
@@ -735,15 +735,15 @@ function onceSeen(e, cb, frac) {
   io.observe(e);
 }
 (function () {
-  var s = document.getElementById('p13'); if (!s) return;
+  var s = document.getElementById('priorities'); if (!s) return;
   qa(s, '.rv').forEach(function (e) { if (REDUCE) e.classList.add('on'); else onceSeen(e, function () { e.classList.add('on'); }, 0.15); });
 })();
 var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
 
-/* ---------------- p13  priorities ---------------- */
+/* ---------------- priorities  priorities ---------------- */
 (function () {
-  var s = document.getElementById('p13'); if (!s) return;
-  var stage = q(s, '.p13-stage'), pal = q(s, '.p13-pal'), qtx = q(pal, '.tx'), ks = q(pal, '.p13-ks');
+  var s = document.getElementById('priorities'); if (!s) return;
+  var stage = q(s, '.priorities-stage'), pal = q(s, '.priorities-pal'), qtx = q(pal, '.tx'), ks = q(pal, '.priorities-ks');
   var nW = q(s, '[data-n="w"]'), nQ = q(s, '[data-n="q"]');
   var PC = { desktop: '#ee6018', api: '#c4bdb8', site: '#8a7d70' };
   // In progress, in the user's order: desktop ranked above api, api above site, then each task's own tag.
@@ -761,24 +761,24 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
   var star = A[4], bump = A[2];
   var TOP = 40, RH = 46, GH = 32;
   function narrow() { return (s.clientWidth || 1440) <= 760; }
-  var ghU = el('div', 'p13-gh u', 'Urgent'), ghR = el('div', 'p13-gh', 'Everything else');
-  var fade = q(s, '.p13-fade');
+  var ghU = el('div', 'priorities-gh u', 'Urgent'), ghR = el('div', 'priorities-gh', 'Everything else');
+  var fade = q(s, '.priorities-fade');
   stage.insertBefore(ghU, fade); stage.insertBefore(ghR, fade);
   A.forEach(function (r) {
-    r.el = el('div', 'p13-r', '<div class="p13-ri"><span class="p13-g"></span><span class="p13-t"></span><span class="p13-p"></span><span class="p13-pr"></span><span class="p13-st"></span></div>');
-    q(r.el, '.p13-t').textContent = r.t;
-    var p = q(r.el, '.p13-p'); p.textContent = r.p; p.style.setProperty('--pc', PC[r.p]);
+    r.el = el('div', 'priorities-r', '<div class="priorities-ri"><span class="priorities-g"></span><span class="priorities-t"></span><span class="priorities-p"></span><span class="priorities-pr"></span><span class="priorities-st"></span></div>');
+    q(r.el, '.priorities-t').textContent = r.t;
+    var p = q(r.el, '.priorities-p'); p.textContent = r.p; p.style.setProperty('--pc', PC[r.p]);
     stage.insertBefore(r.el, fade);
   });
   function tag(r, lv, pop) {
-    var p = q(r.el, '.p13-pr');
-    p.className = 'p13-pr pr-' + lv + (pop ? ' pop' : '');
+    var p = q(r.el, '.priorities-pr');
+    p.className = 'priorities-pr pr-' + lv + (pop ? ' pop' : '');
     p.textContent = WORD[lv];
   }
   function state(r, st, text) {
     r.el.classList.remove('w', 'q', 'pz', 'nx');
     r.el.classList.add(st);
-    q(r.el, '.p13-st').textContent = text;
+    q(r.el, '.priorities-st').textContent = text;
   }
   function counts() {
     var w = A.filter(function (r) { return r.el.classList.contains('w'); }).length;
@@ -811,14 +811,14 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
   }
   var CMDS = [['u', 'Priority Urgent'], ['h', 'Priority High'], ['m', 'Priority Medium'], ['l', 'Priority Low']];
   function palette(typed) {
-    q(pal, '.p13-on b').textContent = star.t;
+    q(pal, '.priorities-on b').textContent = star.t;
     qtx.innerHTML = (typed ? esc(typed) : '<span class="ph">Type a command</span>') + '<span class="cur"></span>';
     var words = typed.toLowerCase().split(/\s+/).filter(Boolean);
     var hits = CMDS.filter(function (c) { return words.every(function (w) { return c[1].toLowerCase().split(' ').some(function (x) { return x.indexOf(w) === 0; }); }); });
     ks.innerHTML = hits.map(function (c, i) {
       var label = esc(c[1]);
       words.forEach(function (w) { label = label.replace(new RegExp('(^|\\s)(' + w + ')', 'i'), '$1<mark>$2</mark>'); });
-      return '<div class="p13-k' + (i === 0 ? ' sel' : '') + '"><span class="p13-pr pr-' + c[0] + '"></span><span>' + label + '</span>' + (i === 0 ? '<kbd>&#8629;</kbd>' : '') + '</div>';
+      return '<div class="priorities-k' + (i === 0 ? ' sel' : '') + '"><span class="priorities-pr pr-' + c[0] + '"></span><span>' + label + '</span>' + (i === 0 ? '<kbd>&#8629;</kbd>' : '') + '</div>';
     }).join('');
   }
   function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
@@ -841,7 +841,7 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
     at(2100, function () { palette(''); stage.classList.add('k'); });
     var word = 'urg';
     for (var c = 1; c <= word.length; c++) (function (c) { at(2500 + c * 120, function () { palette(word.slice(0, c)); }); })(c);
-    at(3350, function () { var r = q(ks, '.p13-k.sel'); if (r) r.classList.add('run'); });
+    at(3350, function () { var r = q(ks, '.priorities-k.sel'); if (r) r.classList.add('run'); });
     at(3550, function () { stage.classList.remove('k'); tag(star, 'u', true); });
     // it rises to the top under its own heading
     at(4250, function () { star.el.classList.add('lift'); urgent = true; layout(); });
@@ -859,7 +859,7 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
       if (e.isIntersecting && !running) { running = true; play(); }
       if (!e.isIntersecting && running) stop();
     });
-  }, { threshold: 0.35 }).observe(q(s, '.p13-win'));
+  }, { threshold: 0.35 }).observe(q(s, '.priorities-win'));
 })();
 
 })();
@@ -867,7 +867,7 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
 /* ===== The close ===== */
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var secs = ['c02'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var secs = ['start'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
   function $(r, s) { return r.querySelector(s); }
   function $$(r, s) { return Array.prototype.slice.call(r.querySelectorAll(s)); }
   function onView(el, cb, th) {
@@ -883,11 +883,11 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
     });
   });
 
-  /* ---------- c02: a task is typed, Enter, and an agent is on it ---------- */
-  var c02 = document.getElementById('c02');
-  if (c02) (function () {
+  /* ---------- start: a task is typed, Enter, and an agent is on it ---------- */
+  var start = document.getElementById('start');
+  if (start) (function () {
     var tasks = ['Fix the flaky login test', 'Split the store module', 'Handle expired tokens'];
-    var type = $(c02, '.c02-type'), row = $(c02, '.c02-row'), name = $(c02, '.c02-name'), kc = $(c02, '.c02-kc');
+    var type = $(start, '.start-type'), row = $(start, '.start-row'), name = $(start, '.start-name'), kc = $(start, '.start-kc');
     if (reduce) { type.textContent = ''; name.textContent = tasks[0]; row.classList.add('in'); return; }
     var timers = [], running = false, at = 0;
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
@@ -904,7 +904,7 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
         }, 500);
       })();
     }
-    onView(c02, function (on) {
+    onView(start, function (on) {
       if (on && !running) { running = true; later(play, 600); }
       if (!on && running) { running = false; timers.forEach(clearTimeout); timers = []; }
     }, 0.3);
