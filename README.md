@@ -26,10 +26,10 @@ Then open http://localhost:8000. The page uses root paths (`/css/site.css`), so 
 The site is hosted on Vercel as a static project with no framework and no build command, served at **agentbox.ac**. `vercel.json` turns on clean URLs (`/privacy` serves `privacy.html`) and redirects `/download` to the newest Mac build:
 
 ```
-https://github.com/Astral-Agent/astral-releases/releases/latest/download/Astral-arm64.dmg
+https://github.com/agentboxhq/agentbox-releases/releases/latest/download/Agentbox.dmg
 ```
 
-That is the app's current release feed. **A new signed Agentbox build has to be published there before launch**, and the asset name may change (for example to `Agentbox-arm64.dmg`). If it does, update the redirect in `vercel.json`.
+That is the app's public release feed, the same repo installed copies check for updates. The app's `scripts/publish-download.mjs` uploads each signed build there under the fixed name `Agentbox.dmg`.
 
 ## Launch checklist
 

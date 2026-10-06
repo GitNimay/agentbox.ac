@@ -3,7 +3,7 @@
   "redirects": [
     {
       "source": "/download",
-      "destination": "https://github.com/Astral-Agent/astral-releases/releases/latest/download/Astral-arm64.dmg",
+      "destination": "https://github.com/agentboxhq/agentbox-releases/releases/latest/download/Agentbox.dmg",
       "permanent": false
     }
   ]
