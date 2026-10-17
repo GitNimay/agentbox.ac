@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code and git worktrees: where they live, how to clean them up</title>
+<meta name="description" content="Why a worktree per agent is the right default, where Claude Code puts them, how to merge one back, how to clean up the ones you abandoned, and when a plain branch is the better answer.">
+<link rel="canonical" href="https://agentbox.ac/claude-code-worktrees">
+<meta property="og:title" content="Claude Code and git worktrees: where they live, how to clean them up">
+<meta property="og:description" content="A worktree per agent, where they live, how to merge one back, and when a plain branch is better.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://agentbox.ac/claude-code-worktrees">
+<meta property="og:image" content="https://agentbox.ac/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://agentbox.ac/assets/og.png">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/guide.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Claude Code and git worktrees: where they live, how to clean them up","datePublished":"2026-10-16","dateModified":"2026-10-16","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/claude-code-worktrees"}
+</script>
+</head>
+<body>
+
+<header class="bar"><div class="bar-in">
+  <a class="bar-wm" href="/"><img src="/assets/icon.svg" alt="">Agentbox</a>
+  <span class="sp"></span>
+  <a class="dl" href="/guides">Guides</a>
+  <a class="dl" href="/download">Download for Mac</a>
+</div></header>
+
+<main>
+<p class="kicker">Guide</p>
+<h1>Claude Code and git worktrees</h1>
+<p class="standfirst">A worktree gives an agent its own checkout of your repository on its own branch, in its own folder. It is the one piece of plumbing that makes running several agents at once safe, and it is the thing people then have questions about.</p>
+<p class="asof">Written 16 October 2026.</p>
+
+<h2>What a worktree actually is</h2>
+<p>One git repository can have several working directories at once. <code>git worktree add</code> makes another folder, checked out to its own branch, sharing the same object store and history. Two checkouts, one repository, no copying of history and no second clone.</p>
+<pre><code>git worktree add ../myrepo-feature-x -b feature-x</code></pre>
+<p>For agents this is exactly the right shape. Each agent edits files nobody else is editing, commits to a branch nobody else is on, and you merge the ones that worked.</p>
+
+<h2>Why it matters for parallel agents</h2>
+<p>Without it, two Claude Code sessions in one folder share one working tree. Both edit the same files, both run the formatter, both commit. What you get is not a merge conflict you can resolve — it is two half-finished ideas interleaved in one diff, with neither agent aware the other exists.</p>
+<p>With a worktree each, the failure mode goes away completely. The agents cannot see each other's files. The work converges at merge time, where git is actually good at this.</p>
+
+<h2>Where they live</h2>
+<p>There is no universal answer, and it is a real annoyance: different tools put them in different places. Common choices are a sibling folder next to the repository, a folder inside the repository, or a central directory somewhere under your home.</p>
+<p>Inside the repository is tidy but needs a <code>.gitignore</code> entry, or git will offer to commit the worktree folder into the repository it came from. Agentbox puts each one under <code>.claude/worktrees/</code> in the repository and names it after the task.</p>
+<p>Whatever you choose, <code>git worktree list</code> is the ground truth:</p>
+<pre><code>git worktree list</code></pre>
+
+<h2>Cleaning up</h2>
+<p>This is where worktrees actually bite. Abandoned agent runs leave folders and branches behind, and after a few weeks you have thirty of each.</p>
+<pre><code>git worktree remove ../myrepo-feature-x
+git worktree prune          # drop records whose folders are already gone
+git branch -d feature-x     # the branch is separate; removing the worktree does not delete it</code></pre>
+<p>Two traps worth knowing. <code>git worktree remove</code> refuses while the folder has uncommitted changes, which is usually correct and occasionally infuriating — <code>--force</code> exists and does what it says. And removing a worktree never deletes its branch, so a tidy <code>git worktree list</code> can still sit alongside a very untidy <code>git branch</code>.</p>
+<p>The other thing nobody warns you about: <code>node_modules</code>. A new worktree is a fresh checkout with no installed dependencies, so most projects need an install per worktree. It is why "just make a worktree per task" is cheaper in git than it is on disk.</p>
+
+<h2>Worktree or just a branch?</h2>
+<p><strong>A branch is enough</strong> when you work on one thing at a time. Switching branches in one folder is simpler, needs no cleanup, and keeps a single <code>node_modules</code>.</p>
+<p><strong>A worktree earns its keep</strong> when two things must exist at the same time: two agents working at once, a long-running build or dev server you do not want to restart, or a review of someone else's branch without stashing your own work.</p>
+<p>For a single human, branches are usually fine. For several agents, worktrees are close to mandatory.</p>
+
+<h2>Merging one back</h2>
+<p>Nothing special — the branch is an ordinary branch:</p>
+<pre><code>git -C . merge feature-x       # from your main checkout
+git worktree remove ../myrepo-feature-x
+git branch -d feature-x</code></pre>
+<p>The thing that is genuinely harder with many agents is not the merge, it is deciding. Five finished branches need five reviews, and reading five diffs in a terminal is where the time actually goes. Whatever you use, make sure you can see the diff.</p>
+
+<h2>Common questions</h2>
+<h3>Is it safe to run several agents in worktrees at the same time?</h3>
+<p>For the files, yes — that is the entire point, and they cannot reach each other's checkouts. The shared parts are the object store, which git is built to handle, and anything outside git: a database, a port, a cache directory. If your dev server binds a fixed port, two agents starting it will collide, and that has nothing to do with worktrees.</p>
+<h3>Do I have to use them?</h3>
+<p>No. You can run agents sequentially in one checkout and never think about this. Worktrees are the price of parallelism, not of using an agent.</p>
+<h3>Can I turn them off in a tool that creates them?</h3>
+<p>Usually yes, and it is worth checking before you adopt something, because a tool that insists on a worktree per task will fight a repository that is not set up for it — git submodules, generated files that are gitignored but required, or a build that writes outside the tree.</p>
+
+<h2>How Agentbox handles it</h2>
+<p>Every task gets its own worktree under <code>.claude/worktrees/</code> and its own branch, created when the task starts. The built-in terminal opens in that folder, so the commands you type land where the agent is working, and the diff is shown in the app when the agent is done. You review and merge from there.</p>
+<p>That is a convenience, not a monopoly: it is ordinary git underneath, and <code>git worktree list</code> in your repository will show you exactly the same thing.</p>
+
+<div class="cta">
+  <h2>Agentbox</h2>
+  <p>Every task gets its own git worktree and its own agent. Run dozens in parallel and only hear from the ones that need you. Free and open source.</p>
+  <div class="row">
+    <a class="b1" href="/download">Download for Mac</a>
+    <a class="b2" href="https://github.com/savannahfeder/agentbox">Read the code</a>
+  </div>
+</div>
+</main>
+
+<footer><div class="in">
+  <a href="/">Agentbox</a>
+  <a href="/guides">Guides</a>
+  <a href="https://github.com/savannahfeder/agentbox">GitHub</a>
+  <span class="sp"></span>
+  <span>Free and open source under GPL 3.0</span>
+</div></footer>
+
+</body>
+</html>

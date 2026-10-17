@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to run multiple Claude Code agents in parallel</title>
+<meta name="description" content="Four ways to run several Claude Code or Codex agents at the same time, what each one costs you, and how to stop them editing the same files. Written for people who already hit the limit of one terminal.">
+<link rel="canonical" href="https://agentbox.ac/run-multiple-claude-code-agents">
+<meta property="og:title" content="How to run multiple Claude Code agents in parallel">
+<meta property="og:description" content="Four ways to run several Claude Code or Codex agents at once, and how to stop them editing the same files.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://agentbox.ac/run-multiple-claude-code-agents">
+<meta property="og:image" content="https://agentbox.ac/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://agentbox.ac/assets/og.png">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/guide.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"How to run multiple Claude Code agents in parallel","datePublished":"2026-10-16","dateModified":"2026-10-16","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/run-multiple-claude-code-agents"}
+</script>
+</head>
+<body>
+
+<header class="bar"><div class="bar-in">
+  <a class="bar-wm" href="/"><img src="/assets/icon.svg" alt="">Agentbox</a>
+  <span class="sp"></span>
+  <a class="dl" href="/guides">Guides</a>
+  <a class="dl" href="/download">Download for Mac</a>
+</div></header>
+
+<main>
+<p class="kicker">Guide</p>
+<h1>How to run multiple Claude Code agents in parallel</h1>
+<p class="standfirst">One agent per terminal works until about three. After that the problem stops being the agents and becomes you: which one is waiting, and whose edits just landed on top of whose.</p>
+<p class="asof">Written 16 October 2026. Every version number and price below was checked that day.</p>
+
+<h2>The short answer</h2>
+<p>Give every task its own <strong>git worktree</strong>, so each agent has its own checkout and its own branch and cannot touch another one's files. Then pick how you want to watch them: the Claude Code CLI can make worktrees itself, <code>tmux</code> plus a shell script is the free hand-rolled route, and a desktop app does it for you and tells you which agent is stuck. The hard part is never starting the agents. It is noticing which of them needs an answer.</p>
+
+<h2>Why it goes wrong by default</h2>
+<p>Two Claude Code sessions in the same folder share one working tree. They will both edit the same files, both run the formatter, and both commit. You get conflicts that are not merge conflicts — they are two half-finished ideas interleaved in one diff, and neither agent knows the other exists.</p>
+<p>So every workable answer below starts the same way: isolate the filesystem first. Everything else is a question of how much ceremony you want.</p>
+
+<h2>The four approaches</h2>
+
+<h3>1. Claude Code's own worktree support</h3>
+<p>The CLI can create and work in a git worktree for you, which is the cheapest possible fix and needs no other software. It is the right starting point, and if two or three parallel tasks is all you ever want, you can stop reading here.</p>
+<p>What it does not do is tell you anything. Each session is still a terminal you have to look at, and the moment one of them asks a question it sits there waiting until you happen to switch to that tab. That is the ceiling, and it is a low one — most people hit it between three and five agents, not because the machine struggles but because they stop being able to track them.</p>
+
+<h3>2. tmux and a script</h3>
+<p>Make a worktree per task, open a tmux pane for each, run an agent in every pane. Free, transparent, and entirely yours to maintain.</p>
+<p><strong>Claude Squad</strong> (<code>smtg-ai/claude-squad</code>, AGPL-3.0, 8,613 stars) is this idea packaged: a terminal UI that manages one tmux session and one worktree per agent. It is small and it carries no telemetry, which some people care about a lot. Worth knowing before you adopt it: its last commit to the default branch was <strong>20 August 2026</strong>, so it has been quiet for roughly two months.</p>
+<p>The honest limitation of the whole tmux family is the same as approach 1 — a pane that needs you looks exactly like a pane that does not, until you look at it.</p>
+
+<h3>3. A desktop app</h3>
+<p>The apps in this category all do the worktree-per-task part and then differ in what they show you: a grid of terminals, a kanban board, a list, or an inbox. What you are really choosing is the shape of the thing that tells you an agent is waiting.</p>
+<p>This is the approach we build, so read the next section with that in mind, and read the table with the prices and licences in it.</p>
+
+<h3>4. Hand it to the cloud</h3>
+<p>Background and cloud agents — Claude Code on the web, Codex's hosted runs, and several hosted products — take the work off your machine entirely. Good when the task is long and self-contained, and when you do not mind the code leaving your laptop. Less good when you want to watch, interrupt and redirect, which is most of the time while you are still learning what an agent is good for.</p>
+
+<h2>The tools, as of 16 October 2026</h2>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>Platform</th><th>Licence</th><th>Stars</th><th>Price</th></tr></thead>
+<tbody>
+<tr><td><strong>Orca</strong></td><td>macOS, Windows, Linux</td><td>MIT</td><td>94,498</td><td>Free</td></tr>
+<tr><td><strong>Vibe Kanban</strong></td><td>Local web app</td><td>Apache-2.0</td><td>28,377</td><td>Free — <span class="n">sunsetting, see below</span></td></tr>
+<tr><td><strong>Superset</strong></td><td>macOS, iOS</td><td>Source-available, not OSI</td><td>15,289</td><td>Free tier; needs an account</td></tr>
+<tr><td><strong>Claude Squad</strong></td><td>macOS, Linux</td><td>AGPL-3.0</td><td>8,613</td><td>Free — last push 20 Aug 2026</td></tr>
+<tr><td><strong>Emdash</strong></td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>6,003</td><td>Free</td></tr>
+<tr><td><strong>Conductor</strong></td><td>macOS only</td><td>Closed source</td><td>no public repo</td><td>Free tier, Pro $50/mo, Teams $60/seat</td></tr>
+<tr><td><strong>Nimbalyst</strong></td><td>macOS, Windows, Linux, iOS</td><td>MIT</td><td>1,915</td><td>Free</td></tr>
+<tr><td><strong>Sculptor</strong></td><td>Desktop, Docker-based</td><td>MIT</td><td>239</td><td>Free</td></tr>
+<tr><td><strong>Agentbox</strong></td><td>macOS app, or a browser anywhere</td><td>GPL-3.0</td><td>77</td><td>Free</td></tr>
+</tbody>
+</table>
+</div>
+<p>Two entries in that table are traps for anyone searching today. <strong>Vibe Kanban is sunsetting</strong> — its own README carries the notice, the shutdown was announced on 10 April 2026, and its last commit was 19 September 2026. <strong>Crystal</strong> still turns up in search results and is dead: its repository description now reads "Crystal is now Nimbalyst", and it was deprecated on 26 February 2026. <strong>cmux</strong> also comes up a lot and is no longer in this category at all — it is now a Ghostty-based macOS terminal rather than an agent orchestrator.</p>
+<p>Star counts are a popularity signal, not a quality one, and Orca's are an order of magnitude above everyone else's. We are the smallest project on that list by a wide margin and three weeks old. That is the honest picture.</p>
+
+<h2>Where Agentbox fits, and where it does not</h2>
+<p>Agentbox gives every task its own git worktree and its own agent, runs them in parallel, and then hands the work back as a row you answer like email — or as a board, which is how a lot of people use it. You only hear from the agents that finished or got stuck. A terminal, the diff and recurring tasks are built in. It runs Claude Code and Codex locally on the subscription you already pay for: no server, no account, no API key.</p>
+<p><strong>Pick something else if:</strong></p>
+<ul>
+  <li><strong>You are on Windows and want a native app.</strong> Our desktop build is macOS. You can run the whole thing in a browser with <code>npx agentbox-app</code> on any platform with Node 22, and Linux gets a launcher entry too — but if you want a real Windows application, Orca, Emdash and Nimbalyst all ship one and we do not.</li>
+  <li><strong>You want a company behind it.</strong> Conductor is a funded company with a paid team plan. We are free software with a very short history.</li>
+  <li><strong>You want the largest community.</strong> That is Orca, by a factor of a thousand in stars.</li>
+  <li><strong>You want to stay in the terminal.</strong> Claude Squad is a few hundred lines of tmux wrangling and no telemetry. If that is the point for you, an Electron app is the wrong shape.</li>
+  <li><strong>Two agents is your ceiling.</strong> Use the CLI's own worktree flag and save yourself an install.</li>
+</ul>
+
+<h2>How many can you actually run?</h2>
+<p>Three limits, in the order you meet them. <strong>Your attention</strong> goes first, usually between three and five agents in terminals — which is the entire reason this category of software exists. <strong>Your plan's rate limits</strong> go next, and they depend on which plan you are on and what the agents are doing, so we are not going to print a number we cannot stand behind. <strong>Your machine</strong> goes last and is rarely the problem: worktrees are cheap, and the agents spend most of their time waiting on a model.</p>
+<p>The useful reframe is that running more agents is not the goal. Closing the loop on more of them is. An agent that finished an hour ago and has been waiting for a yes since then is not parallelism, it is a queue with you at the head of it.</p>
+
+<div class="cta">
+  <h2>Agentbox</h2>
+  <p>Run dozens of Claude Code and Codex agents in parallel, each in its own git worktree, and only hear from the ones that need you. Free and open source.</p>
+  <div class="row">
+    <a class="b1" href="/download">Download for Mac</a>
+    <a class="b2" href="https://github.com/savannahfeder/agentbox">Read the code</a>
+  </div>
+</div>
+</main>
+
+<footer><div class="in">
+  <a href="/">Agentbox</a>
+  <a href="/guides">Guides</a>
+  <a href="https://github.com/savannahfeder/agentbox">GitHub</a>
+  <span class="sp"></span>
+  <span>Free and open source under GPL 3.0</span>
+</div></footer>
+
+</body>
+</html>

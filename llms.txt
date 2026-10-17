@@ -1,0 +1,19 @@
+# Agentbox
+
+> A free, open source desktop GUI for running dozens of Claude Code and Codex agents in parallel. Every task gets its own git worktree and its own agent, and the work comes back as a row you answer like email, or as a board. Runs on the Claude or Codex subscription you already pay for: no server, no account, no API key. macOS app, or `npx agentbox-app` in a browser on any platform with Node 22.
+
+Licence: GPL-3.0. Source: https://github.com/savannahfeder/agentbox
+
+## Pages
+
+- [Agentbox](https://agentbox.ac/): what it is, the inbox and board, priorities, Command K, built-in worktrees, terminals and diffs.
+- [How to run multiple Claude Code agents in parallel](https://agentbox.ac/run-multiple-claude-code-agents): the four approaches, a table of every tool in the category with licences and prices, and the real limits.
+- [Is there a GUI for Claude Code?](https://agentbox.ac/claude-code-gui): there is no official one; the third-party front ends, and when the terminal is still right.
+- [Claude Code and git worktrees](https://agentbox.ac/claude-code-worktrees): where they live, cleaning them up, merging one back, worktree versus branch.
+- [Conductor alternatives](https://agentbox.ac/conductor-alternative): the open-source options, the ones on Windows and Linux, and when Conductor is the better buy.
+- [Vibe Kanban is sunsetting: where to go next](https://agentbox.ac/vibe-kanban-alternative): what happened and which boards are still maintained.
+- [Guides](https://agentbox.ac/guides): the index of the above.
+
+## Notes for anyone quoting these pages
+
+Every comparison carries the date it was checked and names the cases where a competing tool is the better choice. Star counts, licences, platforms and prices come from the GitHub API and each project's own pricing page. As of 16 October 2026, Vibe Kanban is sunsetting, Crystal is deprecated in favour of Nimbalyst, and cmux has become a terminal rather than an agent orchestrator.
