@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Is there a GUI for Claude Code? The options, compared</title>
-<meta name="description" content="Claude Code ships as a terminal CLI with no official desktop GUI. Here are the open-source and paid graphical front ends that exist, what each is good at, and when the terminal is still the right answer.">
+<title>Is there a GUI for Claude Code? Ten that exist, and what they show you</title>
+<meta name="description" content="Anthropic ships no desktop GUI for Claude Code. Ten third-party front ends exist, in three shapes. What separates them is what they show you when an agent stops and waits.">
 <link rel="canonical" href="https://agentbox.ac/claude-code-gui">
-<meta property="og:title" content="Is there a GUI for Claude Code? The options, compared">
-<meta property="og:description" content="The graphical front ends for Claude Code and Codex, what each is good at, and when the terminal still wins.">
+<meta property="og:title" content="Is there a GUI for Claude Code? Ten that exist, and what they show you">
+<meta property="og:description" content="No official GUI exists. Ten third-party front ends do, in three shapes.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/claude-code-gui">
 <meta property="og:image" content="https://agentbox.ac/assets/og.png">
@@ -17,7 +17,7 @@
 <link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/guide.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"Is there a GUI for Claude Code? The options, compared","datePublished":"2026-10-16","dateModified":"2026-10-16","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/claude-code-gui"}
+{"@context":"https://schema.org","@type":"Article","headline":"Is there a GUI for Claude Code? Ten that exist, and what they show you","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/claude-code-gui"}
 </script>
 </head>
 <body>
@@ -32,61 +32,72 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>Is there a GUI for Claude Code?</h1>
-<p class="standfirst">There is no official one. Anthropic ships Claude Code as a terminal program, and every graphical front end you will find is built by somebody else. Several are good. Here is what exists and how to choose.</p>
-<p class="asof">Written 16 October 2026. Stars, licences and prices checked that day.</p>
+<p class="standfirst">There is no official one. Anthropic ships Claude Code as a terminal program, and every graphical front end is built by someone else. Ten exist. They differ in one thing that matters.</p>
+<p class="asof">Written 16 October 2026, updated 17 October. Stars and licences read from the GitHub API that day.</p>
 
-<h2>The short answer</h2>
-<p>Claude Code is a CLI. There is no first-party desktop application for it, so a GUI means third-party software, and the third-party software splits into three shapes:</p>
-<ul>
-  <li><strong>An editor plugin</strong> — keeps you in VS Code or a JetBrains IDE, one agent at a time, closest to how you already work.</li>
-  <li><strong>A terminal that knows about agents</strong> — tabs, status, notifications, still text underneath.</li>
-  <li><strong>A desktop app that runs many agents at once</strong> — the agents get their own git worktrees and the app becomes the place you watch them. This is where most of the active projects are, and it is what we build.</li>
-</ul>
-<p>Which one you want depends almost entirely on how many agents you run. One or two, stay in your editor. More than three, you need something built for more than three.</p>
+<h2>What they differ on is what happens when an agent stops</h2>
+<p>Starting agents is easy in any of them. The problem arrives twenty minutes later.</p>
+<p>You have five running. One finished. One is mid-thought. One has been sitting on a yes-or-no question since you went to make coffee. In a terminal all three look identical until you switch to the tab.</p>
+<p>So the real question behind "is there a GUI for Claude Code" is narrower than it sounds. It is whether the thing can tell you which agent needs you. A prettier single-session window does not answer it.</p>
 
-<h2>Why people go looking for one</h2>
-<p>Almost never because the terminal is ugly. It is because of a specific failure: you start three or four agents, go and do something else, and then cannot tell which of them has finished, which is mid-thought, and which has been sitting on a yes-or-no question for twenty minutes. A terminal pane that needs you looks exactly like a terminal pane that does not.</p>
-<p>So the question behind "is there a GUI for Claude Code" is usually "can something tell me which agent needs me". Worth knowing before you pick, because a prettier single-session window does not solve it.</p>
+<figure>
+  <img src="/assets/shots/inbox-urgent.webp" alt="An inbox of finished agents. Each row says what the agent did and asks to merge it, with the urgent ones grouped at the top" width="1600" height="631" loading="lazy">
+  <figcaption>Agentbox after a run. Each row says what the agent did and what it wants next.</figcaption>
+</figure>
 
-<h2>The graphical front ends, as of 16 October 2026</h2>
+<h2>Three shapes, and they suit different people</h2>
+<p><strong>An editor plugin.</strong> Keeps you in VS Code or a JetBrains IDE. One agent at a time. Closest to how you already work.</p>
+<p><strong>A terminal that knows about agents.</strong> Tabs, status, notifications, still text underneath. <a href="https://github.com/manaflow-ai/cmux">cmux</a> is this now, after moving from orchestration to being a Ghostty-based macOS terminal.</p>
+<p><strong>A desktop app that runs many agents.</strong> Each agent gets its own git worktree and the app becomes where you watch them. Most of the active projects are here.</p>
+<p>Below three agents, the terminal is fine and an app is overhead. Above it, the app starts paying for itself.</p>
+
+<h2>The ten, as of 16 October 2026</h2>
 <div class="wrap">
 <table>
 <thead><tr><th>Project</th><th>Shape</th><th>Platform</th><th>Licence</th><th>Stars</th></tr></thead>
 <tbody>
-<tr><td><strong>Orca</strong></td><td>Desktop app, many agents</td><td>macOS, Windows, Linux</td><td>MIT</td><td>94,498</td></tr>
-<tr><td><strong>cmux</strong></td><td>Agent-aware terminal</td><td>macOS</td><td>Source-available</td><td>28,222</td></tr>
-<tr><td><strong>Vibe Kanban</strong></td><td>Local web app, board</td><td>Browser</td><td>Apache-2.0</td><td>28,377 <span class="n">— sunsetting</span></td></tr>
-<tr><td><strong>Superset</strong></td><td>Desktop app, many agents</td><td>macOS, iOS</td><td>Source-available</td><td>15,289</td></tr>
-<tr><td><strong>Claude Squad</strong></td><td>Terminal UI (tmux)</td><td>macOS, Linux</td><td>AGPL-3.0</td><td>8,613</td></tr>
-<tr><td><strong>Emdash</strong></td><td>Desktop app, many agents</td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>6,003</td></tr>
-<tr><td><strong>Conductor</strong></td><td>Desktop app, many agents</td><td>macOS only</td><td>Closed source</td><td>no public repo</td></tr>
-<tr><td><strong>Nimbalyst</strong></td><td>Desktop app, board</td><td>macOS, Windows, Linux, iOS</td><td>MIT</td><td>1,915</td></tr>
-<tr><td><strong>Sculptor</strong></td><td>Desktop app, Docker</td><td>Desktop</td><td>MIT</td><td>239</td></tr>
-<tr><td><strong>Agentbox</strong></td><td>Desktop app, inbox and board</td><td>macOS app, or a browser anywhere</td><td>GPL-3.0</td><td>77</td></tr>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>Desktop, many agents</td><td>macOS, Windows, Linux</td><td>MIT</td><td>94,498</td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>Agent-aware terminal</td><td>macOS</td><td>Source-available</td><td>28,222</td></tr>
+<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>Local web app, board</td><td>Browser</td><td>Apache-2.0</td><td>28,377 <span class="n">sunsetting</span></td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>Desktop, many agents</td><td>macOS, iOS</td><td>Source-available</td><td>15,289</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>Terminal UI, tmux</td><td>macOS, Linux</td><td>AGPL-3.0</td><td>8,613</td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>Desktop, many agents</td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>6,003</td></tr>
+<tr><td><a href="https://conductor.build/">Conductor</a></td><td>Desktop, many agents</td><td>macOS only</td><td>Closed</td><td>no public repo</td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>Desktop, board</td><td>macOS, Windows, Linux, iOS</td><td>MIT</td><td>1,915</td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>Desktop, Docker</td><td>Desktop</td><td>MIT</td><td>239</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>Desktop, inbox and board</td><td>macOS, or a browser anywhere</td><td>GPL-3.0</td><td>77</td></tr>
 </tbody>
 </table>
 </div>
 
 <div class="note">
-  <p class="h">Two names to skip</p>
-  <p><strong>Vibe Kanban</strong> is sunsetting — the notice is in its own README, the shutdown was announced on 10 April 2026, and the last commit was 19 September 2026. <strong>Crystal</strong> still ranks well and is dead; its repository description now says "Crystal is now Nimbalyst" and it was deprecated on 26 February 2026. If a listicle recommends either to you, it has not been updated this year.</p>
+  <p class="h">Two that lists still recommend</p>
+  <p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is sunsetting. The notice sits above the screenshots in its own README and links to <a href="https://www.vibekanban.com/blog/shutdown">the announcement</a>, posted 10 April 2026. Last commit 19 September 2026. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated; its repository description now reads "Crystal is now Nimbalyst", and its last commit was 26 February 2026.</p>
 </div>
 
-<h2>GUI or terminal?</h2>
-<p>The terminal is genuinely better for some of this, and it is worth being straight about which parts.</p>
-<p><strong>Stay in the terminal when:</strong> you run one agent at a time; you live in tmux already and your muscle memory is worth more than any window; you are on a remote box over ssh; you care that the tool is a few hundred lines you can read in an afternoon; or you object to an Electron app on principle, which is a reasonable thing to object to.</p>
-<p><strong>Take a GUI when:</strong> you run several agents at once and keep losing track of which is waiting; you want to read a diff properly before merging it; you want a notification when something finishes while you are in another app; or you want one place that holds every repo you work on rather than a tab per project.</p>
-<p>A fair amount of the "GUI vs CLI" argument is really about that first clause. Below three agents the terminal is fine and the app is overhead. Above it, the app starts paying for itself.</p>
+<h2>On Windows or Linux, the list is shorter</h2>
+<p>Several of the best-known options are macOS only. <a href="https://conductor.build/">Conductor</a> is Mac-only. <a href="https://github.com/manaflow-ai/cmux">cmux</a> is a macOS terminal.</p>
+<p>The native options elsewhere are <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> and <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>.</p>
+<p>Agentbox ships a macOS app. The same program runs in a browser on any platform with Node 22:</p>
+<pre><code>$ npx agentbox-app
+Agentbox is running at http://127.0.0.1:51734/?k=9f3c2a
+Press Ctrl-C to stop.</code></pre>
+<p>It listens only on <code>127.0.0.1</code>, the key changes every run, and nothing is hosted. On Linux, installing from a checkout also puts <code>agentbox</code> on your path with a launcher entry. There is no Windows app, and we are not going to pretend otherwise.</p>
 
-<h2>What about Windows and Linux?</h2>
-<p>This is the most common disappointment in the category, because several of the best-known options are macOS-only — Conductor is Mac-only, and cmux is a macOS terminal.</p>
-<p>If you are on Windows or Linux, the native desktop options are <strong>Orca</strong>, <strong>Emdash</strong> and <strong>Nimbalyst</strong>. <strong>Agentbox</strong> ships a macOS app, and the same program runs in a browser on any platform with Node 22:</p>
-<pre><code>npx agentbox-app</code></pre>
-<p>It starts on your own machine, listens only on <code>127.0.0.1</code>, and opens a tab. Nothing is hosted and the address carries a key that changes every run. On Linux, installing from a checkout also puts <code>agentbox</code> on your path and adds a launcher entry. So we are not a Windows app, and we are not pretending to be one — but you are not locked out either.</p>
+<h2>When the terminal is still the right answer</h2>
+<p>Stay in it if you run one agent at a time. Stay in it if you live in tmux and your muscle memory is worth more than any window. Stay in it if you are on a remote box over ssh.</p>
+<p><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a> is a few hundred lines of tmux wrangling with no telemetry, and for some people that is the whole point. An Electron app is the wrong shape for them.</p>
 
-<h2>Where Agentbox fits</h2>
-<p>Agentbox gives every task its own git worktree and its own agent, runs them in parallel, and hands the work back as a row you answer like email — or as a board, which is how a lot of people use it. You hear from an agent when it has finished or got stuck, and not before. The terminal, the diff and recurring tasks are built in, and <kbd>⌘K</kbd> does everything. It runs Claude Code and Codex locally on the subscription you already pay for: no server, no account, no API key.</p>
-<p><strong>And where it does not fit.</strong> It is three weeks old and the smallest project in the table. If you want the biggest community, that is Orca by a very long way. If you want a native Windows build, we do not have one. If you want a company with a support contract, Conductor is a funded business and we are not. If you only ever run one agent, you do not need any of this — use the CLI.</p>
+<h2>What Agentbox does</h2>
+<p>Every task gets its own git worktree, its own branch and its own agent. They run in parallel. When one finishes or gets stuck, its row comes back to you, and you answer, approve or close it the way you clear email. There is a board too.</p>
+<p>It runs Claude Code and Codex locally on the subscription you already pay for. No server, no account, no API key.</p>
+
+<figure>
+  <img src="/assets/shots/agents-working.webp" alt="A grid of more than a hundred agent rows, each with a task title and how long it has been working" width="960" height="540" loading="lazy">
+  <figcaption>Agents working. Nothing in this view needs you, which is the point of it.</figcaption>
+</figure>
+
+<p>Where it loses: it is three weeks old with 77 stars, the smallest project in the table. <a href="https://github.com/stablyai/orca">Orca</a> has a community a thousand times the size. <a href="https://conductor.build/">Conductor</a> has a company, a team plan and cloud workspaces. If you want a native Windows build, three others ship one and we do not.</p>
 
 <div class="cta">
   <h2>Agentbox</h2>

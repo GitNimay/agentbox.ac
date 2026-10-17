@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conductor alternatives: the open-source options, compared</title>
-<meta name="description" content="Conductor is a polished, closed-source, macOS-only app at $50 a month for Pro. Here are the open-source alternatives for running many Claude Code agents, including the ones that run on Windows and Linux, and when Conductor is still the better buy.">
+<title>Conductor alternatives: the open-source ones, and the ones that run on Windows</title>
+<meta name="description" content="Conductor is closed source, macOS only, and $50 a month for Pro. The open-source alternatives, which of them run on Windows and Linux, and the cases where Conductor is still the better buy.">
 <link rel="canonical" href="https://agentbox.ac/conductor-alternative">
-<meta property="og:title" content="Conductor alternatives: the open-source options, compared">
-<meta property="og:description" content="Open-source alternatives to Conductor for running many Claude Code agents — including ones that run on Windows and Linux.">
+<meta property="og:title" content="Conductor alternatives: the open-source ones, and the ones that run on Windows">
+<meta property="og:description" content="The open-source alternatives to Conductor, and where Conductor still wins.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/conductor-alternative">
 <meta property="og:image" content="https://agentbox.ac/assets/og.png">
@@ -17,7 +17,7 @@
 <link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/guide.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"Conductor alternatives: the open-source options, compared","datePublished":"2026-10-16","dateModified":"2026-10-16","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/conductor-alternative"}
+{"@context":"https://schema.org","@type":"Article","headline":"Conductor alternatives: the open-source ones, and the ones that run on Windows","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/conductor-alternative"}
 </script>
 </head>
 <body>
@@ -32,85 +32,79 @@
 <main>
 <p class="kicker">Comparison</p>
 <h1>Conductor alternatives</h1>
-<p class="standfirst">Conductor runs several Claude Code agents in isolated workspaces on a Mac. It is good, and it is closed source, macOS-only, and $50 a month for Pro. Those three facts are why most people end up here.</p>
-<p class="asof">Written 16 October 2026. Prices read from conductor.build/pricing and star counts from the GitHub API that day. We have not run every tool below for a month — where we state a fact it is a checkable one, not a verdict on how it feels.</p>
+<p class="standfirst">Three facts send people looking. Conductor is closed source. It runs on macOS only. Pro is $50 a month on top of the Claude plan you already pay for.</p>
+<p class="asof">Written 16 October 2026, updated 17 October. Prices read from <a href="https://conductor.build/pricing">conductor.build/pricing</a> and stars from the GitHub API that day. We have not run every tool below for a month, so this page states checkable facts rather than verdicts on how they feel.</p>
 
-<h2>What Conductor is, fairly</h2>
-<p>A macOS app that gives each Claude Code agent its own isolated workspace so several can work at once without colliding. It is a funded company — YC-backed, with a Series A — and it shows: the app is polished, it has cloud workspaces that run your agents off your machine, and Pro includes a mobile app.</p>
-<p>Current pricing, from their own page today: <strong>Free $0</strong>, <strong>Pro $50/mo</strong>, <strong>Teams $60/mo per user</strong>, Enterprise custom. The free plan is described as local workspaces on your Mac.</p>
+<h2>Conductor is good, and that is not the question</h2>
+<p>Its free tier is described on its own pricing page as "Local workspaces on your Mac". Pro adds cloud workspaces that keep agents running when your laptop is shut, and a mobile app. It is a funded company with a Series A, and the app shows it.</p>
+<p>Pricing today: Free $0, <strong>Pro $50/mo</strong>, Teams $60/mo per user, Enterprise custom.</p>
+<p>None of that helps if you are on Windows, or if you will not add a second subscription, or if you want to read the source of something running commands against your codebase.</p>
 
-<h2>Why people look for an alternative</h2>
-<p>From what people actually say when they ask: it is Mac-only and they are on Windows or Linux; they do not want a $50 monthly bill on top of a Claude subscription they already pay for; or they want to read the source of something that is running agents against their codebase. All three are reasonable, and only the first is a matter of taste.</p>
-
-<h2>The alternatives, as of 16 October 2026</h2>
+<h2>The alternatives</h2>
 <div class="wrap">
 <table>
 <thead><tr><th>Tool</th><th>Open source</th><th>Windows / Linux</th><th>Price</th><th>Stars</th></tr></thead>
 <tbody>
-<tr><td><strong>Conductor</strong></td><td class="n">No</td><td class="n">macOS only</td><td>Free / $50 / $60 per seat</td><td>no public repo</td></tr>
-<tr><td><strong>Orca</strong></td><td class="y">MIT</td><td class="y">Both</td><td>Free</td><td>94,498</td></tr>
-<tr><td><strong>Emdash</strong></td><td class="y">Apache-2.0</td><td class="y">Both</td><td>Free</td><td>6,003</td></tr>
-<tr><td><strong>Nimbalyst</strong></td><td class="y">MIT</td><td class="y">Both, plus iOS</td><td>Free</td><td>1,915</td></tr>
-<tr><td><strong>Claude Squad</strong></td><td class="y">AGPL-3.0</td><td>Linux yes, Windows no</td><td>Free</td><td>8,613</td></tr>
-<tr><td><strong>Superset</strong></td><td class="n">Source-available, not OSI</td><td class="n">macOS and iOS</td><td>Free tier, needs an account</td><td>15,289</td></tr>
-<tr><td><strong>Sculptor</strong></td><td class="y">MIT</td><td>Desktop, Docker-based</td><td>Free</td><td>239</td></tr>
-<tr><td><strong>Agentbox</strong></td><td class="y">GPL-3.0</td><td>Browser on both; native app is macOS</td><td>Free</td><td>77</td></tr>
+<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td class="n">No</td><td class="n">macOS only</td><td>Free / $50 / $60 seat</td><td>no public repo</td></tr>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td class="y">MIT</td><td class="y">Both</td><td>Free</td><td>94,498</td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td class="y">Apache-2.0</td><td class="y">Both</td><td>Free</td><td>6,003</td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td class="y">MIT</td><td class="y">Both, plus iOS</td><td>Free</td><td>1,915</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td class="y">AGPL-3.0</td><td>Linux only</td><td>Free</td><td>8,613</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td class="n">Source-available</td><td class="n">macOS, iOS</td><td>Free, needs an account</td><td>15,289</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td class="y">GPL-3.0</td><td>Browser on both</td><td>Free</td><td>77</td></tr>
 </tbody>
 </table>
 </div>
-<p>If the only thing you need is <strong>open source and a native Windows or Linux build</strong>, the shortest answer on that table is <strong>Orca</strong>, <strong>Emdash</strong> or <strong>Nimbalyst</strong>, and Orca is the one with by far the largest community.</p>
+<p>If you only need open source with a native Windows or Linux build, the answer is <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> or <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, and Orca has by far the largest community. You can stop reading.</p>
 
 <div class="note">
   <p class="h">Do not pick these two</p>
-  <p><strong>Vibe Kanban</strong> appears on most "Conductor alternative" lists and is sunsetting — its README says so, the announcement was 10 April 2026, last commit 19 September 2026. <strong>Crystal</strong> is dead and now redirects to Nimbalyst, deprecated 26 February 2026. Any list still recommending them has not been checked this year.</p>
+  <p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is on most "Conductor alternative" lists and is sunsetting, <a href="https://www.vibekanban.com/blog/shutdown">announced 10 April 2026</a>, last commit 19 September. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated and its description now reads "Crystal is now Nimbalyst".</p>
 </div>
 
-<h2>Agentbox against Conductor</h2>
+<h2>Agentbox against Conductor, where they actually differ</h2>
 <div class="wrap">
 <table>
 <thead><tr><th></th><th>Conductor</th><th>Agentbox</th></tr></thead>
 <tbody>
-<tr><td>Licence</td><td>Closed source</td><td>GPL-3.0, all of it readable</td></tr>
+<tr><td>Licence</td><td>Closed</td><td>GPL-3.0</td></tr>
 <tr><td>Price</td><td>Free tier, Pro $50/mo</td><td>Free</td></tr>
-<tr><td>Model billing</td><td>Your Claude plan</td><td>Your Claude or Codex plan — no API key, ever</td></tr>
-<tr><td>Account needed</td><td>Yes</td><td>No account, no server</td></tr>
-<tr><td>Desktop</td><td>macOS</td><td>macOS app, or a browser on any platform</td></tr>
-<tr><td>Agents supported</td><td>Claude Code, and others</td><td>Claude Code and Codex</td></tr>
-<tr><td>Isolation</td><td>Isolated workspaces</td><td>A git worktree and branch per task</td></tr>
-<tr><td>Cloud workspaces</td><td class="y">Yes</td><td class="n">No — everything runs on your machine</td></tr>
-<tr><td>Mobile app</td><td class="y">Yes, on Pro</td><td class="n">Not yet</td></tr>
-<tr><td>Team plan</td><td class="y">Yes, $60/seat</td><td class="n">No</td></tr>
-<tr><td>Company behind it</td><td class="y">Funded, YC-backed</td><td class="n">A very new open-source project</td></tr>
+<tr><td>Not on a Mac</td><td class="n">No answer</td><td><code>npx agentbox-app</code> in a browser</td></tr>
+<tr><td>Agents running while the laptop sleeps</td><td class="y">Cloud workspaces on Pro</td><td class="n">No, everything is local</td></tr>
+<tr><td>Codex alongside Claude Code</td><td>Claude Code and others</td><td class="y">Both, side by side</td></tr>
 </tbody>
 </table>
 </div>
 
+<h2>Why is Agentbox free?</h2>
+<p>Because it runs on your machine and costs us nothing to run. There is no server holding your code, no account system and no inference to pay for. The agents bill to the Claude Code or Codex subscription you already have, and no API key ever goes near it.</p>
+<p>Conductor charges because Pro runs agents in its own cloud, which is a real expense. The two models are answering different questions.</p>
+
 <h2>When Conductor is the better choice</h2>
-<p>Often, and it would be dishonest to bury this at the bottom in small type.</p>
+<p>Often enough that it belongs here and not in small type at the bottom.</p>
 <ul>
-  <li><strong>You want agents running when your laptop is shut.</strong> Conductor has cloud workspaces. We do not — Agentbox runs on your machine, and when it sleeps, so do the agents.</li>
-  <li><strong>You want to check on work from your phone.</strong> Pro includes a mobile app. We have nothing to offer you here today.</li>
-  <li><strong>You are buying for a team.</strong> There is a Teams plan, seats, and a company to send an invoice. We have none of that.</li>
-  <li><strong>You want support and a roadmap you can rely on.</strong> A funded company is a real answer to that. A three-week-old project with 77 stars is not.</li>
-  <li><strong>You want the most polished Mac app in the category.</strong> Conductor has had far longer to make it so.</li>
+  <li><strong>Agents that keep working when your laptop is shut.</strong> Conductor has cloud workspaces. We do not.</li>
+  <li><strong>Checking on work from your phone.</strong> Pro includes a mobile app. We have nothing here today.</li>
+  <li><strong>Buying for a team.</strong> There is a Teams plan, seats, and a company to invoice you.</li>
+  <li><strong>Support and a roadmap you can rely on.</strong> A funded company is a real answer. A three-week-old project with 77 stars is not.</li>
+  <li><strong>The most polished Mac app in the category.</strong> Conductor has had much longer to make it so.</li>
 </ul>
 
 <h2>When Agentbox is the better choice</h2>
 <ul>
-  <li><strong>You do not want another monthly bill.</strong> Agentbox is free and runs on the Claude Code or Codex plan you already pay for. No API key goes anywhere near it.</li>
-  <li><strong>You want to read the source.</strong> It is GPL-3.0 and it is all there. For software that runs commands against your repository, some people consider that non-negotiable.</li>
-  <li><strong>You are not on a Mac.</strong> <code>npx agentbox-app</code> runs the whole thing in a browser on your own machine, on any platform with Node 22, listening only on <code>127.0.0.1</code>. Linux installs also get a launcher entry. Conductor has no answer here at all.</li>
-  <li><strong>You want no account and no server.</strong> There is nothing to sign into and nothing to send your code to.</li>
-  <li><strong>You use Codex as well as Claude Code.</strong> Both are first-class, side by side.</li>
-  <li><strong>The number of agents is the problem.</strong> Agentbox is built around the moment after an agent finishes: the ones that need you rise to the top, and you answer, approve or close them the way you clear email. There is a board too, which is how a lot of people actually use it.</li>
+  <li><strong>You will not add a second subscription.</strong> It is free and runs on the plan you have.</li>
+  <li><strong>You want to read the source.</strong> GPL-3.0, all of it. For software running commands against your repository, some people treat that as non-negotiable.</li>
+  <li><strong>You are not on a Mac.</strong> <code>npx agentbox-app</code> serves it on <code>127.0.0.1</code> on any platform with Node 22. Conductor has no answer here.</li>
+  <li><strong>You want no account and no server.</strong> Nothing to sign into, nothing to send your code to.</li>
+  <li><strong>You use Codex as well as Claude Code.</strong> Both are first class.</li>
 </ul>
 
-<h2>Moving across</h2>
-<p>There is nothing to export. Both tools drive the same Claude Code on the same repositories, so switching is installing the other one and pointing it at the same folder. Agentbox makes a git worktree per task under <code>.claude/worktrees/</code>; any branches you already have are untouched. If you do not like it, delete the app — there is no account to close.</p>
+<h2>Trying both costs nothing</h2>
+<p>Install Agentbox alongside Conductor and point them at the same repository. Agentbox puts each task in <code>.claude/worktrees/</code> on its own branch, so your existing branches are untouched. Run the same task in both and keep whichever you reach for. If that is Conductor, delete the app, because there is no account to close.</p>
 
 <div class="cta">
   <h2>Agentbox</h2>
-  <p>Free and open source, on the Claude Code or Codex plan you already pay for. Run dozens of agents in parallel, each in its own git worktree.</p>
+  <p>Free and open source, on the Claude Code or Codex plan you already pay for. Dozens of agents in parallel, each in its own git worktree.</p>
   <div class="row">
     <a class="b1" href="/download">Download for Mac</a>
     <a class="b2" href="https://github.com/savannahfeder/agentbox">Read the code</a>

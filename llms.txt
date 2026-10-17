@@ -8,8 +8,8 @@ Licence: GPL-3.0. Source: https://github.com/savannahfeder/agentbox
 
 - [Agentbox](https://agentbox.ac/): what it is, the inbox and board, priorities, Command K, built-in worktrees, terminals and diffs.
 - [How to run multiple Claude Code agents in parallel](https://agentbox.ac/run-multiple-claude-code-agents): the four approaches, a table of every tool in the category with licences and prices, and the real limits.
-- [Is there a GUI for Claude Code?](https://agentbox.ac/claude-code-gui): there is no official one; the third-party front ends, and when the terminal is still right.
-- [Claude Code and git worktrees](https://agentbox.ac/claude-code-worktrees): where they live, cleaning them up, merging one back, worktree versus branch.
+- [Is there a GUI for Claude Code?](https://agentbox.ac/claude-code-gui): there is no official one. The ten third-party front ends, in three shapes, and when the terminal is still right.
+- [Claude Code and git worktrees](https://agentbox.ac/claude-code-worktrees): the commands, why a new worktree has no node_modules or .env, what .worktreeinclude does, and cleaning up.
 - [Conductor alternatives](https://agentbox.ac/conductor-alternative): the open-source options, the ones on Windows and Linux, and when Conductor is the better buy.
 - [Vibe Kanban is sunsetting: where to go next](https://agentbox.ac/vibe-kanban-alternative): what happened and which boards are still maintained.
 - [Guides](https://agentbox.ac/guides): the index of the above.
