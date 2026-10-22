@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conductor alternatives: the open-source ones, and the ones that run on Windows</title>
-<meta name="description" content="Conductor is closed source, macOS only, and $50 a month for Pro. The open-source alternatives, which of them run on Windows and Linux, and the cases where Conductor is still the better buy.">
+<title>Conductor alternatives that are open source or run on Windows</title>
+<meta name="description" content="Conductor is closed source, macOS only, and $50 a month for Pro. Twenty-two alternatives with live licences and commit dates, which run on Windows and Linux, and the cases where Conductor is still the better buy.">
 <link rel="canonical" href="https://agentbox.ac/conductor-alternative">
-<meta property="og:title" content="Conductor alternatives: the open-source ones, and the ones that run on Windows">
-<meta property="og:description" content="The open-source alternatives to Conductor, and where Conductor still wins.">
+<meta property="og:title" content="Conductor alternatives that are open source or run on Windows">
+<meta property="og:description" content="Twenty-two alternatives to Conductor, and the cases where Conductor still wins.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/conductor-alternative">
 <meta property="og:image" content="https://agentbox.ac/assets/og.png">
@@ -16,8 +16,18 @@
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/guide.css">
+<style>
+  .dia { border: 1px solid var(--line); background: var(--panel); padding: 18px 18px 14px; margin: 0 0 24px; }
+  .dia svg { display: block; width: 100%; height: auto; }
+  .dia text { font-family: var(--mono); font-size: 11px; fill: #c4bdb8; }
+  .dia .lbl { fill: #a09994; letter-spacing: .1em; }
+  .dia .hot { fill: #ee6018; }
+  .dia rect.box { fill: #282625; stroke: #3a3836; }
+  .dia rect.wait { fill: #2f2320; stroke: #ee6018; }
+  .dia line { stroke: #3a3836; }
+</style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"Conductor alternatives: the open-source ones, and the ones that run on Windows","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/conductor-alternative"}
+{"@context":"https://schema.org","@type":"Article","headline":"Conductor alternatives that are open source or run on Windows","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/conductor-alternative"}
 </script>
 </head>
 <body>
@@ -32,35 +42,67 @@
 <main>
 <p class="kicker">Comparison</p>
 <h1>Conductor alternatives</h1>
-<p class="standfirst">Three facts send people looking. Conductor is closed source. It runs on macOS only. Pro is $50 a month on top of the Claude plan you already pay for.</p>
-<p class="asof">Written 16 October 2026, updated 17 October. Prices read from <a href="https://conductor.build/pricing">conductor.build/pricing</a> and stars from the GitHub API that day. We have not run every tool below for a month, so this page states checkable facts rather than verdicts on how they feel.</p>
+<p class="standfirst">Conductor is closed source, it runs on macOS only, and Pro is $50 a month on top of an existing Claude plan.</p>
+<p class="asof">This page went up on 16 October 2026, updated on 17 October. The prices come from <a href="https://conductor.build/pricing">conductor.build/pricing</a> and every star count and commit date from the GitHub API that day.</p>
 
-<h2>Conductor is good, and that is not the question</h2>
-<p>Its free tier is described on its own pricing page as "Local workspaces on your Mac". Pro adds cloud workspaces that keep agents running when your laptop is shut, and a mobile app. It is a funded company with a Series A, and the app shows it.</p>
-<p>Pricing today: Free $0, <strong>Pro $50/mo</strong>, Teams $60/mo per user, Enterprise custom.</p>
-<p>None of that helps if you are on Windows, or if you will not add a second subscription, or if you want to read the source of something running commands against your codebase.</p>
+<h2>Orca, Emdash or Nimbalyst</h2>
+<p><a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> and <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> are open source with native Windows and Linux builds, and of the twenty-two tools below Orca has by far the largest community at 95,206 stars.</p>
 
-<h2>The alternatives</h2>
+<h2>What Conductor gives for the money</h2>
+<p>The pricing page describes the free tier as "Local workspaces on your Mac", and Pro adds cloud workspaces that keep agents running when the laptop is shut, along with a mobile app. Behind all of it is a funded company that has raised a Series A.</p>
+<p>Free costs $0, <strong>Pro $50/mo</strong>, Teams $60/mo per user, and Enterprise is priced on request.</p>
+
+<h2>What people actually object to</h2>
+<p><strong>Platform.</strong> A Mac-only app is no use to somebody whose work machine runs Windows.</p>
+<p><strong>Price.</strong> $50 a month is not expensive for a work tool, and it sits on top of a Claude subscription.</p>
+<p><strong>Opacity.</strong> This is software that runs commands inside somebody's repository, and some people want to read what it does before letting it do that, which closed source rules out.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 112" role="img" aria-label="Three reasons people leave Conductor and which alternatives answer each">
+  <text x="0" y="11" class="lbl">THE CONSTRAINT</text><text x="300" y="11" class="lbl">WHAT ANSWERS IT</text>
+  <text x="0" y="36">on Windows or Linux</text><line x1="230" y1="32" x2="290" y2="32"/><text x="300" y="36" class="hot">Orca, Emdash, Nimbalyst</text>
+  <text x="0" y="62">will not pay twice</text><line x1="230" y1="58" x2="290" y2="58"/><text x="300" y="62" class="hot">any of the free ones</text>
+  <text x="0" y="88">want to read the source</text><line x1="230" y1="84" x2="290" y2="84"/><text x="300" y="88" class="hot">the MIT, Apache and GPL ones</text>
+  <text x="0" y="108">source-available is not the same as open source</text>
+</svg>
+</div>
+
+<h2>Twenty-two alternatives, as of 17 October 2026</h2>
+<p>Other "Conductor alternative" pages list four to nine tools and copy the list from each other. A pass through the GitHub API that reads the licence and last commit of every candidate turns up twenty-two.</p>
 <div class="wrap">
 <table>
-<thead><tr><th>Tool</th><th>Open source</th><th>Windows / Linux</th><th>Price</th><th>Stars</th></tr></thead>
+<thead><tr><th>Tool</th><th>Open source</th><th>Windows / Linux</th><th>Stars</th><th>Last commit</th></tr></thead>
 <tbody>
-<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td class="n">No</td><td class="n">macOS only</td><td>Free / $50 / $60 seat</td><td>no public repo</td></tr>
-<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td class="y">MIT</td><td class="y">Both</td><td>Free</td><td>94,498</td></tr>
-<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td class="y">Apache-2.0</td><td class="y">Both</td><td>Free</td><td>6,003</td></tr>
-<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td class="y">MIT</td><td class="y">Both, plus iOS</td><td>Free</td><td>1,915</td></tr>
-<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td class="y">AGPL-3.0</td><td>Linux only</td><td>Free</td><td>8,613</td></tr>
-<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td class="n">Source-available</td><td class="n">macOS, iOS</td><td>Free, needs an account</td><td>15,289</td></tr>
-<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td class="y">GPL-3.0</td><td>Browser on both</td><td>Free</td><td>77</td></tr>
+<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td class="n">No</td><td class="n">macOS only</td><td>no public repo</td><td>Free / $50 / $60 seat</td></tr>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td class="y">MIT</td><td class="y">Both</td><td>95,206</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td class="n">Source-available</td><td class="n">macOS</td><td>28,228</td><td>17 Oct 2026, now a terminal</td></tr>
+<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td class="y">Apache-2.0</td><td class="y">Browser</td><td>28,384</td><td class="n">19 Sep 2026, sunsetting</td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td class="y">AGPL-3.0</td><td class="y">Both</td><td>22,409</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td class="n">Source-available</td><td class="n">macOS, iOS</td><td>15,312</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td class="y">AGPL-3.0</td><td class="y">Browser</td><td>14,150</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td class="y">AGPL-3.0</td><td>Linux only</td><td>8,618</td><td>20 Aug 2026</td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td class="y">Apache-2.0</td><td class="y">Both</td><td>6,019</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td class="y">MIT</td><td class="n">macOS</td><td>3,132</td><td class="n">26 Feb 2026, deprecated</td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td class="y">MIT</td><td class="y">Both, plus iOS</td><td>1,917</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hanshuaikang/nezha">Nezha</a></td><td class="y">GPL-3.0</td><td class="y">Both</td><td>1,906</td><td>17 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td class="y">MIT</td><td>Linux only</td><td>1,265</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a></td><td class="n">Other</td><td>Linux only</td><td>922</td><td>21 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/madarco/agentbox">agentbox (sandboxes)</a></td><td class="y">MIT</td><td class="y">Both</td><td>538</td><td>7 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td class="y">MIT</td><td class="y">Both</td><td>386</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a></td><td class="n">Other</td><td class="y">Both</td><td>337</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/agent-era/devteam">devteam</a></td><td class="y">MIT</td><td>Linux only</td><td>265</td><td class="n">26 May 2026</td></tr>
+<tr><td><a href="https://github.com/terragon-labs/terragon-oss">Terragon</a></td><td class="y">Apache-2.0</td><td class="y">Cloud</td><td>261</td><td class="n">10 Feb 2026, dead</td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td class="y">MIT</td><td class="y">Docker</td><td>240</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td class="y">MIT</td><td class="y">Browser</td><td>239</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td class="y">GPL-3.0</td><td>Browser on both</td><td>78</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td class="y">MIT</td><td>Linux only</td><td>47</td><td>13 Oct 2026</td></tr>
 </tbody>
 </table>
 </div>
-<p>If you only need open source with a native Windows or Linux build, the answer is <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> or <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, and Orca has by far the largest community. You can stop reading.</p>
 
-<div class="note">
-  <p class="h">Do not pick these two</p>
-  <p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is on most "Conductor alternative" lists and is sunsetting, <a href="https://www.vibekanban.com/blog/shutdown">announced 10 April 2026</a>, last commit 19 September. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated and its description now reads "Crystal is now Nimbalyst".</p>
-</div>
+<h2>Four of the twenty-two are dead or no longer orchestrators</h2>
+<p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is on most of these lists and is sunsetting, <a href="https://www.vibekanban.com/blog/shutdown">announced 10 April 2026</a>. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated, and its description now reads "Crystal is now Nimbalyst". <a href="https://github.com/terragon-labs/terragon-oss">Terragon</a> is dead and says so, and <a href="https://github.com/manaflow-ai/cmux">cmux</a> has turned into a macOS terminal rather than an orchestrator.</p>
+<p>All four still get recommended in articles written this year.</p>
 
 <h2>Agentbox against Conductor, where they actually differ</h2>
 <div class="wrap">
@@ -72,35 +114,170 @@
 <tr><td>Not on a Mac</td><td class="n">No answer</td><td><code>npx agentbox-app</code> in a browser</td></tr>
 <tr><td>Agents running while the laptop sleeps</td><td class="y">Cloud workspaces on Pro</td><td class="n">No, everything is local</td></tr>
 <tr><td>Codex alongside Claude Code</td><td>Claude Code and others</td><td class="y">Both, side by side</td></tr>
+<tr><td>Account required</td><td class="n">Yes</td><td class="y">None</td></tr>
+<tr><td>Team plan</td><td class="y">$60 per seat</td><td class="n">None</td></tr>
 </tbody>
 </table>
 </div>
 
-<h2>Why is Agentbox free?</h2>
-<p>Because it runs on your machine and costs us nothing to run. There is no server holding your code, no account system and no inference to pay for. The agents bill to the Claude Code or Codex subscription you already have, and no API key ever goes near it.</p>
-<p>Conductor charges because Pro runs agents in its own cloud, which is a real expense. The two models are answering different questions.</p>
+<h2>Why Agentbox is free</h2>
+<p>Agentbox runs on the local machine, so there is nothing to operate and nothing to charge for. No server of its own holds the code, there is no account system, and it pays for no inference, because the agents bill to an existing Claude Code or Codex subscription.</p>
+<p>Conductor charges because Pro runs agents in its own cloud, which is a real expense and not a markup on free software. For agents that keep working while a laptop is shut, somebody has to pay for the machine they run on.</p>
 
+<div class="dia">
+<svg viewBox="0 0 640 100" role="img" aria-label="Local agents bill to an existing plan while cloud agents need a machine somebody pays for">
+  <text x="0" y="11" class="lbl">WHERE THE AGENT RUNS</text>
+  <rect class="box" x="0" y="22" width="290" height="52"/>
+  <text x="14" y="42">on the local Mac</text><text x="14" y="62" class="hot">an existing Claude plan, nothing else</text>
+  <rect class="wait" x="340" y="22" width="300" height="52"/>
+  <text x="354" y="42">in a vendor's cloud</text><text x="354" y="62" class="hot">that plan, plus their machine</text>
+  <text x="0" y="94">that second bill is what the $50 is for</text>
+</svg>
+</div>
+
+<div class="dia">
+<svg viewBox="0 0 640 108" role="img" aria-label="What the four traps on the list look like by last commit date">
+  <text x="0" y="11" class="lbl">LAST COMMIT, THE ONE NUMBER TO CHECK</text>
+  <text x="0" y="34">Orca, Emdash, Nimbalyst</text><rect class="box" x="300" y="24" width="340" height="14"/><text x="430" y="35">this week</text>
+  <text x="0" y="58">Claude Squad</text><rect class="box" x="300" y="48" width="180" height="14"/><text x="490" y="59">two months ago</text>
+  <text x="0" y="82">Vibe Kanban, Crystal, Terragon</text><rect class="wait" x="300" y="72" width="90" height="14"/><text x="400" y="83" class="hot">dead or sunsetting</text>
+  <text x="0" y="104">three of those are still being recommended this year</text>
+</svg>
+</div>
 <h2>When Conductor is the better choice</h2>
-<p>Often enough that it belongs here and not in small type at the bottom.</p>
 <ul>
-  <li><strong>Agents that keep working when your laptop is shut.</strong> Conductor has cloud workspaces. We do not.</li>
-  <li><strong>Checking on work from your phone.</strong> Pro includes a mobile app. We have nothing here today.</li>
-  <li><strong>Buying for a team.</strong> There is a Teams plan, seats, and a company to invoice you.</li>
-  <li><strong>Support and a roadmap you can rely on.</strong> A funded company is a real answer. A three-week-old project with 77 stars is not.</li>
+  <li><strong>Agents that keep working when the laptop is shut.</strong> Conductor has cloud workspaces on Pro. Agentbox does not, and nothing else on the free side of the table does either.</li>
+  <li><strong>Checking on work from a phone.</strong> Pro includes a mobile app, and Agentbox has nothing here today.</li>
+  <li><strong>Buying for a team.</strong> There is a Teams plan, seats, and a company to send the invoice.</li>
+  <li><strong>Support and a roadmap worth relying on.</strong> A funded company is a real answer to that, and a three-week-old project with 78 stars is not.</li>
   <li><strong>The most polished Mac app in the category.</strong> Conductor has had much longer to make it so.</li>
 </ul>
 
 <h2>When Agentbox is the better choice</h2>
 <ul>
-  <li><strong>You will not add a second subscription.</strong> It is free and runs on the plan you have.</li>
-  <li><strong>You want to read the source.</strong> GPL-3.0, all of it. For software running commands against your repository, some people treat that as non-negotiable.</li>
-  <li><strong>You are not on a Mac.</strong> <code>npx agentbox-app</code> serves it on <code>127.0.0.1</code> on any platform with Node 22. Conductor has no answer here.</li>
-  <li><strong>You want no account and no server.</strong> Nothing to sign into, nothing to send your code to.</li>
-  <li><strong>You use Codex as well as Claude Code.</strong> Both are first class.</li>
+  <li><strong>No second subscription.</strong> Agentbox is free and bills nothing beyond an existing Claude or Codex plan.</li>
+  <li><strong>Reading the source.</strong> GPL-3.0, all of it.</li>
+  <li><strong>Not on a Mac.</strong> <code>npx agentbox-app</code> serves it on <code>127.0.0.1</code> on any platform with Node 22.</li>
+  <li><strong>No account and no server.</strong> Nothing to sign into, nothing to send the code to.</li>
+  <li><strong>Codex as well as Claude Code.</strong> Both are first class.</li>
 </ul>
 
+<h2>Questions people ask before switching</h2>
+
+<h3>Is there a free Conductor alternative?</h3>
+<p>Most of the table is free, and Conductor itself has a free tier with local workspaces. The question is usually about the $50 Pro plan, which buys cloud workspaces and the mobile app.</p>
+
+<h3>Is there an open-source Conductor alternative?</h3>
+<p>Yes, and plenty. MIT, Apache-2.0, AGPL-3.0 and GPL-3.0 all appear in the table. Two entries are source-available rather than open source, which the table marks, because people searching for this mean the licence and not the price.</p>
+
+<h3>What about Conductor on Windows?</h3>
+<p>There is none. The alternatives with native Windows builds are <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a>, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, <a href="https://github.com/hanshuaikang/nezha">Nezha</a>, <a href="https://github.com/winfunc/opcode">opcode</a> and <a href="https://github.com/OpenSource03/harnss">harnss</a>.</p>
+
+<h3>What about Conductor on Linux?</h3>
+<p>The same list, plus the terminal interfaces and anything that runs in a browser. Agentbox installs on Linux from a checkout and adds a launcher entry.</p>
+
+<h3>Will I lose my work switching?</h3>
+<p>No. These tools drive the same Claude Code against the same repositories, and the branches are ordinary git branches.</p>
+
+<h3>Do I have to pick one?</h3>
+<p>No, and running two for a week is the only honest way to choose. They can point at the same repository as long as the same task does not run twice.</p>
+
+<h3>Which is fastest?</h3>
+<p>None of them to a noticeable degree, because the time goes on the model rather than the interface. Three agents running together took 17.1 seconds against 16.4 for one alone, and the <a href="/run-multiple-claude-code-agents#measured">harness and the load average are written up there</a>.</p>
+
+<h3>What happens to my repository?</h3>
+<p>A worktree per task and a branch per task, each one to merge or delete. The folders outlive the agents, so <a href="/claude-code-worktrees">clearing them out becomes a habit</a>.</p>
+
+<h2>Moving from Conductor to Agentbox, with the commands</h2>
+<p>There is no export and no import, because neither tool owns the work. Moving across amounts to pointing the new tool at the folder the old one was already working in.</p>
+
+<h3>What Conductor left behind</h3>
+<pre><code>$ git worktree list
+/Users/you/app              4a1c9f2 [main]
+/Users/you/app-feature-x    8b31e07 [feature-x]
+
+$ git branch --no-merged main
+  feature-x</code></pre>
+<p>Anything unmerged there is work in progress, and it is worth finishing or merging before the switch, because two tools creating worktrees in different places on one repository is how people lose track of a branch.</p>
+
+<h3>Starting Agentbox on the same repository</h3>
+<pre><code>$ npx agentbox-app
+Agentbox is running at http://127.0.0.1:51734/?k=9f3c2a</code></pre>
+<p>It takes the same folder Conductor was pointed at, and makes <code>.claude/worktrees/&lt;task id&gt;</code> per task with a branch of the same name, so nothing it creates collides with anything Conductor created.</p>
+
+<h3>Going back to Conductor</h3>
+<pre><code>$ git worktree list --porcelain | awk '/^worktree /{print $2}' | grep .claude/worktrees
+$ git worktree remove &lt;each one&gt;
+$ git worktree prune</code></pre>
+<p>Deleting the app afterwards leaves nothing behind, because there is no account to close, Agentbox holds no data anywhere, and the repository is exactly as it was.</p>
+
+<h3>What cannot move from Conductor</h3>
+<p>Conductor's cloud workspaces are the one thing Agentbox has no equivalent for, so anything running in its cloud has to finish there or be restarted locally.</p>
+
+<h3>Is Conductor worth $50 a month?</h3>
+<p>For anybody using the cloud workspaces, probably, because that is a machine running agents while nobody is at the desk and nothing free on this list offers it. When the agents only ever run locally on a Mac, the $50 buys polish, which is a real thing to want.</p>
+
+<h3>Does any free tool have cloud agents?</h3>
+<p><a href="https://github.com/terragon-labs/terragon-oss">Terragon</a> did and is dead. A box somebody already owns is the usual answer, which is what the browser and self-hosted options are for.</p>
+
 <h2>Trying both costs nothing</h2>
-<p>Install Agentbox alongside Conductor and point them at the same repository. Agentbox puts each task in <code>.claude/worktrees/</code> on its own branch, so your existing branches are untouched. Run the same task in both and keep whichever you reach for. If that is Conductor, delete the app, because there is no account to close.</p>
+<p>Agentbox puts each task in <code>.claude/worktrees/</code> on its own branch, so existing branches are untouched.</p>
+
+<figure>
+  <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">
+  <figcaption>What Agentbox shows when the agents stop. The board is the same work in columns.</figcaption>
+</figure>
+
+<figure>
+  <img src="/assets/shots/agents-working.webp" alt="A grid of more than a hundred agent rows, each with a task title and how long it has been working" width="960" height="540" loading="lazy">
+  <figcaption>And the ones still working, which is most of them, most of the time.</figcaption>
+</figure>
+
+<div class="dia">
+<svg viewBox="0 0 640 96" role="img" aria-label="A week of running both tools on one repository to decide between them">
+  <text x="0" y="11" class="lbl">HOW TO DECIDE IN A WEEK</text>
+  <rect class="box" x="0" y="22" width="150" height="30"/><text x="14" y="41">same repo</text>
+  <line x1="150" y1="37" x2="184" y2="37"/>
+  <rect class="box" x="184" y="22" width="150" height="30"/><text x="198" y="41">same tasks</text>
+  <line x1="334" y1="37" x2="368" y2="37"/>
+  <rect class="box" x="368" y="22" width="150" height="30"/><text x="382" y="41">five working days</text>
+  <line x1="518" y1="37" x2="552" y2="37"/>
+  <rect class="wait" x="552" y="22" width="88" height="30"/><text x="562" y="41" class="hot">keep one</text>
+  <text x="0" y="76">whichever gets opened first in the morning is the answer</text>
+</svg>
+</div>
+<h2>What switching tools does not fix</h2>
+<p>Switching tools changes what shows up on screen and when a person gets interrupted.</p>
+<p><strong>Reading the diffs.</strong> Five finished agents mean five changes to review, and that is the slowest part of the loop in every tool on the list. One interface can put the diff in front of a reviewer faster than another, but none of them can say whether the change is right, and Agentbox is no exception.</p>
+<p><strong>Writing the task.</strong> A vague instruction produces a vague branch, and running several agents at once multiplies that rather than fixing it. The teams getting the most out of this write smaller, sharper tasks rather than more of them.</p>
+<p><strong>The plan's limits.</strong> No interface changes what a Claude or Codex tier allows, so if ten agents trip a rate limit they trip it everywhere, and paying $50 for a front end does not buy more model.</p>
+
+<h2>Nothing here came out of another article</h2>
+<p>On 17 October 2026, every number in the table came off the GitHub API.</p>
+<pre><code>$ for r in stablyai/orca generalaction/emdash nimbalyst/nimbalyst; do
+    gh api repos/$r --jq '"\(.full_name) \(.stargazers_count) \(.pushed_at[0:10])"'
+  done
+stablyai/orca 95206 2026-10-17
+generalaction/emdash 6019 2026-10-17
+nimbalyst/nimbalyst 1917 2026-10-17</code></pre>
+<p>The prices came off Conductor's own pricing page the same day, and platform support off each project's README.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 92" role="img" aria-label="How a claim passes from one roundup to the next without being rechecked">
+  <text x="0" y="11" class="lbl">HOW A DEAD TOOL KEEPS GETTING RECOMMENDED</text>
+  <rect class="box" x="0" y="22" width="120" height="28"/><text x="14" y="40">Feb roundup</text>
+  <line x1="120" y1="36" x2="158" y2="36"/>
+  <rect class="box" x="158" y="22" width="120" height="28"/><text x="172" y="40">Jun roundup</text>
+  <line x1="278" y1="36" x2="316" y2="36"/>
+  <rect class="box" x="316" y="22" width="120" height="28"/><text x="330" y="40">Oct roundup</text>
+  <line x1="436" y1="36" x2="474" y2="36"/>
+  <rect class="wait" x="474" y="22" width="166" height="28"/><text x="488" y="40" class="hot">somebody installs it</text>
+  <text x="0" y="74">nobody in that chain checked the last commit</text>
+</svg>
+</div>
+
+<h2>Where Agentbox loses</h2>
+<p>Agentbox has 78 stars against Orca's 95,206 and is three weeks old, with no native Windows build, no mobile app, no cloud and no company standing behind it. If any one of those is the thing that matters, the table above says who to use instead.</p>
 
 <div class="cta">
   <h2>Agentbox</h2>

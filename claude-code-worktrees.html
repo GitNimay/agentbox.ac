@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claude Code and git worktrees: the commands, and the .env problem</title>
-<meta name="description" content="A worktree per agent, what the commands actually print, why a new worktree has no node_modules or .env, and how .worktreeinclude fixes it. Plus cleaning up the ones you abandoned.">
+<title>Claude Code and git worktrees, the commands and the .env problem</title>
+<meta name="description" content="A worktree per agent in one command, why the new folder has no node_modules or .env, what .worktreeinclude does about it, where each tool puts them, and how to clean up abandoned ones.">
 <link rel="canonical" href="https://agentbox.ac/claude-code-worktrees">
-<meta property="og:title" content="Claude Code and git worktrees: the commands, and the .env problem">
-<meta property="og:description" content="A worktree per agent, what the commands print, and why a new worktree has no node_modules or .env.">
+<meta property="og:title" content="Claude Code and git worktrees, the commands and the .env problem">
+<meta property="og:description" content="A worktree per agent, the empty folder problem, and how to clean up afterwards.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/claude-code-worktrees">
 <meta property="og:image" content="https://agentbox.ac/assets/og.png">
@@ -16,8 +16,18 @@
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/guide.css">
+<style>
+  .dia { border: 1px solid var(--line); background: var(--panel); padding: 18px 18px 14px; margin: 0 0 24px; }
+  .dia svg { display: block; width: 100%; height: auto; }
+  .dia text { font-family: var(--mono); font-size: 11px; fill: #c4bdb8; }
+  .dia .lbl { fill: #a09994; letter-spacing: .1em; }
+  .dia .hot { fill: #ee6018; }
+  .dia rect.box { fill: #282625; stroke: #3a3836; }
+  .dia rect.wait { fill: #2f2320; stroke: #ee6018; }
+  .dia line { stroke: #3a3836; }
+</style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"Claude Code and git worktrees: the commands, and the .env problem","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/claude-code-worktrees"}
+{"@context":"https://schema.org","@type":"Article","headline":"Claude Code and git worktrees, the commands and the .env problem","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/claude-code-worktrees"}
 </script>
 </head>
 <body>
@@ -32,75 +42,279 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>Claude Code and git worktrees</h1>
-<p class="standfirst">A worktree gives each agent its own checkout on its own branch. It takes one command. The part nobody warns you about is that the new folder has no <code>node_modules</code> and no <code>.env</code>, so the first thing your agent does is fail.</p>
+<p class="standfirst">A worktree gives each agent its own checkout on its own branch, and one command creates it. The new folder arrives with no <code>node_modules</code> and no <code>.env</code>, so the first thing an agent does in there is fail, and the fix is a convention three tools share, not one of which documents it.</p>
 <p class="asof">Written 16 October 2026, updated 17 October.</p>
 
-<h2>One command</h2>
+<h2>One command makes a second folder on a new branch</h2>
 <pre><code>$ git worktree add ../app-dark-mode -b dark-mode
 Preparing worktree (new branch 'dark-mode')
 HEAD is now at 4a1c9f2 Snooze survives a restart</code></pre>
-<p>You now have a second folder, checked out to a new branch, sharing one object store with the first. No second clone, no copy of the history.</p>
-<p>Point an agent at that folder and it cannot touch anything in your main checkout. That is the whole reason worktrees and parallel agents go together.</p>
+<p>It shares one object store with the first, so there is no second clone of the code and no copy of the history anywhere on disk.</p>
+<p>An agent pointed at that folder cannot touch anything in the main checkout.</p>
 
-<h2>What goes wrong without one</h2>
-<p>Two Claude Code sessions in one folder share one working tree. Both edit the same files. Both run the formatter. Both commit.</p>
-<p>The result is not a merge conflict. Git never sees two versions, so it has nothing to resolve. You get one diff with two half-finished ideas interleaved, and neither agent knows the other exists.</p>
+<h2>What goes wrong when two agents share one folder</h2>
+<p>Two Claude Code sessions in one folder share one working tree, so both edit the same files, both run the formatter and both commit, and git records nothing afterwards about which of them did what.</p>
+<p>Git never saw two versions of anything, so there is no merge conflict to resolve and nothing to choose between.</p>
 
-<h2>The first failure: an empty folder</h2>
-<p>A worktree holds what is committed. Everything git ignores stays behind. For a typical Node project that means the new folder has no <code>node_modules</code>, no <code>.env</code>, and none of the local config your build reads.</p>
-<p>So the agent starts, runs the tests, and gets this:</p>
+<div class="dia">
+<svg viewBox="0 0 640 118" role="img" aria-label="One shared folder where two agents write the same file, next to two worktrees with one agent each">
+  <text x="0" y="11" class="lbl">ONE FOLDER</text>
+  <rect class="box" x="0" y="22" width="280" height="52"/>
+  <text x="14" y="44">agent A</text><text x="14" y="62">agent B</text>
+  <text x="104" y="53">both write</text><text x="186" y="53" class="hot">theme.ts</text>
+  <text x="0" y="96" class="hot">one diff, two ideas, nothing to resolve</text>
+  <text x="352" y="11" class="lbl">A WORKTREE EACH</text>
+  <rect class="box" x="352" y="22" width="288" height="22"/>
+  <text x="366" y="37">agent A    ../app-dark/theme.ts</text>
+  <rect class="box" x="352" y="52" width="288" height="22"/>
+  <text x="366" y="67">agent B    ../app-snooze/theme.ts</text>
+  <text x="352" y="96">two branches, merged one at a time</text>
+</svg>
+</div>
+
+<h2>Why a new worktree has no node_modules or .env</h2>
+<p>A worktree holds what is committed, and everything git ignores stays behind in the folder it came from. For a typical Node project that means the new folder arrives with no <code>node_modules</code>, no <code>.env</code> and none of the local config the build reads.</p>
 <pre><code>$ npm test
 sh: vitest: command not found</code></pre>
-<p>You can fix it by hand every time with <code>npm install</code> in each worktree, which is slow and duplicates a few hundred megabytes per task. Or you can declare the ignored files worth carrying.</p>
+<div class="dia">
+<svg viewBox="0 0 640 112" role="img" aria-label="A new worktree contains tracked files but none of the ignored ones the build needs">
+  <text x="0" y="11" class="lbl">WHAT CROSSES INTO A NEW WORKTREE</text>
+  <rect class="box" x="0" y="22" width="300" height="24"/><text x="14" y="38">src/  package.json  tests/        tracked</text>
+  <rect class="wait" x="0" y="52" width="300" height="24"/><text x="14" y="68" class="hot">node_modules/  .env             ignored</text>
+  <line x1="300" y1="34" x2="360" y2="34"/><text x="366" y="38">copied</text>
+  <line x1="300" y1="64" x2="360" y2="64"/><text x="366" y="68" class="hot">left behind</text>
+  <text x="0" y="100">which is why the first npm test fails</text>
+</svg>
+</div>
+<p>Running <code>npm install</code> in each worktree by hand works, but it is slow and duplicates a few hundred megabytes of dependencies per task.</p>
 
-<h3>.worktreeinclude</h3>
-<p>A file at the repository root, in gitignore syntax, naming the ignored files a new worktree should receive. Claude Code reads it. <a href="https://conductor.build/">Conductor</a> reads it. <a href="https://github.com/savannahfeder/agentbox">Agentbox</a> reads it. It is the closest thing this category has to a shared convention, and most people have never heard of it. <a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami's write-up on worktrees, agents and tmux</a> is the best account of the workflow this solves.</p>
+<h2>What .worktreeinclude does</h2>
+<p>A file called <code>.worktreeinclude</code> at the repository root, written in gitignore syntax, names the ignored files a new worktree should receive. Claude Code, <a href="https://conductor.build/">Conductor</a> and <a href="https://github.com/savannahfeder/agentbox">Agentbox</a> all read it, and no page documenting it turns up in any of the three. <a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami's write-up on worktrees, agents and tmux</a> describes the workflow it exists for.</p>
 <pre><code>node_modules/
 .env
 .env.local
 !.env.production</code></pre>
-<p>Git does the matching, with <code>git ls-files --others --ignored --exclude-from</code>, so negation, anchoring and globs behave exactly as git defines them. On macOS the copy asks APFS for a block-sharing clone, so carrying <code>node_modules</code> across costs almost no disk.</p>
-<p>One warning, because it is a real way to leak a secret. That git command does not consult your <code>.gitignore</code>. A pattern that selects a file the repository does not actually ignore leaves it untracked in the new folder, and anything that later runs <code>git add -A</code> will commit it. Agentbox checks every selected path with <code>git check-ignore</code> in both checkouts before carrying it, and refuses the whole folder by name if one fails. If you are rolling your own, do that check too.</p>
+<p>Git itself does the matching, through <code>git ls-files --others --ignored --exclude-from</code>, so negation, anchoring and globs behave exactly as git defines them. On macOS the copy can ask APFS for a block-sharing clone, and carrying <code>node_modules</code> across then costs almost no disk at all.</p>
 
-<h2>Cleaning up</h2>
-<p>This is where worktrees actually bite. Abandoned runs leave folders and branches behind, and after a fortnight you have thirty of each.</p>
+<h3>How a bad pattern can leak a secret</h3>
+<p>The command reads its patterns from that file and never consults the repository's <code>.gitignore</code> while it runs. A pattern selecting a file the repository does not actually ignore leaves that file sitting untracked in the new folder, where anything that later runs <code>git add -A</code> will commit it. Agentbox checks every selected path with <code>git check-ignore</code> in both checkouts before carrying it, and refuses the whole folder by name when one of them fails. A hand-rolled copy step needs the same check in it.</p>
+
+<h2>Where each tool puts its worktrees</h2>
+<p>Tools that run several agents at once generally create a worktree per task, including <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a>, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, <a href="https://github.com/generalaction/emdash">Emdash</a>, <a href="https://github.com/GarrickZ2/grove">grove</a> and <a href="https://github.com/savannahfeder/agentbox">Agentbox</a>. No two of their READMEs agree on where the folder goes, so the README of whichever tool is running is the only reliable answer.</p>
+<p>The lack of a standard starts to matter the moment two of these tools point at a single repository. A developer comparing them <a href="https://news.ycombinator.com/item?id=50110204">on Hacker News on 15 October 2026</a> named exactly that as the annoyance.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 110" role="img" aria-label="Three layouts for worktrees: a sibling folder, inside the repository, and a central directory">
+  <text x="0" y="11" class="lbl">SIBLING</text>
+  <rect class="box" x="0" y="20" width="196" height="60"/>
+  <text x="12" y="40">app/</text><text x="12" y="58">app-dark-mode/</text><text x="12" y="74">app-snooze/</text>
+  <text x="222" y="11" class="lbl">INSIDE THE REPO</text>
+  <rect class="box" x="222" y="20" width="196" height="60"/>
+  <text x="234" y="40">app/</text><text x="234" y="58">  .claude/worktrees/w-7c21</text><text x="234" y="74">  needs a gitignore line</text>
+  <text x="444" y="11" class="lbl">CENTRAL</text>
+  <rect class="box" x="444" y="20" width="196" height="60"/>
+  <text x="456" y="40">~/worktrees/app-dark/</text><text x="456" y="58">~/worktrees/app-snooze/</text><text x="456" y="74">far from the repo</text>
+  <text x="0" y="100">whichever the layout, git worktree list is the truth</text>
+</svg>
+</div>
+
+<div class="wrap">
+<table>
+<thead><tr><th>Layout</th><th>Good</th><th>Bad</th></tr></thead>
+<tbody>
+<tr><td>Sibling folder</td><td>Easy to see, easy to delete</td><td>Clutters the parent directory</td></tr>
+<tr><td>Inside the repository</td><td>Travels with the project, one place to look</td><td>Needs a gitignore entry or git offers to commit it</td></tr>
+<tr><td>Central directory</td><td>Keeps every repo tidy</td><td>Far from the code, easy to forget</td></tr>
+</tbody>
+</table>
+</div>
+<p>Agentbox uses the middle layout, <code>.claude/worktrees/&lt;task id&gt;</code>, with a branch of the same name, so a task called <code>w-7c21</code> does its work in <code>.claude/worktrees/w-7c21</code> on a branch called <code>agentbox/w-7c21</code>.</p>
+
+<h2>Removing worktrees and their branches</h2>
+<p>Abandoned agent runs leave both their folders and their branches behind, and nothing ever prompts anyone to clear them. After a fortnight there are thirty of each.</p>
 <pre><code>$ git worktree list
 /Users/you/app              4a1c9f2 [main]
 /Users/you/app-dark-mode    8b31e07 [dark-mode]
 /Users/you/app-snooze       1f90a42 [snooze-restart]
 
 $ git worktree remove ../app-dark-mode
-$ git worktree prune          # drop records whose folders are already gone
+$ git worktree prune          # drop records whose folders are gone
 $ git branch -d dark-mode     # the branch is separate</code></pre>
-<p>Two traps. <code>git worktree remove</code> refuses while the folder has uncommitted changes, which is right nearly every time and infuriating the once it is not. <code>--force</code> overrides it.</p>
-<p>And removing a worktree never deletes its branch. A clean <code>git worktree list</code> sits happily beside a <code>git branch</code> output thirty lines long.</p>
 
-<h2>Where tools put them</h2>
-<p>There is no standard, which matters the moment you use two tools on one repository. Claude Code, Codex, <a href="https://github.com/stablyai/orca">Orca</a> and <a href="https://github.com/superset-sh/superset">Superset</a> each choose their own directory, and a user comparing them <a href="https://news.ycombinator.com/item?id=50110204">on Hacker News on 15 October 2026</a> named exactly that as the annoyance.</p>
-<p>Agentbox uses <code>.claude/worktrees/&lt;task id&gt;</code> inside the repository, with a branch of the same name, so a task called <code>w-7c21</code> works in <code>.claude/worktrees/w-7c21</code> on branch <code>agentbox/w-7c21</code>. Inside the repository needs a <code>.gitignore</code> entry, which is the cost of that choice.</p>
-<p>Whatever you pick, <code>git worktree list --porcelain</code> is the ground truth, and it is what tools read to find out what they left behind.</p>
+<h3>Remove refuses, and never deletes the branch</h3>
+<p><code>git worktree remove</code> refuses while the folder still holds uncommitted changes, and <code>--force</code> overrides it.</p>
+<p>Removing a worktree also never deletes its branch.</p>
 
-<h2>Worktree or branch?</h2>
-<p>A branch is enough when you work on one thing at a time. Switching branches in one folder is simpler, needs no cleanup, and keeps a single <code>node_modules</code>.</p>
-<p>A worktree earns its keep when two things must exist at once. Two agents working at the same time. A dev server you do not want to restart. A review of someone else's branch without stashing your own work.</p>
-<p>For one person, branches are usually fine. For several agents, worktrees are close to mandatory.</p>
+<h3>Clearing a whole repository at once</h3>
+<pre><code>$ git worktree list --porcelain | awk '/^worktree /{print $2}' | tail -n +2
+$ git worktree prune && git branch --merged main | grep -v main | xargs -r git branch -d</code></pre>
+<p>The first line lists every worktree except the main checkout. The second prunes the dead records and then deletes the branches already merged into main. Anything unmerged survives and has to be looked at by hand.</p>
 
-<h2>Merging one back</h2>
+<h2>Every command, with the gotcha</h2>
+<p>The <a href="https://git-scm.com/docs/git-worktree">git-worktree documentation</a> lists every flag there is. These thirteen are the ones that come up when a tool is creating the worktrees.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Command</th><th>What it does</th><th>Gotcha</th></tr></thead>
+<tbody>
+<tr><td><code>git worktree add &lt;path&gt; -b &lt;branch&gt;</code></td><td>New folder on a new branch</td><td>Fails if the branch already exists</td></tr>
+<tr><td><code>git worktree add &lt;path&gt; &lt;branch&gt;</code></td><td>New folder on an existing branch</td><td>Refuses if that branch is checked out elsewhere</td></tr>
+<tr><td><code>git worktree add --detach &lt;path&gt;</code></td><td>New folder, no branch</td><td>Commits there are easy to lose</td></tr>
+<tr><td><code>git worktree list</code></td><td>Every worktree and its branch</td><td>The only source of truth</td></tr>
+<tr><td><code>git worktree list --porcelain</code></td><td>The same, machine readable</td><td>What tools parse</td></tr>
+<tr><td><code>git worktree remove &lt;path&gt;</code></td><td>Deletes the folder and the record</td><td>Refuses with uncommitted changes</td></tr>
+<tr><td><code>git worktree remove --force &lt;path&gt;</code></td><td>Removes anyway</td><td>Throws away uncommitted work</td></tr>
+<tr><td><code>git worktree prune</code></td><td>Clears records for folders already gone</td><td>Does not delete branches</td></tr>
+<tr><td><code>git worktree move &lt;from&gt; &lt;to&gt;</code></td><td>Relocates and re-registers</td><td>Use this instead of <code>mv</code></td></tr>
+<tr><td><code>git worktree lock &lt;path&gt;</code></td><td>Stops prune removing it</td><td>For folders on removable disks</td></tr>
+<tr><td><code>git branch -d &lt;branch&gt;</code></td><td>Deletes a merged branch</td><td>Separate step from removing the worktree</td></tr>
+<tr><td><code>git branch -D &lt;branch&gt;</code></td><td>Deletes an unmerged branch</td><td>Loses the commits</td></tr>
+<tr><td><code>git worktree repair</code></td><td>Fixes records after the repo moved</td><td>Run from the main checkout</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="dia">
+<svg viewBox="0 0 640 118" role="img" aria-label="The life of a worktree from creation through work to removal and branch deletion">
+  <text x="0" y="11" class="lbl">THE LIFE OF ONE WORKTREE</text>
+  <rect class="box" x="0" y="24" width="120" height="30"/><text x="14" y="43">add</text>
+  <line x1="120" y1="39" x2="152" y2="39"/>
+  <rect class="box" x="152" y="24" width="120" height="30"/><text x="166" y="43">agent works</text>
+  <line x1="272" y1="39" x2="304" y2="39"/>
+  <rect class="box" x="304" y="24" width="120" height="30"/><text x="318" y="43">merge</text>
+  <line x1="424" y1="39" x2="456" y2="39"/>
+  <rect class="box" x="456" y="24" width="90" height="30"/><text x="470" y="43">remove</text>
+  <line x1="546" y1="39" x2="572" y2="39"/>
+  <rect class="wait" x="572" y="24" width="68" height="30"/><text x="582" y="43" class="hot">branch -d</text>
+  <text x="0" y="78" class="hot">the last step is the one everyone forgets</text>
+  <text x="0" y="98">remove deletes the folder, never the branch</text>
+</svg>
+</div>
+
+<h2>Worktree or branch</h2>
+<p>A branch is enough for one thing at a time. Switching branches inside one folder is simpler, needs no cleanup afterwards, and keeps a single <code>node_modules</code> that is already installed.</p>
+<p>A worktree earns its keep the moment two things have to exist at the same time.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Situation</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td>One task at a time</td><td>A branch</td></tr>
+<tr><td>Two or more agents at once</td><td>A worktree each</td></tr>
+<tr><td>A dev server that has to keep running</td><td>A worktree</td></tr>
+<tr><td>Reviewing someone else's branch</td><td>A worktree</td></tr>
+<tr><td>A quick one-line fix</td><td>A branch</td></tr>
+<tr><td>Comparing two approaches side by side</td><td>A worktree each</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Merging a worktree's branch back</h2>
 <pre><code>$ git merge dark-mode
 $ git worktree remove ../app-dark-mode
 $ git branch -d dark-mode</code></pre>
-<p>Nothing special. The branch is an ordinary branch.</p>
-<p>The part that gets harder with many agents is not the merge. It is the deciding. <a href="/run-multiple-claude-code-agents">More on running several at once</a>. Five finished branches need five reviews, and reading five diffs in a terminal is where the time goes.</p>
+<p>The branch an agent worked on is an ordinary branch and merges like one, whichever tool created it.</p>
+<p>Five finished branches mean five diffs to read. The <a href="/run-multiple-claude-code-agents">tools that run several at once</a> differ mainly in how they put those five diffs on screen.</p>
 
-<h2>Two questions people ask</h2>
+<h2>Questions about the basics</h2>
+
+<h3>What is a git worktree?</h3>
+<p>A second working directory for one repository, checked out to a different branch, sharing the same history and object store. One clone, several folders.</p>
+
+<h3>Does it copy the repository?</h3>
+<p>No. The objects are shared, so a worktree costs what the checked-out files cost rather than what the history costs, which is why adding a tenth one is about as cheap as adding the second.</p>
+
+<h3>Where does Claude Code put its worktrees?</h3>
+<p>That depends on how it is invoked and which tool is driving. No answer holds across tools, so <code>git worktree list</code> in the repository is the only one that cannot be wrong. The <a href="https://git-scm.com/docs/git-worktree">git documentation</a> describes the registration format for reading it directly.</p>
+
+<h3>Can I have a worktree of a worktree?</h3>
+<p>A worktree can be created from any checkout of the repository, and it is registered against the same repository either way. There is no hierarchy to worry about.</p>
+
+<h2>Questions about running agents in worktrees</h2>
+
 <h3>Is it safe to run several agents in worktrees at once?</h3>
-<p>For files, yes. They cannot reach each other's checkouts. The shared parts are the object store, which git is built for, and anything outside git. If your dev server binds a fixed port, two agents starting it will collide, and that has nothing to do with worktrees.</p>
+<p>For files, yes. They cannot reach each other's checkouts. The shared parts are the object store, which git is built to handle, and anything outside git. A dev server on a fixed port is the collision that actually arrives, and it has nothing to do with worktrees.</p>
+
+<h3>What if two agents both commit?</h3>
+<p>They commit to different branches, so nothing collides. The two sets of work meet at merge time, where git treats them like any other pair of branches.</p>
+
+<h3>Do I need one per agent, or per task?</h3>
+<p>Per task. An agent that finishes and hands back is done with its folder, and the next task gets a fresh one. Reusing a folder across tasks is how stale state leaks from one task into the next, which is why <a href="https://github.com/savannahfeder/agentbox">Agentbox</a> names each folder after the task id rather than after the agent.</p>
+
 <h3>Can I turn worktrees off in a tool that creates them?</h3>
-<p>Usually, and check before you adopt one. A tool that insists on a worktree per task will fight a repository with submodules, or generated files that are ignored but required, or a build that writes outside the tree.</p>
+<p>Usually, though that is the first thing worth checking before adopting one. A tool that insists on a worktree per task will fight a repository that has submodules, generated files that are ignored but required anyway, or a build that writes outside the tree. <a href="https://github.com/imbue-ai/sculptor">Sculptor</a> isolates in Docker containers instead, which avoids all three.</p>
+
+<h2>Questions about disk and cleanup</h2>
+
+<h3>How much disk does this cost?</h3>
+<p>The checkout, plus the dependencies, once per folder. Git objects are shared, so the history costs nothing extra. Dependencies are the real bill, and on macOS a block-sharing copy takes most of it away again.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 100" role="img" aria-label="Git objects are shared between worktrees while dependencies are duplicated per folder">
+  <text x="0" y="11" class="lbl">WHAT EACH EXTRA WORKTREE COSTS</text>
+  <rect class="box" x="0" y="22" width="260" height="26"/><text x="14" y="39">git history and objects     shared, free</text>
+  <rect class="box" x="0" y="54" width="260" height="26"/><text x="14" y="71">checked-out source          small</text>
+  <rect class="wait" x="290" y="38" width="350" height="26"/><text x="304" y="55" class="hot">node_modules       the whole bill, per folder</text>
+</svg>
+</div>
+<h3>Why is my worktree folder showing up in git status?</h3>
+<p>Because it sits inside the repository and nothing ignores it. Adding the directory to <code>.gitignore</code> settles it, and the tool that created the folder may well have added that line already.</p>
+
+<h3>What is a prunable worktree?</h3>
+<p>A record pointing at a folder that no longer exists, usually because somebody deleted the folder by hand. <code>git worktree prune</code> clears those records.</p>
+
+<h3>Can I move a worktree after creating it?</h3>
+<p><code>git worktree move</code> exists for exactly that, and it updates the registration as it goes. Moving the folder with <code>mv</code> instead leaves git pointing at nothing, which is the prunable case above.</p>
+
+<h2>Three worktrees at once, and the cleanup after</h2>
+<pre><code>$ for t in dark-mode snooze-restart search-archive; do
+    git worktree add "../app-$t" -b "$t"
+  done
+Preparing worktree (new branch 'dark-mode')
+Preparing worktree (new branch 'snooze-restart')
+Preparing worktree (new branch 'search-archive')
+
+$ git worktree list
+/Users/you/app                 4a1c9f2 [main]
+/Users/you/app-dark-mode       4a1c9f2 [dark-mode]
+/Users/you/app-snooze-restart  4a1c9f2 [snooze-restart]
+/Users/you/app-search-archive  4a1c9f2 [search-archive]</code></pre>
+<pre><code>$ git merge dark-mode snooze-restart
+$ git worktree remove ../app-dark-mode
+$ git worktree remove ../app-snooze-restart
+$ git worktree remove --force ../app-search-archive   # it left changes behind
+$ git branch -d dark-mode snooze-restart
+$ git branch -D search-archive                        # unmerged, dropped on purpose</code></pre>
+<p>Cleaning up after three agents took six commands.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 116" role="img" aria-label="Three agent branches, two merged into main and one discarded">
+  <text x="0" y="11" class="lbl">THREE AGENTS, TWO KEPT</text>
+  <line x1="0" y1="56" x2="640" y2="56"/>
+  <text x="0" y="50">main</text>
+  <rect class="box" x="120" y="22" width="150" height="20"/><text x="132" y="36">dark-mode</text>
+  <line x1="270" y1="32" x2="330" y2="52"/>
+  <rect class="box" x="120" y="70" width="150" height="20"/><text x="132" y="84">snooze-restart</text>
+  <line x1="270" y1="80" x2="330" y2="60"/>
+  <rect class="wait" x="380" y="86" width="190" height="20"/><text x="392" y="100" class="hot">search-archive, dropped</text>
+  <text x="340" y="36">merged</text>
+</svg>
+</div>
+
+<h2>How Agentbox creates and cleans up worktrees</h2>
+<p>In Agentbox every task gets its own worktree under <code>.claude/worktrees/</code> and its own branch, both created the moment the task starts. The built-in terminal opens in that folder, so typed commands land where the agent is working, and the diff appears in the app once the agent is done.</p>
+<p>Underneath it is ordinary git, so <code>git worktree list</code> in the repository shows exactly what it would have shown if the commands had been typed by hand.</p>
+
+<figure>
+  <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">
+  <figcaption>Each row on that list is a worktree and a branch, waiting to be merged or dropped.</figcaption>
+</figure>
+
+<h2>What worktrees leave unsolved</h2>
+<p>When worktrees are not the right shape for a repository, containers are the other answer, and <a href="https://github.com/imbue-ai/sculptor">Sculptor</a> and <a href="https://github.com/madarco/agentbox">madarco/agentbox</a> both go that way instead.</p>
+<p>Worktrees isolate files and nothing else. Ports, databases and anything a project touches outside the repository still collide, the code still needs reviewing, and cleanup turns into a habit somebody has to keep.</p>
 
 <div class="cta">
   <h2>Agentbox</h2>
-  <p>Every task gets its own worktree, its own branch and its own agent. Run dozens in parallel and only hear from the ones that need you. Free and open source.</p>
+  <p>Every task gets its own worktree, its own branch and its own agent. Dozens run in parallel, and only the ones that need you ever interrupt. Free and open source.</p>
   <div class="row">
     <a class="b1" href="/download">Download for Mac</a>
     <a class="b2" href="https://github.com/savannahfeder/agentbox">Read the code</a>

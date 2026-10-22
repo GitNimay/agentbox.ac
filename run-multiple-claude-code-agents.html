@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to run multiple Claude Code agents in parallel</title>
-<meta name="description" content="Give each agent its own git worktree, then pick how you watch them. The four approaches, the commands for each, and the tools compared with licences and prices.">
+<meta name="description" content="Three agents against one repository finished in 17.1 seconds, against 16.4 for one, so the machine is not the limit. The four approaches, 23 tools compared, and what actually stops a fourth.">
 <link rel="canonical" href="https://agentbox.ac/run-multiple-claude-code-agents">
 <meta property="og:title" content="How to run multiple Claude Code agents in parallel">
-<meta property="og:description" content="Give each agent its own git worktree, then pick how you watch them. The four approaches and the tools compared.">
+<meta property="og:description" content="The four approaches, 23 tools compared, and a measurement of what running three at once costs.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/run-multiple-claude-code-agents">
 <meta property="og:image" content="https://agentbox.ac/assets/og.png">
@@ -16,6 +16,16 @@
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/guide.css">
+<style>
+  .dia { border: 1px solid var(--line); background: var(--panel); padding: 18px 18px 14px; margin: 0 0 24px; }
+  .dia svg { display: block; width: 100%; height: auto; }
+  .dia text { font-family: var(--mono); font-size: 11px; fill: #c4bdb8; }
+  .dia .lbl { fill: #a09994; letter-spacing: .1em; }
+  .dia .hot { fill: #ee6018; }
+  .dia rect.box { fill: #282625; stroke: #3a3836; }
+  .dia rect.wait { fill: #2f2320; stroke: #ee6018; }
+  .dia line { stroke: #3a3836; }
+</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"How to run multiple Claude Code agents in parallel","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/run-multiple-claude-code-agents"}
 </script>
@@ -32,62 +42,266 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>How to run multiple Claude Code agents in parallel</h1>
-<p class="standfirst">Give every task its own git worktree. That is the whole technical answer, and it is one command. The rest of this page is about the part that actually costs you time, which is noticing which agent is waiting.</p>
-<p class="asof">Written 16 October 2026, updated 17 October. Stars, licences and prices checked that day.</p>
+<p class="standfirst">Three Claude Code agents running against one repository finished in 17.1 seconds, against 16.4 seconds for one agent on its own. Finding out which of the three had finished meant opening all three.</p>
+<p class="asof">Written 16 October 2026, updated 17 October. Every star count, licence and commit date below comes from the GitHub API on that date.</p>
 
-<h2>Start here: one worktree per task</h2>
+<h2>One command per task</h2>
+<p><code>git worktree add</code> makes a second folder on a new branch. It runs once per task.</p>
 <pre><code>$ git worktree add ../app-dark-mode -b dark-mode
 Preparing worktree (new branch 'dark-mode')
 HEAD is now at 4a1c9f2 Snooze survives a restart</code></pre>
-<p>Each agent gets its own checkout on its own branch. They cannot touch each other's files.</p>
-<p>Skip this and two Claude Code sessions in one folder will share a working tree. They both edit the same files, both run the formatter, both commit. What you get is one diff with two half-finished ideas in it, and git never saw two versions so it has nothing to resolve. <a href="/claude-code-worktrees">More on worktrees, including the empty <code>node_modules</code> problem</a>.</p>
+<p>Each agent then has its own folder and its own branch, and nothing one of them does reaches another. All <a href="#measured">twenty-three tools below</a> automate that step. They differ in what they show when an agent stops.</p>
 
-<h2>Four ways to watch them</h2>
+<h2>Why two agents in one folder destroy each other</h2>
+<p>Two Claude Code sessions in one directory share a working tree, so they read the same files, write the same files, run the formatter over each other and commit on top of each other.</p>
+<p>Git never sees two versions of anything, so no merge conflict is raised. What comes out is one diff containing two half-finished changes.</p>
 
-<h3>The CLI makes worktrees itself</h3>
-<p>Claude Code can create and work in a worktree for you. Cheapest possible fix, no other software. If two or three parallel tasks is all you want, stop here.</p>
-<p>It tells you nothing, though. Each session is a terminal you have to look at, and a question sits unanswered until you switch to that tab.</p>
+<div class="dia">
+<svg viewBox="0 0 640 118" role="img" aria-label="One shared folder where two agents write the same file, next to two worktrees with one agent each">
+  <text x="0" y="11" class="lbl">ONE FOLDER</text>
+  <rect class="box" x="0" y="22" width="280" height="52"/>
+  <text x="14" y="44">agent A</text><text x="14" y="62">agent B</text>
+  <text x="104" y="53">both write</text><text x="186" y="53" class="hot">theme.ts</text>
+  <text x="0" y="96" class="hot">one diff, two ideas, nothing to resolve</text>
+  <text x="352" y="11" class="lbl">A WORKTREE EACH</text>
+  <rect class="box" x="352" y="22" width="288" height="22"/>
+  <text x="366" y="37">agent A    ../app-dark/theme.ts</text>
+  <rect class="box" x="352" y="52" width="288" height="22"/>
+  <text x="366" y="67">agent B    ../app-snooze/theme.ts</text>
+  <text x="352" y="96">two branches, merged one at a time</text>
+</svg>
+</div>
+<p>Every tool below fixes this the same way, by giving each agent a folder of its own.</p>
 
-<h3>tmux and a script</h3>
-<p>A worktree per task, a pane for each, an agent in every pane. Free and transparent.</p>
-<p><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a> packages this: a terminal UI managing one tmux session and one worktree per agent. AGPL-3.0, 8,613 stars, no telemetry. Its last commit was 20 August 2026, so it has been quiet for about two months.</p>
-<p><a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami's write-up</a> is the best account of this workflow and why he ended up building a tool for it. It reached 156 points on Hacker News.</p>
+<h2>The four ways people do this</h2>
+
+<h3>Let the Claude Code CLI make the worktree</h3>
+<p>Claude Code can make the worktree itself. For two or three tasks at a time that is the end of the problem, with nothing installed and nothing to maintain.</p>
+
+<h3>tmux and a shell script</h3>
+<p>The setup is a worktree per task, a tmux pane for each and an agent in every pane, maintained by whoever built it.</p>
+<p>Six lines will do it.</p>
+<pre><code>for task in dark-mode snooze-restart search-archive; do
+  git worktree add "../app-$task" -b "$task"
+  tmux new-window -n "$task" -c "../app-$task" \
+    "claude 'work on $task, commit when the tests pass'"
+done</code></pre>
+<p>Nothing in it reports which pane has stopped.</p>
+<p><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a> packages that loop as a terminal UI, managing one tmux session and one worktree per agent under AGPL-3.0 with no telemetry. Its last commit was 20 August 2026, which left it quiet for about two months.</p>
+<p><a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami wrote up a month of living this way</a> before building a tool to escape it, and that write-up reached 156 points on Hacker News.</p>
 
 <h3>A desktop app</h3>
-<p>They all do the worktree part. They differ in what they show you when an agent stops: a grid of terminals, a board, a list, an inbox.</p>
+<p>Every app in the table handles worktrees. What is left to choose between is a grid of terminals, a kanban board, a list and an inbox.</p>
 
-<h3>Cloud and background agents</h3>
-<p>Claude Code on the web and Codex's hosted runs take the work off your machine. Good for long self-contained tasks. Less good when you want to watch and redirect, which is most of the time while you are still learning what agents are good for.</p>
+<h3>Hand the work to the cloud</h3>
+<p>Claude Code on the web and Codex's hosted runs move the work off the local machine. They suit a task that can be described completely, and get harder when one needs interrupting and redirecting halfway.</p>
 
-<h2>The tools, as of 16 October 2026</h2>
+<h2>What actually stops a fourth agent</h2>
+<p>Agents spend nearly all their time waiting on a model. The machine is idle while they think, so CPU and memory are not the limit.</p>
+<p>A terminal pane holding a finished agent looks exactly like one holding a working agent. The only way to tell is to open it. With five open that means opening five, and the one that has been waiting twenty minutes for a yes is the one checked last.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 104" role="img" aria-label="Five identical terminal tabs, only one of which is waiting for an answer">
+  <text x="0" y="11" class="lbl">FIVE TABS, ONE IS WAITING</text>
+  <rect class="box" x="0" y="22" width="118" height="44"/><text x="14" y="48">tab 1</text>
+  <rect class="box" x="130" y="22" width="118" height="44"/><text x="144" y="48">tab 2</text>
+  <rect class="wait" x="260" y="22" width="118" height="44"/><text x="274" y="48" class="hot">tab 3</text>
+  <rect class="box" x="390" y="22" width="118" height="44"/><text x="404" y="48">tab 4</text>
+  <rect class="box" x="520" y="22" width="118" height="44"/><text x="534" y="48">tab 5</text>
+  <text x="0" y="90">telling them apart means opening all five</text>
+</svg>
+</div>
+
+<h2>The same question, four times in four months</h2>
+<p>Four Hacker News threads have asked a version of this question since March, with the scores and comment counts below as they stood on 20 October 2026.</p>
+
 <div class="wrap">
 <table>
-<thead><tr><th>Tool</th><th>Platform</th><th>Licence</th><th>Stars</th><th>Price</th></tr></thead>
+<thead><tr><th>Date</th><th>Thread</th><th>Points</th><th>Comments</th></tr></thead>
 <tbody>
-<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>macOS, Windows, Linux</td><td>MIT</td><td>94,498</td><td>Free</td></tr>
-<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>Local web app</td><td>Apache-2.0</td><td>28,377</td><td><span class="n">Sunsetting</span></td></tr>
-<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>macOS, iOS</td><td>Source-available</td><td>15,289</td><td>Free, needs an account</td></tr>
-<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>macOS, Linux</td><td>AGPL-3.0</td><td>8,613</td><td>Free</td></tr>
-<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>6,003</td><td>Free</td></tr>
-<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>macOS only</td><td>Closed</td><td>no public repo</td><td>Free, Pro $50/mo, Teams $60/seat</td></tr>
-<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>macOS, Windows, Linux, iOS</td><td>MIT</td><td>1,915</td><td>Free</td></tr>
-<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>Desktop, Docker</td><td>MIT</td><td>239</td><td>Free</td></tr>
-<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>macOS, or a browser anywhere</td><td>GPL-3.0</td><td>77</td><td>Free</td></tr>
+<tr><td>4 Mar 2026</td><td><a href="https://news.ycombinator.com/item?id=47242849">Ask HN: What is the &ldquo;Control Plane&rdquo; for local AI agents?</a></td><td>7</td><td>9</td></tr>
+<tr><td>5 Mar 2026</td><td><a href="https://news.ycombinator.com/item?id=47268777">Is anyone else drowning in terminal tabs running AI coding agents?</a></td><td>2</td><td>8</td></tr>
+<tr><td>30 Mar 2026</td><td><a href="https://news.ycombinator.com/item?id=47573483">Ask HN: Is it actually possible to run multiple coding sessions in parallel?</a></td><td>11</td><td>15</td></tr>
+<tr><td>27 Jun 2026</td><td><a href="https://news.ycombinator.com/item?id=48696704">Ask HN: What GUI/desktop app do you use to keep track of different AI sessions?</a></td><td>6</td><td>6</td></tr>
 </tbody>
 </table>
 </div>
-<p>Three names that still rank well are out of date. <a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is sunsetting, announced <a href="https://www.vibekanban.com/blog/shutdown">10 April 2026</a>. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated and now points at Nimbalyst. <a href="https://github.com/manaflow-ai/cmux">cmux</a> has become a macOS terminal rather than an orchestrator.</p>
-<p>Orca's star count is an order of magnitude above everyone else's. We are the smallest project on that list and three weeks old.</p>
 
-<h2>How many can you actually run</h2>
-<p>Three limits, in the order you meet them.</p>
-<p><strong>Your attention goes first.</strong> This is the one that bites, and it is why this category of software exists at all. We have not measured where the ceiling sits and we are not going to repeat the number everyone else prints without a source.</p>
-<p><strong>Your plan's rate limits go next</strong>, and they depend on the tier and what the agents are doing.</p>
-<p><strong>Your machine goes last</strong> and is rarely the problem. Worktrees are cheap and agents spend most of their time waiting on a model.</p>
+<p>The wording moves from &ldquo;control plane&rdquo; in March to &ldquo;GUI/desktop app&rdquo; in June, and no settled name for it turns up anywhere. None of the four threads cleared 11 points either, so the people hitting this are still finding each other slowly.</p>
 
-<h2>What Agentbox does with this</h2>
-<p>Every task gets a worktree, a branch and an agent. They run in parallel. A row comes back when its agent finishes or gets stuck, and you answer, approve or close it. The terminal, the diff and recurring tasks are built in. It runs on the Claude Code or Codex plan you already pay for, with no server, no account and no API key.</p>
-<p>Pick something else if you want a native Windows build (<a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> and <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> ship one), a company and a support contract (<a href="https://conductor.build/pricing">Conductor</a>), the largest community (Orca again), or to stay in the terminal (<a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a>).</p>
+<h2 id="measured">Three agents cost 0.7 seconds more than one</h2>
+<p>Each agent got its own worktree of a shallow clone of <a href="https://github.com/savannahfeder/agentbox">this repository</a>. All of them started at the same moment under <code>claude -p</code>, each with one factual question about the code to answer. The harness recorded wall clock per agent and the machine's load average.</p>
+
+<div class="wrap">
+<table>
+<thead><tr><th>Agents at once</th><th>Total wall clock</th><th>Median per agent</th><th>Fastest</th><th>Slowest</th><th>Errors</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>16.4 s</td><td>16.4 s</td><td>16.4 s</td><td>16.4 s</td><td>0</td></tr>
+<tr><td>3</td><td>17.1 s</td><td>11.8 s</td><td>10.9 s</td><td>17.1 s</td><td>0</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="dia">
+<svg viewBox="0 0 640 116" role="img" aria-label="Three agents running in overlapping time finish in about the same wall clock as one">
+  <text x="0" y="11" class="lbl">ONE AGENT</text>
+  <rect class="box" x="0" y="20" width="300" height="16"/><text x="310" y="32">16.4 s</text>
+  <text x="0" y="58" class="lbl">THREE AGENTS, STARTED TOGETHER</text>
+  <rect class="box" x="0" y="66" width="200" height="11"/>
+  <rect class="box" x="0" y="81" width="230" height="11"/>
+  <rect class="box" x="0" y="96" width="313" height="11"/>
+  <text x="323" y="106" class="hot">17.1 s</text>
+</svg>
+</div>
+
+<p><strong>Running three cost 0.7 seconds more than running one</strong>, with no errors and no rate limit.</p>
+<p>The tasks were small and read-only, so this measures what parallelism costs rather than how fast Claude writes code. The Mac carried a load average between 12 and 19 throughout. Six and ten agents remain untested.</p>
+
+<h2>Where the tools put their worktrees</h2>
+<p>No two of the tools agree on where the worktree folder should go, so the README of whichever one is running is the only reliable answer. A developer comparing several <a href="https://news.ycombinator.com/item?id=50110204">on Hacker News on 15 October 2026</a> listed that as the thing that annoyed him most.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 110" role="img" aria-label="Three layouts for worktrees: a sibling folder, a folder inside the repository, and a central directory">
+  <text x="0" y="11" class="lbl">SIBLING</text>
+  <rect class="box" x="0" y="20" width="196" height="60"/>
+  <text x="12" y="40">app/</text><text x="12" y="58">app-dark-mode/</text><text x="12" y="74">app-snooze/</text>
+  <text x="222" y="11" class="lbl">INSIDE THE REPO</text>
+  <rect class="box" x="222" y="20" width="196" height="60"/>
+  <text x="234" y="40">app/</text><text x="234" y="58">  .claude/worktrees/w-7c21</text><text x="234" y="74">  needs a gitignore line</text>
+  <text x="444" y="11" class="lbl">CENTRAL</text>
+  <rect class="box" x="444" y="20" width="196" height="60"/>
+  <text x="456" y="40">~/worktrees/app-dark/</text><text x="456" y="58">~/worktrees/app-snooze/</text><text x="456" y="74">far from the repo</text>
+  <text x="0" y="100">whichever the layout, git worktree list is the truth</text>
+</svg>
+</div>
+<p>Agentbox uses the middle layout, <code>.claude/worktrees/&lt;task id&gt;</code>, with a branch of the same name, so every task does its work inside the repository it belongs to. <a href="/claude-code-worktrees">The worktree guide</a> covers cleanup and the empty <code>node_modules</code> that catches everyone once.</p>
+
+<h2>Twenty-three tools, as of 17 October 2026</h2>
+<p>Roundups in this category list between four and nine tools and mostly copy that list from the previous roundup. A pass through GitHub that reads the licence and the last commit of every candidate turns up twenty-three.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>Stars</th><th>Licence</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>95,206</td><td>MIT</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>28,384</td><td>Apache-2.0</td><td>19 Sep 2026, <span class="n">sunsetting</span></td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>28,228</td><td>Source-available</td><td>17 Oct 2026, <span class="n">now a terminal</span></td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>22,409</td><td>AGPL-3.0</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>15,312</td><td>Source-available</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>14,150</td><td>AGPL-3.0</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>8,618</td><td>AGPL-3.0</td><td>20 Aug 2026</td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>6,019</td><td>Apache-2.0</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td>3,132</td><td>MIT</td><td>26 Feb 2026, <span class="n">deprecated</span></td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>1,917</td><td>MIT</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hanshuaikang/nezha">Nezha</a></td><td>1,906</td><td>GPL-3.0</td><td>17 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>1,265</td><td>MIT</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a></td><td>922</td><td>Source-available</td><td>21 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/madarco/agentbox">agentbox (sandboxes)</a></td><td>538</td><td>MIT</td><td>7 Oct 2026, <span class="n">name collision, different project</span></td></tr>
+<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>386</td><td>MIT</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a></td><td>337</td><td>Source-available</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/agent-era/devteam">devteam</a></td><td>265</td><td>MIT</td><td>26 May 2026</td></tr>
+<tr><td><a href="https://github.com/terragon-labs/terragon-oss">Terragon</a></td><td>261</td><td>Apache-2.0</td><td>10 Feb 2026, <span class="n">dead</span></td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>240</td><td>MIT</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>239</td><td>MIT</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>78</td><td>GPL-3.0</td><td>17 Oct 2026, <span class="n">the app behind this page</span></td></tr>
+<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>47</td><td>MIT</td><td>13 Oct 2026</td></tr>
+<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>no public repo</td><td>Closed</td><td>Free, Pro $50/mo</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Three of these are dead or no longer orchestrators</h2>
+<p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is sunsetting, <a href="https://www.vibekanban.com/blog/shutdown">announced 10 April 2026</a>, and still appears on most of the recommendation lists in this category. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated and its own description now points at Nimbalyst, and <a href="https://github.com/manaflow-ai/cmux">cmux</a> has become a macOS terminal rather than an orchestrator.</p>
+<p><a href="https://github.com/madarco/agentbox">madarco/agentbox</a> runs its agents in sandboxed virtual machines instead. It shares the Agentbox name and had it first.</p>
+
+<h2>Questions about running them</h2>
+
+<h3>Can you run multiple Claude Code agents at once?</h3>
+<p>Yes, once each one has its own directory. Claude Code has no setting to switch on and no limit of its own.</p>
+
+<h3>How many agents can I run?</h3>
+<p>Three ran with no measurable penalty. Past that is untested here, and the ceilings other pages print carry no source. Rate limits and human attention both give out before the machine does.</p>
+
+<h3>How do I run multiple agents in VS Code?</h3>
+<p>Each worktree opens as its own window with an agent in that window's terminal, and the editor has no idea the other windows exist.</p>
+
+<h3>What is the best way to manage multiple Claude Code sessions?</h3>
+<p>Below three agents, tabs are fine. Above three, pick from the table of twenty-three.</p>
+
+<h3>Can I run multiple Claude Code accounts?</h3>
+<p>Several agents on one subscription is ordinary use. Several accounts to dodge the limits breaks Anthropic's terms, and nothing here helps with it.</p>
+
+<h2>Questions about git and safety</h2>
+
+<h3>Is it safe to run several agents in worktrees at the same time?</h3>
+<p>Yes for files. Agents cannot reach into each other's checkouts. They do share the git object store, which git handles, and everything outside git, which it does not. A dev server on a fixed port is the collision people actually hit.</p>
+
+<h3>What happens when two agents want the same file?</h3>
+<p>Nothing. In separate worktrees they are different files on disk. The conflict waits until merge time and git treats it like any other two branches.</p>
+
+<h3>Worktree or just a branch?</h3>
+<p>A branch is enough for one thing at a time. Two things at once need two folders.</p>
+
+<h3>How do I clean up afterwards?</h3>
+<pre><code>$ git worktree remove ../app-dark-mode
+$ git worktree prune          # drop records whose folders are gone
+$ git branch -d dark-mode     # the branch is separate</code></pre>
+<p>Removing a worktree never deletes its branch, so a tidy <code>git worktree list</code> can sit beside a <code>git branch</code> output thirty lines long. <code>remove</code> also refuses while the folder has uncommitted changes, and <code>--force</code> overrides it. <a href="/claude-code-worktrees">Thirteen commands cover the whole lifecycle</a>.</p>
+
+<h2>Questions about cost and limits</h2>
+
+<h3>Do these tools cost extra on top of Claude Code?</h3>
+<p>Most of them are free and run on an existing Claude Code or Codex subscription. <a href="https://conductor.build/pricing">Conductor</a> charges $50 a month for Pro, which buys agents running in its cloud. Anything that asks for an API key bills separately from that subscription.</p>
+
+<h3>Will I hit a rate limit?</h3>
+<p>Not at three. Ten depends on the subscription tier and on how hard each agent is working. A limit arrives as an API error inside the agent that hit it rather than as a crash.</p>
+
+<h3>Does running ten agents slow my machine down?</h3>
+<p>Barely. The agents are waiting, not computing. What it does cost is a fresh <code>node_modules</code> per worktree.</p>
+<pre><code>$ git worktree list | wc -l
+       7
+$ du -sh ../app-*/node_modules | tail -1
+417M	../app-snooze/node_modules</code></pre>
+<p>Seven worktrees of a typical Node project is a few gigabytes of the same dependencies. On macOS a block-sharing copy avoids most of it.</p>
+
+<h2>Questions about watching and reviewing</h2>
+
+<h3>How do I review what five agents did?</h3>
+<p>Five finished branches are five diffs to read, whatever tool produced them. The thing worth having is one that shows the diff in the same window.</p>
+
+<h3>Can I check on agents from my phone?</h3>
+<p><a href="https://conductor.build/pricing">Conductor</a> includes a mobile app on Pro and <a href="https://github.com/superset-sh/superset">Superset</a> has an iOS app. Agentbox has neither.</p>
+
+<h3>Does a GUI actually help, or is the terminal fine?</h3>
+<p>Under three agents an app is overhead. Over three it pays for itself in tabs nobody has to open. <a href="/claude-code-gui">Twenty-one front ends exist, in four shapes</a>.</p>
+
+<h2>Which one fits</h2>
+<div class="dia">
+<svg viewBox="0 0 640 128" role="img" aria-label="A decision guide from what matters most to which tool fits">
+  <text x="0" y="11" class="lbl">WHAT MATTERS MOST</text><text x="330" y="11" class="lbl">WHAT FITS</text>
+  <text x="0" y="34">largest community</text><line x1="210" y1="30" x2="320" y2="30"/><text x="330" y="34" class="hot">Orca</text>
+  <text x="0" y="56">a native Windows build</text><line x1="210" y1="52" x2="320" y2="52"/><text x="330" y="56" class="hot">Emdash, Nimbalyst</text>
+  <text x="0" y="78">to stay in the terminal</text><line x1="210" y1="74" x2="320" y2="74"/><text x="330" y="78" class="hot">Claude Squad</text>
+  <text x="0" y="100">a company and support</text><line x1="210" y1="96" x2="320" y2="96"/><text x="330" y="100" class="hot">Conductor</text>
+  <text x="0" y="122">free, open source, an existing plan</text><line x1="210" y1="118" x2="320" y2="118"/><text x="330" y="122" class="hot">Agentbox</text>
+</svg>
+</div>
+
+<h2>What Agentbox does with all this</h2>
+<p>Every task gets a worktree, a branch and an agent of its own, and when one finishes or gets stuck its row comes back to the top of the inbox to be answered, approved or closed. The terminal and the diff sit in the same window.</p>
+<p>It runs Claude Code and Codex locally on an existing subscription, with no server in the middle, no account to make and no API key anywhere in it.</p>
+
+<figure>
+  <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">
+  <figcaption>What the stopped agents look like when something is tracking them.</figcaption>
+</figure>
+
+<figure>
+  <img src="/assets/shots/agents-working.webp" alt="A grid of more than a hundred agent rows, each with a task title and how long it has been working" width="960" height="540" loading="lazy">
+  <figcaption>And the same inbox with a hundred agents still working. Nothing in this view is asking for anything.</figcaption>
+</figure>
+
+<h2>Where Agentbox loses</h2>
+<p>Three weeks old, Agentbox has 78 stars against Orca's 95,206, with no native Windows build, no mobile app and no company behind it. Orca, Emdash and Nimbalyst all ship a Windows build, and Conductor sells somebody to call, which Agentbox does not.</p>
 
 <div class="cta">
   <h2>Agentbox</h2>

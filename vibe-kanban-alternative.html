@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vibe Kanban is sunsetting: where to go next</title>
-<meta name="description" content="28,377 stars and a shutdown notice in its own README. What happened, whether you can keep running it, and which boards for coding agents are still maintained.">
+<title>Vibe Kanban is sunsetting. Where to go next</title>
+<meta name="description" content="28,384 stars and a shutdown notice in its own README. What happened, whether keeping it is viable, which boards for coding agents are still maintained, and how to move without losing anything.">
 <link rel="canonical" href="https://agentbox.ac/vibe-kanban-alternative">
-<meta property="og:title" content="Vibe Kanban is sunsetting: where to go next">
+<meta property="og:title" content="Vibe Kanban is sunsetting. Where to go next">
 <meta property="og:description" content="What happened, whether to keep running it, and which boards are still maintained.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/vibe-kanban-alternative">
@@ -16,8 +16,18 @@
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/guide.css">
+<style>
+  .dia { border: 1px solid var(--line); background: var(--panel); padding: 18px 18px 14px; margin: 0 0 24px; }
+  .dia svg { display: block; width: 100%; height: auto; }
+  .dia text { font-family: var(--mono); font-size: 11px; fill: #c4bdb8; }
+  .dia .lbl { fill: #a09994; letter-spacing: .1em; }
+  .dia .hot { fill: #ee6018; }
+  .dia rect.box { fill: #282625; stroke: #3a3836; }
+  .dia rect.wait { fill: #2f2320; stroke: #ee6018; }
+  .dia line { stroke: #3a3836; }
+</style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"Vibe Kanban is sunsetting: where to go next","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/vibe-kanban-alternative"}
+{"@context":"https://schema.org","@type":"Article","headline":"Vibe Kanban is sunsetting. Where to go next","datePublished":"2026-10-16","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/vibe-kanban-alternative"}
 </script>
 </head>
 <body>
@@ -32,55 +42,227 @@
 <main>
 <p class="kicker">Comparison</p>
 <h1>Vibe Kanban is sunsetting. Where to go next.</h1>
-<p class="standfirst">28,377 stars and a notice above the screenshots in <a href="https://github.com/BloopAI/vibe-kanban">its own README</a>. If your board stopped getting updates, here is what is still maintained, and why keeping it is a real option.</p>
-<p class="asof">Written 16 October 2026, updated 17 October. Stars and last-commit dates from the GitHub API that day.</p>
+<p class="standfirst">Vibe Kanban put a sunset notice above the screenshots in <a href="https://github.com/BloopAI/vibe-kanban">its own README</a>, and 28,384 stars did not stop that happening. The repository is still unarchived, still Apache-2.0 and still clonable, so keeping the existing board is a real option. The maintained replacements are mostly a desktop app rather than the browser tab it used to be.</p>
+<p class="asof">Written 16 October 2026, updated 17 October. The stars and last-commit dates come from the GitHub API on the day of that update.</p>
 
-<h2>What happened</h2>
-<p>The README carries the line "Vibe Kanban is sunsetting", linking to <a href="https://www.vibekanban.com/blog/shutdown">the announcement</a>. It went up on 10 April 2026. The reason given was that almost all users were on the free tier and no business model was found. The hosted side was switched off about a month later.</p>
-<p>The repository is <strong>not archived</strong>, it is Apache-2.0, and its last commit was 19 September 2026.</p>
+<h2>Emdash and Nimbalyst for the board</h2>
+<p><a href="https://github.com/savannahfeder/agentbox">Agentbox</a> and <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> are the two that still open in a browser tab and install nothing. The largest community by two orders of magnitude belongs to <a href="https://github.com/stablyai/orca">Orca</a>, which is the one to read about if never being abandoned again is the point.</p>
+<p>Keeping Vibe Kanban is defensible too, an answer rather than a fallback, because the code did not stop working on the day the company did.</p>
 
-<h2>Keeping it is legitimate</h2>
-<p>This is open source. The code did not stop working because the company did. If it already does what you need, you can run and fork it, and 28,377 stars means plenty of other people are in the same position.</p>
-<p>The question is whether you want to be the one patching it when a coding agent changes its CLI. If the answer is no, the rest of this page is for you.</p>
+<h2>The company stopped, the code did not</h2>
+<p>The README carries the line "Vibe Kanban is sunsetting" and links straight to <a href="https://www.vibekanban.com/blog/shutdown">the announcement</a>. That announcement went up on 10 April 2026. The reason it gives is that almost all users were on the free tier and no business model was found. The hosted side was switched off about a month later.</p>
+<p>The repository is <strong>not archived</strong>, it is Apache-2.0, and its last commit was 19 September 2026. Nothing has been removed from GitHub or from npm.</p>
 
-<h2>You are replacing three separate things</h2>
-<p>The board, with tasks in columns that move as agents work. The execution, with each task handed to an agent in its own isolated checkout. And it being a local web app, open in a browser tab with nothing to install.</p>
-<p>Most alternatives cover the first two. The third is rarer than you would expect, because almost everything in this category is now a desktop app.</p>
+<div class="dia">
+<svg viewBox="0 0 640 96" role="img" aria-label="Timeline from the shutdown announcement to the last commit">
+  <line x1="0" y1="52" x2="640" y2="52"/>
+  <text x="0" y="11" class="lbl">WHAT HAPPENED WHEN</text>
+  <rect class="box" x="0" y="40" width="4" height="24"/><text x="0" y="34">10 Apr</text><text x="0" y="82">announced</text>
+  <rect class="box" x="200" y="40" width="4" height="24"/><text x="186" y="34">May</text><text x="162" y="82">hosted side off</text>
+  <rect class="box" x="420" y="40" width="4" height="24"/><text x="400" y="34">19 Sep</text><text x="390" y="82">last commit</text>
+  <rect class="wait" x="620" y="40" width="4" height="24"/><text x="596" y="34" class="hot">today</text><text x="560" y="82" class="hot">still unarchived</text>
+</svg>
+</div>
 
-<h2>What is still maintained</h2>
+<h2>The two commands these numbers came from</h2>
+<pre><code>$ gh api repos/BloopAI/vibe-kanban --jq '"\(.stargazers_count) stars, pushed \(.pushed_at[0:10]), archived \(.archived)"'
+28384 stars, pushed 2026-09-19, archived false
+
+$ curl -s https://raw.githubusercontent.com/BloopAI/vibe-kanban/main/README.md | head -3</code></pre>
+<p>The second command prints the sunset notice out of the README itself. Both calls were made on 17 October 2026.</p>
+
+<h2>Keeping Vibe Kanban running is a real option</h2>
+<p>Vibe Kanban is open source under Apache-2.0 with 28,384 stars behind it, and if it already does the job, nothing here argues against running it and forking it. Something like 28,000 other people are weighing the same question right now.</p>
+<p>The question is who patches it the next time a coding agent changes its CLI, and every tool in this category drives those CLIs by shelling out to them.</p>
+<p>Apache-2.0 means the fork and the patch are available to whoever wants them.</p>
+
+<h2>A replacement has to cover three separate things</h2>
 <div class="wrap">
 <table>
-<thead><tr><th>Tool</th><th>Board</th><th>In a browser</th><th>Licence</th><th>Stars</th><th>Last push</th></tr></thead>
+<thead><tr><th>What is lost</th><th>What it did</th><th>Who still does it</th></tr></thead>
 <tbody>
-<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>Workspaces</td><td class="n">Desktop</td><td>MIT</td><td>94,498</td><td>today</td></tr>
-<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td class="y">Yes</td><td class="n">Desktop</td><td>Apache-2.0</td><td>6,003</td><td>14 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td class="y">Yes</td><td class="n">Desktop</td><td>MIT</td><td>1,915</td><td>16 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>Agent grid</td><td class="n">macOS, iOS</td><td>Source-available</td><td>15,289</td><td>today</td></tr>
-<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td class="y">Board or inbox</td><td class="y"><code>npx agentbox-app</code></td><td>GPL-3.0</td><td>77</td><td>today</td></tr>
-<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td class="y">Yes</td><td class="y">Yes</td><td>Apache-2.0</td><td>28,377</td><td class="n">19 Sep, sunsetting</td></tr>
+<tr><td>The board</td><td>Tasks in columns, moving as agents work</td><td>Emdash, Nimbalyst, Agentbox, grove</td></tr>
+<tr><td>Agent execution</td><td>Each task handed to an agent in isolation</td><td>All of them</td></tr>
+<tr><td>Being a local web app</td><td>A browser tab, nothing to install</td><td>Agentbox, claudecodeui, mulmoterminal</td></tr>
 </tbody>
 </table>
 </div>
-<p>Closest on shape, if you want a board in a maintained desktop app: <a href="https://github.com/generalaction/emdash">Emdash</a> or <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>. Nimbalyst is the successor to <a href="https://github.com/stravu/crystal">Crystal</a>, so it has been at this a while.</p>
-<p>Closest on "a local web app in a browser tab": Agentbox, with <code>npx agentbox-app</code>.</p>
-<p>Biggest community by two orders of magnitude: <a href="https://github.com/stablyai/orca">Orca</a>.</p>
 
-<h2>Agentbox, and the warning that goes with it</h2>
-<p>Every task gets its own git worktree, its own branch and its own agent. Finished work comes back as a row on a board or in an inbox, and you answer, approve or close it. It runs Claude Code and Codex on the plan you already pay for, with no server and no account.</p>
-<p>You have just been burned by a project stopping, so: we are three weeks old with 77 stars, against the 28,377 you are leaving. We have not demonstrated longevity and saying otherwise would be insulting. What we can say is that it is GPL-3.0 and runs on your own machine, so if we disappear you keep a working copy and all your repositories are untouched.</p>
+<h2>Which boards for coding agents are still maintained</h2>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>Board</th><th>In a browser</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>Workspaces</td><td class="n">Desktop</td><td>MIT</td><td>95,206</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>Sessions</td><td class="n">Desktop</td><td>AGPL-3.0</td><td>22,409</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>Agent grid</td><td class="n">macOS, iOS</td><td>Source-available</td><td>15,312</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>Sessions</td><td class="y">Yes</td><td>AGPL-3.0</td><td>14,150</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td class="y">Yes</td><td class="n">Desktop</td><td>Apache-2.0</td><td>6,019</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td class="y">Yes</td><td class="n">Desktop</td><td>MIT</td><td>1,917</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>Terminal grid</td><td class="y">Yes</td><td>MIT</td><td>239</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td class="y">Board or inbox</td><td class="y">Yes</td><td>GPL-3.0</td><td>78</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td class="y">Kanban TUI</td><td class="n">Terminal</td><td>MIT</td><td>47</td><td>13 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td class="y">Yes</td><td class="y">Yes</td><td>Apache-2.0</td><td>28,384</td><td class="n">19 Sep, sunsetting</td></tr>
+<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td>Sessions</td><td class="n">Desktop</td><td>MIT</td><td>3,132</td><td class="n">26 Feb, deprecated</td></tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://github.com/stravu/crystal">Crystal</a> appears on most lists of these tools and is dead, which its own description gives away by reading "Crystal is now Nimbalyst".</p>
+
+<h2>The part that mattered decides which one to try</h2>
+<div class="dia">
+<svg viewBox="0 0 640 110" role="img" aria-label="A decision guide from what mattered about Vibe Kanban to which replacement fits">
+  <text x="0" y="11" class="lbl">WHAT MATTERED</text><text x="320" y="11" class="lbl">WHAT TO TRY</text>
+  <text x="0" y="34">the kanban board itself</text><line x1="250" y1="30" x2="310" y2="30"/><text x="320" y="34" class="hot">Emdash, Nimbalyst</text>
+  <text x="0" y="56">a browser tab, no install</text><line x1="250" y1="52" x2="310" y2="52"/><text x="320" y="56" class="hot">Agentbox, claudecodeui</text>
+  <text x="0" y="78">never being abandoned again</text><line x1="250" y1="74" x2="310" y2="74"/><text x="320" y="78" class="hot">Orca, by community size</text>
+  <text x="0" y="100">it already works</text><line x1="250" y1="96" x2="310" y2="96"/><text x="320" y="100" class="hot">keep it and fork</text>
+</svg>
+</div>
+
+<h2>Agentbox, and why three weeks old matters</h2>
+<p>Every task gets its own git worktree, its own branch and its own agent, and finished work comes back as a row on a board or in an inbox to be answered, approved or closed. It runs Claude Code and Codex on an existing subscription, with no server and no account to make.</p>
+<p>Agentbox is three weeks old and has 78 stars, against the 28,384 being left behind. It has not demonstrated longevity, and pretending otherwise would be insulting to someone arriving from a shutdown.</p>
+<p>Agentbox is GPL-3.0 and runs on the local machine, so if Agentbox disappears the working copy stays where it is and every repository is untouched. Vibe Kanban's licence is doing exactly that for its users today, which is the strongest argument for staying put.</p>
 
 <figure>
-  <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents listed as rows, each saying what it did and asking to merge, with urgent work grouped at the top" width="1600" height="631" loading="lazy">
+  <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">
   <figcaption>The inbox view. The board is the same work in columns, and B switches between them.</figcaption>
 </figure>
 
-<h2>Moving across</h2>
-<p>There is no import, and you do not need one. Both tools drive the same agents on the same repositories, so moving means pointing the new one at the same folder and filing the tasks you still care about.</p>
-<p>Agentbox puts each task in <code>.claude/worktrees/</code> on its own branch, so nothing about your existing branches changes. Run both on the same repo for a week and keep whichever you open first in the morning.</p>
+<h2>How to move to another tool, with the commands</h2>
+<p>There is no import, and Agentbox does not provide one. Both tools drive the same agents against the same repositories, so moving across is a matter of pointing the new tool at the same folder and filing again whichever tasks still matter.</p>
+
+<h3>Finish what is in flight first</h3>
+<pre><code>$ git branch --no-merged main
+  feature-x
+  bugfix-y</code></pre>
+<p>Those are the unfinished agent branches, and they want merging or deleting before the switch, because two tools making worktrees in different places on one repository is how a branch goes missing without anybody noticing.</p>
+
+<h3>Start the new one on the same repository</h3>
+<pre><code>$ npx agentbox-app
+Agentbox is running at http://127.0.0.1:51734/?k=9f3c2a
+Press Ctrl-C to stop.</code></pre>
+<p>It listens only on <code>127.0.0.1</code>, the key in that URL changes on every run, and there is nothing hosted behind it, so it opens in the same browser tab Vibe Kanban used to open in.</p>
+
+<h3>Keep both for a week</h3>
+<p>Nothing stops the old board and the new one running side by side for a week, as long as the same task never goes to both of them at once.</p>
+
+<h2>How to judge a replacement so this does not repeat</h2>
+<p>The six checks below are the ones behind the table earlier on this page.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Check</th><th>Why it matters</th><th>How to check it</th></tr></thead>
+<tbody>
+<tr><td>Last commit</td><td>The single best signal of whether anyone is home</td><td><code>gh api repos/OWNER/REPO --jq .pushed_at</code></td></tr>
+<tr><td>Licence</td><td>Decides whether a fork is possible when they leave</td><td>MIT, Apache and GPL all allow it. Source-available may not</td></tr>
+<tr><td>Runs locally</td><td>A hosted side can be switched off. A laptop cannot</td><td>Does it work with the network off</td></tr>
+<tr><td>Number of contributors</td><td>One person is one person's spare time</td><td>The contributors tab</td></tr>
+<tr><td>Whether it owns the data</td><td>If the work lives in git, nothing is lost</td><td>Look for an export, or the absence of a database</td></tr>
+<tr><td>Funding</td><td>Money buys longevity and also an incentive to charge</td><td>Their own about or pricing page</td></tr>
+</tbody>
+</table>
+</div>
+<p>Vibe Kanban passes four of those six today.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 104" role="img" aria-label="Work stored in git survives a tool shutting down, work stored in a vendor database does not">
+  <text x="0" y="11" class="lbl">WHAT SURVIVES A SHUTDOWN</text>
+  <rect class="box" x="0" y="22" width="300" height="26"/><text x="14" y="39">branches and commits        in git, kept</text>
+  <rect class="box" x="0" y="54" width="300" height="26"/><text x="14" y="71">the code itself             in git, kept</text>
+  <rect class="wait" x="330" y="38" width="310" height="26"/><text x="344" y="55" class="hot">the task list      in their app, gone</text>
+  <text x="0" y="98">which is why migrating costs an afternoon, not a project</text>
+</svg>
+</div>
+
+<h2>Questions people ask</h2>
+
+<h3>Is Vibe Kanban dead?</h3>
+<p>Sunsetting rather than dead. The company stopped, the hosted side is off, and the repository is unarchived, with its last commit dated 19 September 2026. It can still be cloned, run locally and forked under Apache-2.0.</p>
+
+<h3>Can I still use it?</h3>
+<p>Yes, and Apache-2.0 means nobody can take it away. What comes with that is future breakage when the agent CLIs change, with nobody upstream to fix it.</p>
+
+<h3>Why did it shut down?</h3>
+<p>The announcement says almost all users were on the free tier and no business model was found. That description fits most of the table above, so the announcement is worth reading before picking a replacement.</p>
+
+<h3>Will my tasks transfer?</h3>
+<p>No, and there is less to transfer than it looks. The work lives in git branches, which no tool owns, so what is lost is the task list. For most people that is a dozen lines retyped in five minutes.</p>
+
+<h3>What is the closest thing to it?</h3>
+<p>For the board in a maintained desktop app, <a href="https://github.com/generalaction/emdash">Emdash</a> or <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>. For the local web app in a browser tab, <a href="https://github.com/savannahfeder/agentbox">Agentbox</a> or <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a>, both of which open the same way Vibe Kanban did.</p>
+
+<h3>Is there a fork I should use?</h3>
+<p>Forks exist, as they always do after a shutdown. The last commit date and the number of contributors are what to look at, because a fork with one person on it is a smaller safety net than the original was. Whether it tracks upstream or has diverged matters too, since a diverged fork is a new project wearing a familiar name.</p>
+
+<h3>How do I avoid this happening again?</h3>
+<p>Nothing avoids it completely. What helps is preferring tools that run locally under a licence that permits a fork, and checking the last commit date before adopting anything. <a href="/run-multiple-claude-code-agents">Twenty-three of them are listed with those dates</a>.</p>
+
+<h3>Does the board actually matter, or is it habit?</h3>
+<p>A board earns its place when more work is queued than running and the queue needs seeing. If most tasks start immediately and come back within the hour, a list sorted by what needs attention is doing the same job with less ceremony. Agentbox ships both and switches between them with one key, which is the cheapest way to find out which one actually gets used.</p>
+
+<h3>What happens to the branches my agents already made?</h3>
+<p>They stay exactly where they are. Vibe Kanban created ordinary git branches and worktrees, and removing the tool removes neither. Before anything is uninstalled, <code>git worktree list</code> and <code>git branch --no-merged main</code> show what is still outstanding.</p>
+
+<h3>Does the replacement need an account?</h3>
+<p>Some do. <a href="https://github.com/superset-sh/superset">Superset</a> wants one, and <a href="https://conductor.build/pricing">Conductor</a> does. Agentbox, claudecodeui and the terminal tools do not.</p>
+
+<h2>If the decision is to keep Vibe Kanban</h2>
+
+<h3>Pin the version that works</h3>
+<pre><code>$ git clone https://github.com/BloopAI/vibe-kanban.git
+$ cd vibe-kanban && git log -1 --format='%H %cd'
+$ git switch -c pinned 09e4f21</code></pre>
+<p>Working from a separate branch means no upstream change can arrive unannounced, and the patches that follow have somewhere to live.</p>
+
+<h3>Which part breaks first when the agent CLIs change</h3>
+<p>The board will keep working. What breaks is the layer underneath it that drives the coding agents, because Claude Code and Codex change their command-line behaviour regularly, which Agentbox chases in its own code, and nothing upstream is chasing those changes in Vibe Kanban now. The first symptom, when it arrives, is agents that fail to start.</p>
+
+<h3>Decide who fixes it</h3>
+<p>If somebody is willing to fix it, keeping it is a real plan. If the answer is nobody, keeping it means finding out when it breaks.</p>
+
+<h3>Watch for a maintained fork</h3>
+<p>Projects this size usually produce one. How many people are committing to it matters more than how many stars it collects in its first week.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 100" role="img" aria-label="Three paths after a shutdown: keep and pin, move to a maintained tool, or wait for a fork">
+  <text x="0" y="11" class="lbl">THREE PATHS, ALL REASONABLE</text>
+  <rect class="box" x="0" y="22" width="200" height="34"/><text x="14" y="43">keep it, pin it</text>
+  <rect class="box" x="220" y="22" width="200" height="34"/><text x="234" y="43">move to a maintained one</text>
+  <rect class="box" x="440" y="22" width="200" height="34"/><text x="454" y="43">wait for a fork</text>
+  <text x="0" y="78">the wrong one is deciding nothing and finding out in three months</text>
+</svg>
+</div>
+
+<h2>What no board fixes, whichever one replaces it</h2>
+<p><strong>Reviewing the work.</strong> Five finished columns mean five diffs that somebody still has to read, and moving the cards was always the easy part of that.</p>
+<p><strong>Writing the tasks.</strong> A vague card produces a vague branch, and a board makes it easier to create ten of them.</p>
+<p><strong>The plan's limits.</strong> No board changes what a subscription tier allows.</p>
+
+<h2>Free and open source says nothing about next year</h2>
+<p>The projects most likely to be here in a year are the ones where somebody is either funded or scratching their own itch, because a tool its author uses every day does not need a business model to survive.</p>
+<p>Free products from companies need the most care, because a company needs revenue and a free tier is a decision somebody can reverse later. For every tool listed here, the work lives in git rather than in their database.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 100" role="img" aria-label="Which kinds of project tend to outlast a shutdown">
+  <text x="0" y="11" class="lbl">WHAT TENDS TO LAST</text>
+  <text x="0" y="34">author uses it daily</text><rect class="box" x="260" y="24" width="380" height="14"/><text x="266" y="35">survives on its own</text>
+  <text x="0" y="58">funded company</text><rect class="box" x="260" y="48" width="240" height="14"/><text x="266" y="59">survives while funded</text>
+  <text x="0" y="82">free product, company owned</text><rect class="wait" x="260" y="72" width="130" height="14"/><text x="266" y="83" class="hot">the Vibe Kanban case</text>
+</svg>
+</div>
+
+<h2>Where Agentbox loses</h2>
+<p>Agentbox has 78 stars against Orca's 95,206 and no native Windows build, where <a href="https://github.com/generalaction/emdash">Emdash</a> and <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> both ship one. No mobile app. No company. If longevity is the thing being optimised for after a shutdown, then the recommendation that comes out of that table is not Agentbox, and saying so here is better than leaving it to be discovered later.</p>
+
+<figure>
+  <img src="/assets/shots/agents-working.webp" alt="A grid of more than a hundred agent rows, each with a task title and how long it has been working" width="960" height="540" loading="lazy">
+  <figcaption>Agents working. The board shows the same thing in columns.</figcaption>
+</figure>
 
 <div class="cta">
   <h2>Agentbox</h2>
-  <p>A board and an inbox for dozens of Claude Code and Codex agents, each in its own git worktree. Free and open source, on the plan you already pay for.</p>
+  <p>A board and an inbox for dozens of Claude Code and Codex agents, each one working in its own git worktree. It is free and open source, and it runs on the plan you already pay for.</p>
   <div class="row">
     <a class="b1" href="/download">Download for Mac</a>
     <a class="b2" href="https://github.com/savannahfeder/agentbox">Read the code</a>

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code tools, 52 of them sorted by what they do</title>
+<meta name="description" content="A directory of Claude Code tools across six categories, with licences, stars and last-commit dates read from the GitHub API rather than copied from other lists. Including which ones are no longer maintained.">
+<link rel="canonical" href="https://agentbox.ac/claude-code-tools">
+<meta property="og:title" content="Claude Code tools, 52 of them sorted by what they do">
+<meta property="og:description" content="A directory across six categories with licences, stars and last-commit dates read from the API.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://agentbox.ac/claude-code-tools">
+<meta property="og:image" content="https://agentbox.ac/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://agentbox.ac/assets/og.png">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/guide.css">
+<style>
+  .dia { border: 1px solid var(--line); background: var(--panel); padding: 18px 18px 14px; margin: 0 0 24px; }
+  .dia svg { display: block; width: 100%; height: auto; }
+  .dia text { font-family: var(--mono); font-size: 11px; fill: #c4bdb8; }
+  .dia .lbl { fill: #a09994; letter-spacing: .1em; }
+  .dia .hot { fill: #ee6018; }
+  .dia rect.box { fill: #282625; stroke: #3a3836; }
+  .dia rect.wait { fill: #2f2320; stroke: #ee6018; }
+  .dia line { stroke: #3a3836; }
+  table td:nth-child(2) { color: var(--dim); }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Claude Code tools, 52 of them sorted by what they do","datePublished":"2026-10-17","dateModified":"2026-10-17","author":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"publisher":{"@type":"Organization","name":"Agentbox","url":"https://agentbox.ac/"},"mainEntityOfPage":"https://agentbox.ac/claude-code-tools"}
+</script>
+</head>
+<body>
+
+<header class="bar"><div class="bar-in">
+  <a class="bar-wm" href="/"><img src="/assets/icon.svg" alt="">Agentbox</a>
+  <span class="sp"></span>
+  <a class="dl" href="/guides">Guides</a>
+  <a class="dl" href="/download">Download for Mac</a>
+</div></header>
+
+<main>
+<p class="kicker">Directory</p>
+<h1>Claude Code tools</h1>
+<p class="standfirst">Six searches against the GitHub API turned up the fifty-two tools below, in six categories, with the licence, the star count and the last commit date on every row. Every result was read before it went in, and the ones that only matched the words were dropped.</p>
+<p class="asof">Built 17 October 2026. The tables are generated from the API response rather than typed by hand.</p>
+
+<h2>The last commit column rules out four tools</h2>
+<p>Star counts measure popularity and nothing else. The column worth reading first is the last commit, because a tool in this ecosystem can go stale in a couple of months while its stars keep climbing.</p>
+<p>Four widely recommended projects in this space are dead, deprecated or have quietly become something else, and all four still turn up in articles published this year.</p>
+<pre><code>$ gh api repos/OWNER/REPO --jq '"\(.stargazers_count) stars, pushed \(.pushed_at[0:10])"'</code></pre>
+
+<div class="dia">
+<svg viewBox="0 0 640 112" role="img" aria-label="Six categories of Claude Code tool and what each one is for">
+  <text x="0" y="11" class="lbl">WHAT THE TOOL IS FOR</text>
+  <text x="0" y="34">run many agents at once</text><line x1="250" y1="30" x2="300" y2="30"/><text x="310" y="34">orchestrators</text>
+  <text x="0" y="52">see context and model in the prompt</text><line x1="250" y1="48" x2="300" y2="48"/><text x="310" y="52">status lines</text>
+  <text x="0" y="70">know what it is costing</text><line x1="250" y1="66" x2="300" y2="66"/><text x="310" y="70">usage and cost</text>
+  <text x="0" y="88">watch what agents are doing</text><line x1="250" y1="84" x2="300" y2="84"/><text x="310" y="88">monitors</text>
+  <text x="0" y="106">change how it behaves</text><line x1="250" y1="102" x2="300" y2="102"/><text x="310" y="106">hooks, skills, guides</text>
+</svg>
+</div>
+
+<h2>Running many agents at once</h2>
+<p>The orchestrators are the most crowded of the six categories. Every agent gets its own git worktree so that two of them cannot overwrite the same file. Where they part company is what the screen shows when an agent stops, taken apart in <a href="/run-multiple-claude-code-agents">the longer comparison</a> and again in <a href="/claude-code-gui">the same list sorted by interface shape</a>.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/stablyai/orca">orca</a></td><td>Orca is the place for working with a fleet of agents (e.g. Grok Bot, Cla</td><td>MIT</td><td>95,206</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>Open source Ghostty-based macOS terminal with vertical tabs and notifica</td><td>Source-available</td><td>28,228</td><td>17 Oct 2026 <span class="n">now a terminal</span></td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>A powerful GUI app and Toolkit for Claude Code - Create custom agents, m</td><td>AGPL-3.0</td><td>22,409</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">superset</a></td><td>Superset is an agentic IDE to orchestrate 100+ coding agents in parallel</td><td>Source-available</td><td>15,312</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>Use Claude Code, OpenCode, Cursor CLI, and Codex on mobile and web with </td><td>AGPL-3.0</td><td>14,150</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">claude-squad</a></td><td>Manage multiple AI terminal agents like Claude Code, Codex, OpenCode, an</td><td>AGPL-3.0</td><td>8,618</td><td>20 Aug 2026</td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">emdash</a></td><td>Emdash is the Open-Source Agentic Development Environment (🧡 YC W26). Ru</td><td>Apache-2.0</td><td>6,019</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">nimbalyst</a></td><td>Nimbalyst - The open-source visual workspace for Claude Code, Codex, and</td><td>MIT</td><td>1,917</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hanshuaikang/nezha">nezha</a></td><td>Code Editor for the AI Agents Era. Run multiple Claude Code and Codex ag</td><td>GPL-3.0</td><td>1,906</td><td>17 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>Coding Agent Session Manager for Claude Code / Gemini CLI / Codex CLI / </td><td>MIT</td><td>1,265</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">claude_code_agent_farm</a></td><td>Orchestration framework for running 20+ Claude Code agents in parallel: </td><td>Source-available</td><td>922</td><td>21 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>Open-source, desktop client/UI build to harness Claude Code, Codex and a</td><td>MIT</td><td>386</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hermes-hq/hermes-ide">hermes-ide</a></td><td>One console for every coding agent. Claude Code, Codex, Copilot, OpenCod</td><td>Source-available</td><td>337</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">sculptor</a></td><td>Build product with grounded, parallel coding agents.</td><td>MIT</td><td>240</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>Run multiple Claude Code and Codex sessions in parallel , a browser term</td><td>MIT</td><td>239</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">agentbox</a></td><td>A desktop GUI for running dozens of Claude Code and Codex agents in para</td><td>GPL-3.0</td><td>78</td><td>17 Oct 2026 <span class="n">the app behind this page</span></td></tr>
+<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>A Kanban-style TUI for parallel AI coding. Manage Git worktrees as tasks</td><td>MIT</td><td>47</td><td>13 Oct 2026</td></tr>
+<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>Closed-source Mac app, cloud workspaces on Pro</td><td>Closed</td><td>no repo</td><td>Free / $50 / $60 seat</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Status lines</h2>
+<p>A status line sits under the prompt and shows the context left, the model, the branch and the cost so far. Of the six categories on this page, this is the cheapest to install.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/jarrodwatts/claude-hud">claude-hud</a></td><td>A Claude Code plugin that shows what's happening - context usage, active</td><td>MIT</td><td>28,610</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/sirmalloc/ccstatusline">ccstatusline</a></td><td>Beautiful highly customizable statusline for Claude Code CLI with powerl</td><td>MIT</td><td>13,315</td><td>13 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Haleclipse/CCometixLine">CCometixLine</a></td><td>Claude Code statusline tool written in Rust</td><td>No licence file</td><td>3,476</td><td>14 Mar 2026 <span class="n">quiet since March</span></td></tr>
+<tr><td><a href="https://github.com/nilbuild/claude-statusline">claude-statusline</a></td><td>Minimal Claude Code statusline setup I personally use</td><td>MIT</td><td>1,398</td><td>3 Apr 2026</td></tr>
+<tr><td><a href="https://github.com/Owloops/claude-powerline">claude-powerline</a></td><td>Beautiful vim-style powerline for Claude Code</td><td>MIT</td><td>1,173</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/GaoSSR/best-claude-hud">best-claude-hud</a></td><td>Minimal Claude Code statusline HUD powered by Rust.</td><td>Apache-2.0</td><td>1,074</td><td>13 Aug 2026</td></tr>
+<tr><td><a href="https://github.com/chongdashu/cc-statusline">cc-statusline</a></td><td>Transform your Claude Code experience with a beautiful, informative stat</td><td>MIT</td><td>645</td><td>16 Feb 2026</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Usage and cost trackers</h2>
+<p>On a subscription the thing to avoid is a limit arriving in the middle of a task. On API billing the question is what a session actually cost. Both answers are drawn from the same local files, so the two kinds of tool share one table.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/getagentseal/codeburn">codeburn</a></td><td>Free, local tool to track AI coding token usage and cost across 37 tools</td><td>MIT</td><td>11,493</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor">Claude-Code-Usage-Monitor</a></td><td>Real-time Claude Code usage monitor with predictions and warnings</td><td>MIT</td><td>8,747</td><td>5 Jul 2026</td></tr>
+<tr><td><a href="https://github.com/xiufengsun/TokenTracker">TokenTracker</a></td><td>Local-first AI token usage & cost tracker for 31 coding tools incl. Clau</td><td>MIT</td><td>2,068</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/uppinote20/claude-dashboard">claude-dashboard</a></td><td>Comprehensive status line plugin for Claude Code with context usage, API</td><td>MIT</td><td>581</td><td>16 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Piebald-AI/splitrail">splitrail</a></td><td>Fast, cross-platform, real-time token usage tracker and cost monitor for</td><td>MIT</td><td>224</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/mag123c/toktrack">toktrack</a></td><td>Ultra-fast token & cost tracker for LLM Token Usage (e.g. Claude Code)</td><td>MIT</td><td>195</td><td>16 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/juliantanx/aiusage">aiusage</a></td><td>Open-source AI usage tracker , tokens, cost, and sessions across Claude </td><td>MIT</td><td>137</td><td>14 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/masorange/ClaudeUsageTracker">ClaudeUsageTracker</a></td><td>Track your Claude Code API usage from your macOS menu bar with accurate </td><td>Source-available</td><td>114</td><td>14 Oct 2026</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Watching what agents do</h2>
+<p>Dashboards, menu bar apps and observability built on hooks all land in this category, and it overlaps heavily with the orchestrators in the first table. The split is that a monitor watches agents something else started, while an orchestrator starts them itself.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/davila7/claude-code-templates">claude-code-templates</a></td><td>CLI tool for configuring and monitoring Claude Code</td><td>MIT</td><td>32,714</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/graykode/abtop">abtop</a></td><td>Like htop, but for AI coding agents. Monitor Claude Code & Codex CLI ses</td><td>MIT</td><td>3,752</td><td>14 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/Javis603/token-monitor">token-monitor</a></td><td>Local-first desktop widget for tracking token usage, costs, limits, and </td><td>MIT</td><td>3,165</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/disler/claude-code-hooks-multi-agent-observability">claude-code-hooks-multi-agent-observability</a></td><td>Real-time monitoring for Claude Code agents through simple hook event tr</td><td>No licence file</td><td>1,548</td><td>8 Feb 2026</td></tr>
+<tr><td><a href="https://github.com/tddworks/ClaudeBar">ClaudeBar</a></td><td>A macOS menu bar application that monitors AI coding assistant usage quo</td><td>Apache-2.0</td><td>1,546</td><td>16 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/dvdsgl/claude-canvas">claude-canvas</a></td><td>Give Claude Code an external monitor</td><td>MIT</td><td>1,515</td><td>8 Jan 2026</td></tr>
+<tr><td><a href="https://github.com/hoangsonww/Claude-Code-Agent-Monitor">Claude-Code-Agent-Monitor</a></td><td>A real-time monitoring dashboard for Claude Code & Codex, built with SQL</td><td>MIT</td><td>1,083</td><td>17 Oct 2026</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Hooks and configuration</h2>
+<p>These change how Claude Code itself behaves rather than what sits around it. Hooks fire on tool calls and on prompts. Most of the monitoring in the table above is built that way.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/mksglu/context-mode">context-mode</a></td><td>Context window optimization for AI coding agents. Sandboxes tool output </td><td>Source-available</td><td>30,487</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/diet103/claude-code-infrastructure-showcase">claude-code-infrastructure-showcase</a></td><td>Examples of my Claude Code infrastructure with skill auto-activation, ho</td><td>MIT</td><td>10,035</td><td>13 Jul 2026</td></tr>
+<tr><td><a href="https://github.com/ChrisWiles/claude-code-showcase">claude-code-showcase</a></td><td>Comprehensive Claude Code project configuration example with hooks, skil</td><td>No licence file</td><td>6,074</td><td>6 Jan 2026</td></tr>
+<tr><td><a href="https://github.com/entireio/cli">cli</a></td><td>Entire CLI hooks into your Git workflow to capture AI agent sessions as </td><td>MIT</td><td>5,187</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/WorldFlowAI/everything-claude-code">everything-claude-code</a></td><td>Claude Code toolkit - agents, commands, skills, rules, and hooks for pro</td><td>No licence file</td><td>4,893</td><td>23 Jan 2026</td></tr>
+<tr><td><a href="https://github.com/parcadei/Continuous-Claude-v3">Continuous-Claude-v3</a></td><td>Context management for Claude Code. Hooks maintain state via ledgers and</td><td>MIT</td><td>3,947</td><td>26 Jan 2026</td></tr>
+<tr><td><a href="https://github.com/disler/claude-code-hooks-mastery">claude-code-hooks-mastery</a></td><td>Master Claude Code Hooks</td><td>No licence file</td><td>3,944</td><td>4 Mar 2026</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Skills, commands and guides</h2>
+<p>The entries here are collections rather than programs. Most of what people need has already been written down by somebody.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/alirezarezvani/claude-skills">claude-skills</a></td><td>380 Claude Code skills & agent skills & plugins (30+ Agents, 70+ custom </td><td>MIT</td><td>28,327</td><td>30 Aug 2026</td></tr>
+<tr><td><a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide">claude-code-ultimate-guide</a></td><td>The most comprehensive Claude Code guide: agentic workflows, hooks, skil</td><td>CC-BY-SA-4.0</td><td>6,190</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/elementalsouls/Claude-BugHunter">Claude-BugHunter</a></td><td>A Claude Code skill bundle for bug hunting and external red-team work - </td><td>MIT</td><td>5,146</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/zebbern/claude-code-guide">claude-code-guide</a></td><td>Claude Code Guide - Setup, Commands, workflows, agents, skills & tips-n-</td><td>MIT</td><td>4,666</td><td>17 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/davepoon/buildwithclaude">buildwithclaude</a></td><td>A single hub to find Claude Skills, Agents, Commands, Hooks, Plugins, an</td><td>MIT</td><td>3,645</td><td>16 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Piebald-AI/claude-code-system-prompts">claude-code-system-prompts</a></td><td>All parts of Claude Code's system prompt, 27 builtin tool descriptions, </td><td>MIT</td><td>12,930</td><td>16 Oct 2026</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="dia">
+<svg viewBox="0 0 640 92" role="img" aria-label="Stars against last commit, and which combination is the safer bet">
+  <text x="0" y="11" class="lbl">WHICH IS THE SAFER BET</text>
+  <rect class="box" x="0" y="22" width="300" height="26"/><text x="14" y="39">1,000 stars, commit this week</text>
+  <rect class="wait" x="340" y="22" width="300" height="26"/><text x="354" y="39" class="hot">20,000 stars, quiet since February</text>
+  <text x="0" y="74">the left one, nearly every time</text>
+</svg>
+</div>
+<h2>What is missing from this list</h2>
+<p><strong>Anything behind a sign-up.</strong> Every entry needed a public repository with a readable licence, which ruled out several hosted products that other lists carry. Conductor is the one exception, because it comes up in every conversation about orchestrators.</p>
+<p><strong>Editor extensions.</strong> VS Code and JetBrains plugins are a category of their own, left to their own marketplaces.</p>
+<p><strong>Anything that could not be verified.</strong> The searches turned up repositories whose descriptions did not match what their names claimed. Dropping them rather than padding the tables is why the page carries 52 tools and not 80.</p>
+
+<h2>How this list was built</h2>
+<p>Six searches went out to the GitHub API, one per category, and every result was read before the off-topic ones were dropped. A draw.io demo does not become a Claude Code tool because a query matched it.</p>
+<pre><code>$ gh api -X GET search/repositories \
+    -f q='claude code statusline' -f sort=stars -f per_page=8 \
+    --jq '.items[] | "\(.full_name) \(.stargazers_count) \(.pushed_at[0:10])"'</code></pre>
+
+<h3>What the licence column means</h3>
+<p>MIT, Apache-2.0 and GPL-3.0 are open source, so anybody can fork a repository that carries one of them. "Source-available" means the code is readable but the licence restricts what else may be done with it. "No licence file" means exactly that, and it is legally the most restrictive of the three, because the default without a licence is all rights reserved.</p>
+
+<h3>Nothing here says whether a tool is good</h3>
+<p>Judging that would mean running fifty-two of them for a week each. The tables report only what a morning of reading can verify, which is what each tool says it does, what licence it carries, and whether anybody is still working on it.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 100" role="img" aria-label="Six searches reduced to fifty-two verified entries">
+  <text x="0" y="11" class="lbl">HOW 80 RESULTS BECAME 52 ENTRIES</text>
+  <rect class="box" x="0" y="24" width="150" height="30"/><text x="14" y="43">6 API searches</text>
+  <line x1="150" y1="39" x2="186" y2="39"/>
+  <rect class="box" x="186" y="24" width="170" height="30"/><text x="200" y="43">read each description</text>
+  <line x1="356" y1="39" x2="392" y2="39"/>
+  <rect class="wait" x="392" y="24" width="120" height="30"/><text x="406" y="43" class="hot">drop mismatches</text>
+  <line x1="512" y1="39" x2="548" y2="39"/>
+  <rect class="box" x="548" y="24" width="92" height="30"/><text x="562" y="43">52 kept</text>
+  <text x="0" y="80">the dropped ones matched the words and not the thing</text>
+</svg>
+</div>
+
+<h2>Questions about picking a tool</h2>
+
+<h3>Which Claude Code tool should I install first?</h3>
+<p>A status line. It costs a minute, it shows how much context is left, and it answers the question people ask most often in the first week. Everything else can wait until there is a problem it solves.</p>
+
+<h3>Do I need an orchestrator?</h3>
+<p>Not until more than two or three agents are running and getting hard to keep track of. Below that the CLI's own worktree support is enough and an extra app is overhead.</p>
+
+<h3>How do I know a tool is still maintained?</h3>
+<p>The last commit column. Anything quiet for more than two months in this ecosystem is worth a second look, because the agent CLIs change and somebody has to keep up with them.</p>
+
+<h3>Are these safe to install?</h3>
+<p>They run with the permissions of whoever installed them and most read the Claude Code configuration. The licence, the source and the number of contributors are all worth a look first, which is the same care any dependency deserves.</p>
+
+<h3>Do any of them cost money?</h3>
+<p>Almost none. Conductor is $50 a month for Pro. Everything else on this page is free, and most is open source under MIT, Apache or GPL.</p>
+
+<h3>Will they work with Codex too?</h3>
+<p>Some will. The orchestrators mostly do, because driving two CLIs is barely harder than driving one. The status lines and hooks are usually Claude Code specific.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 96" role="img" aria-label="How the categories overlap, with orchestrators also doing monitoring">
+  <text x="0" y="11" class="lbl">WHERE THE CATEGORIES OVERLAP</text>
+  <rect class="box" x="0" y="24" width="250" height="40"/><text x="14" y="48">orchestrators</text>
+  <rect class="wait" x="190" y="24" width="180" height="40"/><text x="204" y="48" class="hot">both</text>
+  <rect class="box" x="330" y="24" width="250" height="40"/><text x="420" y="48">monitors</text>
+  <text x="0" y="88">an orchestrator starts the agents, a monitor only watches them</text>
+</svg>
+</div>
+<h2>Questions about the ecosystem</h2>
+
+<h3>Why are there so many of these?</h3>
+<p>Because Claude Code ships as a terminal program with hooks, and that is an invitation. The barrier to building something useful on top is a weekend, which is also why so many of them go quiet.</p>
+
+<h3>Which ones are actually used?</h3>
+<p>Stars are the only public proxy and they are a poor one. A 1,000-star tool with a commit this week is usually a safer bet than a 20,000-star one that stopped in February.</p>
+
+<h3>Is there an official list?</h3>
+<p>Anthropic does not publish one. The community lists are large and useful, and they share the problem this page tries to fix, which is that entries go stale and nobody rechecks them.</p>
+
+<h3>What happened to the tools that disappeared?</h3>
+<p>Most were side projects whose authors moved on. One, <a href="https://www.vibekanban.com/blog/shutdown">Vibe Kanban</a>, was a company that could not find a business model and said so plainly. The repository is unarchived and Apache-2.0, so <a href="/vibe-kanban-alternative">keeping it is still an option</a>.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 96" role="img" aria-label="Last commit date as the signal that matters more than stars">
+  <text x="0" y="11" class="lbl">THE COLUMN THAT MATTERS</text>
+  <text x="0" y="34">committed this week</text><rect class="box" x="250" y="24" width="390" height="14"/><text x="258" y="35">someone is home</text>
+  <text x="0" y="58">quiet two months</text><rect class="box" x="250" y="48" width="200" height="14"/><text x="258" y="59">check before adopting</text>
+  <text x="0" y="82">quiet six months</text><rect class="wait" x="250" y="72" width="90" height="14"/><text x="350" y="83" class="hot">treat as finished</text>
+</svg>
+</div>
+
+<h2>What a good setup looks like</h2>
+<p>Most people end up with three or four of these rather than twenty.</p>
+
+<h3>Week one is a status line</h3>
+<pre><code>$ claude
+# then add a statusLine entry to ~/.claude/settings.json</code></pre>
+<p>Context remaining is the one number worth keeping on screen, because running out of it halfway through a task is the most common frustration people hit early.</p>
+
+<h3>Week two is a cost tracker</h3>
+<p>Even on a subscription, learning which kinds of task burn through a limit changes how the next one gets written. The usage tools above read the same local session files Claude Code already writes, so none of them need an API key.</p>
+
+<h3>An orchestrator, past three agents</h3>
+<pre><code>$ git worktree add ../app-task -b task && claude</code></pre>
+<p>The command above is worth running by hand first. The point where it starts to annoy is the point where somebody can say which orchestrator they want, and <a href="/run-multiple-claude-code-agents">twenty-three of them are compared here</a>.</p>
+
+<h3>Hooks, only when something needs them</h3>
+<p>Hooks reach deepest into Claude Code, and they are the easiest way on this page to break a setup that was working. They pay for themselves when every tool call needs a check run against it.</p>
+
+<div class="dia">
+<svg viewBox="0 0 640 104" role="img" aria-label="The order people usually add tools, from a status line to hooks">
+  <text x="0" y="11" class="lbl">THE USUAL ORDER</text>
+  <rect class="box" x="0" y="24" width="140" height="28"/><text x="14" y="42">status line</text>
+  <line x1="140" y1="38" x2="166" y2="38"/>
+  <rect class="box" x="166" y="24" width="140" height="28"/><text x="180" y="42">cost tracking</text>
+  <line x1="306" y1="38" x2="332" y2="38"/>
+  <rect class="box" x="332" y="24" width="140" height="28"/><text x="346" y="42">orchestrator</text>
+  <line x1="472" y1="38" x2="498" y2="38"/>
+  <rect class="wait" x="498" y="24" width="142" height="28"/><text x="512" y="42" class="hot">hooks, if ever</text>
+  <text x="0" y="82">each step is triggered by a problem, not by a blog post</text>
+</svg>
+</div>
+
+<h2>Where Agentbox sits in the list</h2>
+<p>Agentbox is the project behind this page and sits near the bottom of the first table by stars. It runs dozens of Claude Code and Codex agents in parallel, each in its own git worktree, and hands the finished ones back as rows to answer like email or to work through as a board.</p>
+<p>Agentbox is three weeks old, carries 78 stars against Orca's 95,206, has no native Windows build and has no company behind it. If any of that matters more than being free and readable, the tables above name the alternatives.</p>
+
+<figure>
+  <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">
+  <figcaption>What Agentbox does with the agents once they stop.</figcaption>
+</figure>
+
+<div class="cta">
+  <h2>Agentbox</h2>
+  <p>Dozens of Claude Code and Codex agents in parallel, each in its own git worktree, and only the ones that need you come back. Free and open source.</p>
+  <div class="row">
+    <a class="b1" href="/download">Download for Mac</a>
+    <a class="b2" href="https://github.com/savannahfeder/agentbox">Read the code</a>
+  </div>
+</div>
+</main>
+
+<footer><div class="in">
+  <a href="/">Agentbox</a>
+  <a href="/guides">Guides</a>
+  <a href="https://github.com/savannahfeder/agentbox">GitHub</a>
+  <span class="sp"></span>
+  <span>Free and open source under GPL 3.0</span>
+</div></footer>
+
+</body>
+</html>
