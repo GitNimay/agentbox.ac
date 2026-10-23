@@ -42,14 +42,14 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>Claude Code and git worktrees</h1>
-<p class="standfirst">A worktree gives each agent its own checkout on its own branch, and one command creates it. The new folder arrives with no <code>node_modules</code> and no <code>.env</code>, so the first thing an agent does in there is fail, and the fix is a convention three tools share, not one of which documents it.</p>
+<p class="standfirst">A worktree gives each agent its own checkout on its own branch, and one command creates it. The new folder arrives with no <code>node_modules</code> and no <code>.env</code>, so the first thing an agent does in there is fail, and the fix is a file called <code>.worktreeinclude</code> that Anthropic documents and three tools read.</p>
 <p class="asof">Written 16 October 2026, updated 17 October.</p>
 
 <h2>One command makes a second folder on a new branch</h2>
 <pre><code>$ git worktree add ../app-dark-mode -b dark-mode
 Preparing worktree (new branch 'dark-mode')
 HEAD is now at 4a1c9f2 Snooze survives a restart</code></pre>
-<p>It shares one object store with the first, so there is no second clone of the code and no copy of the history anywhere on disk.</p>
+<p>It shares one object store with the first, so the history is not copied, only the checked-out files.</p>
 <p>An agent pointed at that folder cannot touch anything in the main checkout.</p>
 
 <h2>What goes wrong when two agents share one folder</h2>
@@ -89,19 +89,19 @@ sh: vitest: command not found</code></pre>
 <p>Running <code>npm install</code> in each worktree by hand works, but it is slow and duplicates a few hundred megabytes of dependencies per task.</p>
 
 <h2>What .worktreeinclude does</h2>
-<p>A file called <code>.worktreeinclude</code> at the repository root, written in gitignore syntax, names the ignored files a new worktree should receive. Claude Code, <a href="https://conductor.build/">Conductor</a> and <a href="https://github.com/savannahfeder/agentbox">Agentbox</a> all read it, and no page documenting it turns up in any of the three. <a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami's write-up on worktrees, agents and tmux</a> describes the workflow it exists for.</p>
+<p>A file called <code>.worktreeinclude</code> at the repository root, written in gitignore syntax, names the ignored files a new worktree should receive. Claude Code, <a href="https://conductor.build/">Conductor</a> and <a href="https://github.com/savannahfeder/agentbox">Agentbox</a> all read it, and <a href="https://code.claude.com/docs/en/worktrees">Anthropic documents it</a> with a worked example and the rules for patterns that start with <code>**/</code> inside a wholly ignored directory. <a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami's write-up on worktrees, agents and tmux</a> describes the workflow it exists for.</p>
 <pre><code>node_modules/
 .env
 .env.local
 !.env.production</code></pre>
 <p>Git itself does the matching, through <code>git ls-files --others --ignored --exclude-from</code>, so negation, anchoring and globs behave exactly as git defines them. On macOS the copy can ask APFS for a block-sharing clone, and carrying <code>node_modules</code> across then costs almost no disk at all.</p>
 
-<h3>How a bad pattern can leak a secret</h3>
-<p>The command reads its patterns from that file and never consults the repository's <code>.gitignore</code> while it runs. A pattern selecting a file the repository does not actually ignore leaves that file sitting untracked in the new folder, where anything that later runs <code>git add -A</code> will commit it. Agentbox checks every selected path with <code>git check-ignore</code> in both checkouts before carrying it, and refuses the whole folder by name when one of them fails. A hand-rolled copy step needs the same check in it.</p>
+<h3>Why a hand-rolled copy step is the risky one</h3>
+<p>Claude Code copies a file only when it matches a pattern <em>and</em> the repository already ignores it, which is the rule that keeps a bad pattern from carrying a tracked file into the new folder. Agentbox applies the same intersection, checking every selected path with <code>git check-ignore</code> in both checkouts and refusing the folder by name when one fails. A copy step written by hand usually has neither check, and a pattern that selects a file the repository does not actually ignore leaves it sitting untracked in the new folder, where anything that later runs <code>git add -A</code> commits it.</p>
 
 <h2>Where each tool puts its worktrees</h2>
 <p>Tools that run several agents at once generally create a worktree per task, including <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a>, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, <a href="https://github.com/generalaction/emdash">Emdash</a>, <a href="https://github.com/GarrickZ2/grove">grove</a> and <a href="https://github.com/savannahfeder/agentbox">Agentbox</a>. No two of their READMEs agree on where the folder goes, so the README of whichever tool is running is the only reliable answer.</p>
-<p>The lack of a standard starts to matter the moment two of these tools point at a single repository. A developer comparing them <a href="https://news.ycombinator.com/item?id=50110204">on Hacker News on 15 October 2026</a> named exactly that as the annoyance.</p>
+<p>The lack of a standard starts to matter the moment two of these tools point at a single repository. Somebody who built a worktree cleaner to deal with it <a href="https://news.ycombinator.com/item?id=50110204">wrote on Hacker News on 15 October 2026</a> that the tools each put their worktrees somewhere different, which made them hard to find. That post drew one point and no replies.</p>
 
 <div class="dia">
 <svg viewBox="0 0 640 110" role="img" aria-label="Three layouts for worktrees: a sibling folder, inside the repository, and a central directory">
@@ -131,7 +131,7 @@ sh: vitest: command not found</code></pre>
 <p>Agentbox uses the middle layout, <code>.claude/worktrees/&lt;task id&gt;</code>, with a branch of the same name, so a task called <code>w-7c21</code> does its work in <code>.claude/worktrees/w-7c21</code> on a branch called <code>agentbox/w-7c21</code>.</p>
 
 <h2>Removing worktrees and their branches</h2>
-<p>Abandoned agent runs leave both their folders and their branches behind, and nothing ever prompts anyone to clear them. After a fortnight there are thirty of each.</p>
+<p>Abandoned agent runs leave both their folders and their branches behind. Claude Code now clears up after itself on exit, removing a clean unnamed worktree and its branch and prompting when there is work in it, but a run started with <code>-p</code> has no exit prompt and anything created by hand is nobody's job. After a fortnight those are what is left.</p>
 <pre><code>$ git worktree list
 /Users/you/app              4a1c9f2 [main]
 /Users/you/app-dark-mode    8b31e07 [dark-mode]
@@ -147,8 +147,10 @@ $ git branch -d dark-mode     # the branch is separate</code></pre>
 
 <h3>Clearing a whole repository at once</h3>
 <pre><code>$ git worktree list --porcelain | awk '/^worktree /{print $2}' | tail -n +2
-$ git worktree prune && git branch --merged main | grep -v main | xargs -r git branch -d</code></pre>
-<p>The first line lists every worktree except the main checkout. The second prunes the dead records and then deletes the branches already merged into main. Anything unmerged survives and has to be looked at by hand.</p>
+$ git worktree prune
+$ git for-each-ref --format='%(refname:short)' --merged main refs/heads/ \
+    | grep -vx main | while read b; do git branch -d "$b"; done</code></pre>
+<p>The first line lists every worktree except the main checkout. The rest prunes the dead records and then deletes the branches already merged into main. Anything unmerged survives and has to be looked at by hand, and so does any branch still checked out in a live worktree, which git refuses to delete and says so for each one. <code>git for-each-ref</code> is doing the work that <code>git branch</code> cannot, because <code>git branch</code> prefixes the current branch with an asterisk and a worktree's branch with a plus, and those markers reach <code>git branch -d</code> as arguments. <code>grep -vx</code> matches the whole line, so a branch called <code>domain-fix</code> survives a filter looking for <code>main</code>.</p>
 
 <h2>Every command, with the gotcha</h2>
 <p>The <a href="https://git-scm.com/docs/git-worktree">git-worktree documentation</a> lists every flag there is. These thirteen are the ones that come up when a tool is creating the worktrees.</p>
@@ -168,7 +170,7 @@ $ git worktree prune && git branch --merged main | grep -v main | xargs -r git b
 <tr><td><code>git worktree lock &lt;path&gt;</code></td><td>Stops prune removing it</td><td>For folders on removable disks</td></tr>
 <tr><td><code>git branch -d &lt;branch&gt;</code></td><td>Deletes a merged branch</td><td>Separate step from removing the worktree</td></tr>
 <tr><td><code>git branch -D &lt;branch&gt;</code></td><td>Deletes an unmerged branch</td><td>Loses the commits</td></tr>
-<tr><td><code>git worktree repair</code></td><td>Fixes records after the repo moved</td><td>Run from the main checkout</td></tr>
+<tr><td><code>git worktree repair</code></td><td>Fixes records after the repo moved</td><td>Runs from the main checkout or from a worktree</td></tr>
 </tbody>
 </table>
 </div>
@@ -277,13 +279,14 @@ $ git worktree list
 /Users/you/app-dark-mode       4a1c9f2 [dark-mode]
 /Users/you/app-snooze-restart  4a1c9f2 [snooze-restart]
 /Users/you/app-search-archive  4a1c9f2 [search-archive]</code></pre>
-<pre><code>$ git merge dark-mode snooze-restart
+<pre><code>$ git merge dark-mode
+$ git merge snooze-restart
 $ git worktree remove ../app-dark-mode
 $ git worktree remove ../app-snooze-restart
 $ git worktree remove --force ../app-search-archive   # it left changes behind
 $ git branch -d dark-mode snooze-restart
 $ git branch -D search-archive                        # unmerged, dropped on purpose</code></pre>
-<p>Cleaning up after three agents took six commands.</p>
+<p>Cleaning up after three agents took seven commands. The two merges are separate on purpose, because naming both branches on one <code>git merge</code> asks git for an octopus merge, which refuses outright when the branches touch the same file and cannot be resolved the way an ordinary two-way merge can.</p>
 
 <div class="dia">
 <svg viewBox="0 0 640 116" role="img" aria-label="Three agent branches, two merged into main and one discarded">
@@ -309,7 +312,7 @@ $ git branch -D search-archive                        # unmerged, dropped on pur
 </figure>
 
 <h2>What worktrees leave unsolved</h2>
-<p>When worktrees are not the right shape for a repository, containers are the other answer, and <a href="https://github.com/imbue-ai/sculptor">Sculptor</a> and <a href="https://github.com/madarco/agentbox">madarco/agentbox</a> both go that way instead.</p>
+<p>When worktrees are not the right shape for a repository, containers are the other answer. <a href="https://github.com/madarco/agentbox">madarco/agentbox</a> goes that way by default, and <a href="https://github.com/imbue-ai/sculptor">Sculptor</a>, whose own default is worktrees, offers a Docker backend it marks experimental.</p>
 <p>Worktrees isolate files and nothing else. Ports, databases and anything a project touches outside the repository still collide, the code still needs reviewing, and cleanup turns into a habit somebody has to keep.</p>
 
 <div class="cta">

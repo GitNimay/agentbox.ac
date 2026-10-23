@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Is there a GUI for Claude Code? Twenty-one, compared</title>
-<meta name="description" content="Anthropic ships no desktop GUI for Claude Code. Twenty-one third-party front ends exist, in four shapes. What separates them is what they show when an agent stops and waits.">
+<title>Claude Code GUI - Anthropic's own and 21 others compared</title>
+<meta name="description" content="Anthropic ships an official GUI for Claude Code, in the Claude desktop app, with parallel sessions and git worktree isolation. Twenty-one third-party front ends exist beside it, and this is where each one is still worth running.">
 <link rel="canonical" href="https://agentbox.ac/claude-code-gui">
-<meta property="og:title" content="Is there a GUI for Claude Code? Twenty-one, compared">
-<meta property="og:description" content="No official GUI exists. Twenty-one third-party front ends do, in four shapes.">
+<meta property="og:title" content="Claude Code GUI - Anthropic's own and 21 others compared">
+<meta property="og:description" content="Anthropic's own desktop app, and the twenty-one third-party front ends beside it.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://agentbox.ac/claude-code-gui">
 <meta property="og:image" content="https://agentbox.ac/assets/og.png">
@@ -42,10 +42,8 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>Is there a GUI for Claude Code?</h1>
-<p class="standfirst">Anthropic ships Claude Code as a terminal program and has announced no desktop application, so every graphical front end for it is built by somebody else. There are twenty-one of them, counted off the GitHub API rather than taken from other roundups, and they fall into four shapes that suit very different numbers of agents.</p>
-<p class="asof">Written 16 October 2026, updated 17 October. Stars and licences come from the GitHub API on that day.</p>
-
-<h2>All but one is free and open source</h2>
+<p class="standfirst">Yes, and Anthropic ships it. The Code tab in the Claude desktop app runs sessions in parallel, each optionally in its own git worktree, with an integrated terminal and a diff view, on macOS, Windows and a Linux beta. Twenty-one third-party front ends exist beside it, and the question this page answers is which of them is still worth running.</p>
+<p class="asof">Written 16 October 2026, corrected 23 October against Anthropic's own documentation. Stars and licences come from the GitHub API on 17 October and have moved since, by 7.9% in Orca's case.</p>
 
 <h2>People go looking after they lose track of an agent</h2>
 <p>Somebody starts four agents, goes off to do something else, and comes back unable to tell which has finished, which is mid-thought, and which has been sitting on a yes-or-no question for twenty minutes.</p>
@@ -159,7 +157,7 @@
 <h2>Questions about getting a GUI</h2>
 
 <h3>Does Claude Code have an official GUI?</h3>
-<p>No, and Anthropic has not announced one. Everything on this page is third-party, so the licence and last-commit columns matter more here than they would for a tool Anthropic maintained.</p>
+<p>Yes. The Code tab in the Claude desktop app, on macOS, Windows and a Linux beta, with a paid subscription. It runs several sessions at once from a sidebar, puts each in its own git worktree when Worktree is turned on, and carries an integrated terminal, a file editor and a diff view. The CLI also has <code>claude agents</code>, which groups sessions under Needs input, Working and Ready for review.</p>
 
 <h3>How do I install a Claude Code GUI?</h3>
 <p>Most are a normal download or a one-line npm command. Agentbox runs without being installed at all.</p>

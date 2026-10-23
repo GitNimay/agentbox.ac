@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to run multiple Claude Code agents in parallel</title>
-<meta name="description" content="Three agents against one repository finished in 17.1 seconds, against 16.4 for one, so the machine is not the limit. The four approaches, 23 tools compared, and what actually stops a fourth.">
+<meta name="description" content="Three Claude Code agents against one repository finished inside the time one took, with the method and its limits published. Twenty-three tools compared on licence and last commit, and what actually stops a fourth agent.">
 <link rel="canonical" href="https://agentbox.ac/run-multiple-claude-code-agents">
 <meta property="og:title" content="How to run multiple Claude Code agents in parallel">
 <meta property="og:description" content="The four approaches, 23 tools compared, and a measurement of what running three at once costs.">
@@ -42,7 +42,7 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>How to run multiple Claude Code agents in parallel</h1>
-<p class="standfirst">Three Claude Code agents running against one repository finished in 17.1 seconds, against 16.4 seconds for one agent on its own. Finding out which of the three had finished meant opening all three.</p>
+<p class="standfirst">Three Claude Code agents running against one repository finished in 17.1 seconds of wall clock, inside the 16.4 seconds a single agent took on its own question. In bare terminal panes, finding out which of the three had finished meant opening all three.</p>
 <p class="asof">Written 16 October 2026, updated 17 October. Every star count, licence and commit date below comes from the GitHub API on that date.</p>
 
 <h2>One command per task</h2>
@@ -50,7 +50,7 @@
 <pre><code>$ git worktree add ../app-dark-mode -b dark-mode
 Preparing worktree (new branch 'dark-mode')
 HEAD is now at 4a1c9f2 Snooze survives a restart</code></pre>
-<p>Each agent then has its own folder and its own branch, and nothing one of them does reaches another. All <a href="#measured">twenty-three tools below</a> automate that step. They differ in what they show when an agent stops.</p>
+<p>Each agent then has its own folder and its own branch, and nothing one of them does reaches another. Twenty-two of the <a href="#measured">twenty-three tools below</a> automate that step, the exception being Agent Farm, which keeps every agent in one folder and coordinates them with lock files instead. They differ in what they show when an agent stops.</p>
 
 <h2>Why two agents in one folder destroy each other</h2>
 <p>Two Claude Code sessions in one directory share a working tree, so they read the same files, write the same files, run the formatter over each other and commit on top of each other.</p>
@@ -154,11 +154,12 @@ done</code></pre>
 </svg>
 </div>
 
-<p><strong>Running three cost 0.7 seconds more than running one</strong>, with no errors and no rate limit.</p>
+<p><strong>Three agents finished in 17.1 seconds of wall clock, and one agent took 16.4</strong>, with no errors and no rate limit in either run.</p>
+<p>That is not a controlled comparison, and saying so is more useful than the headline it replaced. The three agents answered three different questions and the single agent answered a fourth, which is why the three have a median of 11.8 seconds against the single agent's 16.4. An agent cannot get faster because two others are running beside it, so the gap measures the questions rather than the parallelism. What the run does establish is the ceiling, since three agents at once finished inside the time one agent took, and no run has yet been done on a quiet machine with every agent asked the same question.</p>
 <p>The tasks were small and read-only, so this measures what parallelism costs rather than how fast Claude writes code. The Mac carried a load average between 12 and 19 throughout. Six and ten agents remain untested.</p>
 
 <h2>Where the tools put their worktrees</h2>
-<p>No two of the tools agree on where the worktree folder should go, so the README of whichever one is running is the only reliable answer. A developer comparing several <a href="https://news.ycombinator.com/item?id=50110204">on Hacker News on 15 October 2026</a> listed that as the thing that annoyed him most.</p>
+<p>No two of the tools agree on where the worktree folder should go, so the README of whichever one is running is the only reliable answer. Somebody who built a worktree cleaner to deal with it <a href="https://news.ycombinator.com/item?id=50110204">wrote on Hacker News on 15 October 2026</a> that Codex, Claude Code, Orca and Superset each put their worktrees somewhere different, which made them hard to find. That post drew one point and no replies, so this is one person's annoyance rather than a groundswell.</p>
 
 <div class="dia">
 <svg viewBox="0 0 640 110" role="img" aria-label="Three layouts for worktrees: a sibling folder, a folder inside the repository, and a central directory">

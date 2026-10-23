@@ -8,7 +8,7 @@ Licence: GPL-3.0. Source: https://github.com/savannahfeder/agentbox
 
 - [Agentbox](https://agentbox.ac/): what it is, the inbox and board, priorities, Command K, built-in worktrees, terminals and diffs.
 - [How to run multiple Claude Code agents in parallel](https://agentbox.ac/run-multiple-claude-code-agents): the four approaches, 23 tools compared with licences and commit dates, a measurement of what three agents at once actually costs, and 14 questions answered.
-- [Is there a GUI for Claude Code?](https://agentbox.ac/claude-code-gui): there is no official one. The 21 third-party front ends in four shapes, which run on Windows and Linux, and when the terminal is still right.
+- [Is there a GUI for Claude Code?](https://agentbox.ac/claude-code-gui): Anthropic ships one, the Code tab in the Claude desktop app, with parallel sessions and optional git worktree isolation. The 21 third-party front ends beside it, which run on Windows and Linux, and when each is still worth running.
 - [Claude Code and git worktrees](https://agentbox.ac/claude-code-worktrees): every command with its gotcha, why a new worktree has no node_modules or .env, what .worktreeinclude does, where each tool puts them, and a worked example from three agents to merged.
 - [Conductor alternatives](https://agentbox.ac/conductor-alternative): 22 alternatives, which are open source, which run on Windows and Linux, why Agentbox is free, and when Conductor is the better buy.
 - [Vibe Kanban is sunsetting. Where to go next](https://agentbox.ac/vibe-kanban-alternative): what happened, how to keep running it anyway, which boards are still maintained, and how to judge a replacement so it does not repeat.

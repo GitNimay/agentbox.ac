@@ -1118,7 +1118,7 @@ body {
 /* ========== The footer ========== */
 .site-foot { padding: 72px 40px 36px; color: #c4bdb8; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 .site-foot * { box-sizing: border-box; }
-.site-foot .ft-in { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr)); gap: 40px; }
+.site-foot .ft-in { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(4, minmax(0, 1fr)); gap: 40px; }
 .site-foot .ft-wm { display: inline-flex; align-items: center; gap: 10px; color: #efebe7; text-decoration: none; font-weight: 600; font-size: 19px; letter-spacing: -.03em; }
 .site-foot .ft-wm img { width: 24px; height: 24px; display: block; }
 .site-foot .ft-tag { margin: 16px 0 0; max-width: 280px; font-size: 14.5px; line-height: 1.5; color: #a09994; }
