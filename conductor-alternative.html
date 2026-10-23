@@ -45,14 +45,14 @@
 <p class="standfirst">Conductor is closed source, it runs on macOS only, and Pro is $50 a month on top of an existing Claude plan.</p>
 <p class="asof">This page went up on 16 October 2026, updated on 17 October. The prices come from <a href="https://conductor.build/pricing">conductor.build/pricing</a> and every star count and commit date from the GitHub API that day.</p>
 
-<h2>Orca, Emdash or Nimbalyst</h2>
+<h2>The three closest alternatives to Conductor</h2>
 <p><a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> and <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> are open source with native Windows and Linux builds, and of the twenty-two tools below Orca has by far the largest community at 95,206 stars.</p>
 
 <h2>What Conductor gives for the money</h2>
 <p>The pricing page describes the free tier as "Local workspaces on your Mac", and Pro adds cloud workspaces that keep agents running when the laptop is shut, along with a mobile app. Behind all of it is a funded company that has raised a Series A.</p>
 <p>Free costs $0, <strong>Pro $50/mo</strong>, Teams $60/mo per user, and Enterprise is priced on request.</p>
 
-<h2>What people actually object to</h2>
+<h2>What people actually object to about Conductor</h2>
 <p><strong>Platform.</strong> A Mac-only app is no use to somebody whose work machine runs Windows.</p>
 <p><strong>Price.</strong> $50 a month is not expensive for a work tool, and it sits on top of a Claude subscription.</p>
 <p><strong>Opacity.</strong> This is software that runs commands inside somebody's repository, and some people want to read what it does before letting it do that, which closed source rules out.</p>
@@ -104,7 +104,7 @@
 <p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is on most of these lists and is sunsetting, <a href="https://www.vibekanban.com/blog/shutdown">announced 10 April 2026</a>. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated, and its description now reads "Crystal is now Nimbalyst". <a href="https://github.com/terragon-labs/terragon-oss">Terragon</a> is dead and says so, and <a href="https://github.com/manaflow-ai/cmux">cmux</a> has turned into a macOS terminal rather than an orchestrator.</p>
 <p>All four still get recommended in articles written this year.</p>
 
-<h2>Agentbox against Conductor, where they actually differ</h2>
+<h2>Agentbox against Conductor, feature by feature</h2>
 <div class="wrap">
 <table>
 <thead><tr><th></th><th>Conductor</th><th>Agentbox</th></tr></thead>
@@ -220,7 +220,7 @@ $ git worktree prune</code></pre>
 <h3>Does any free tool have cloud agents?</h3>
 <p><a href="https://github.com/terragon-labs/terragon-oss">Terragon</a> did and is dead. A box somebody already owns is the usual answer, which is what the browser and self-hosted options are for.</p>
 
-<h2>Trying both costs nothing</h2>
+<h2>Running Conductor and Agentbox side by side costs nothing</h2>
 <p>Agentbox puts each task in <code>.claude/worktrees/</code> on its own branch, so existing branches are untouched.</p>
 
 <figure>
@@ -246,13 +246,13 @@ $ git worktree prune</code></pre>
   <text x="0" y="76">whichever gets opened first in the morning is the answer</text>
 </svg>
 </div>
-<h2>What switching tools does not fix</h2>
+<h2>What switching tools will not fix</h2>
 <p>Switching tools changes what shows up on screen and when a person gets interrupted.</p>
 <p><strong>Reading the diffs.</strong> Five finished agents mean five changes to review, and that is the slowest part of the loop in every tool on the list. One interface can put the diff in front of a reviewer faster than another, but none of them can say whether the change is right, and Agentbox is no exception.</p>
 <p><strong>Writing the task.</strong> A vague instruction produces a vague branch, and running several agents at once multiplies that rather than fixing it. The teams getting the most out of this write smaller, sharper tasks rather than more of them.</p>
 <p><strong>The plan's limits.</strong> No interface changes what a Claude or Codex tier allows, so if ten agents trip a rate limit they trip it everywhere, and paying $50 for a front end does not buy more model.</p>
 
-<h2>Nothing here came out of another article</h2>
+<h2>Where every number on this page came from</h2>
 <p>On 17 October 2026, every number in the table came off the GitHub API.</p>
 <pre><code>$ for r in stablyai/orca generalaction/emdash nimbalyst/nimbalyst; do
     gh api repos/$r --jq '"\(.full_name) \(.stargazers_count) \(.pushed_at[0:10])"'

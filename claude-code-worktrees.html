@@ -152,7 +152,7 @@ $ git for-each-ref --format='%(refname:short)' --merged main refs/heads/ \
     | grep -vx main | while read b; do git branch -d "$b"; done</code></pre>
 <p>The first line lists every worktree except the main checkout. The rest prunes the dead records and then deletes the branches already merged into main. Anything unmerged survives and has to be looked at by hand, and so does any branch still checked out in a live worktree, which git refuses to delete and says so for each one. <code>git for-each-ref</code> is doing the work that <code>git branch</code> cannot, because <code>git branch</code> prefixes the current branch with an asterisk and a worktree's branch with a plus, and those markers reach <code>git branch -d</code> as arguments. <code>grep -vx</code> matches the whole line, so a branch called <code>domain-fix</code> survives a filter looking for <code>main</code>.</p>
 
-<h2>Every command, with the gotcha</h2>
+<h2>Every git worktree command, with its gotcha</h2>
 <p>The <a href="https://git-scm.com/docs/git-worktree">git-worktree documentation</a> lists every flag there is. These thirteen are the ones that come up when a tool is creating the worktrees.</p>
 <div class="wrap">
 <table>
@@ -192,7 +192,7 @@ $ git for-each-ref --format='%(refname:short)' --merged main refs/heads/ \
 </svg>
 </div>
 
-<h2>Worktree or branch</h2>
+<h2>Worktree or branch, and when each one is right</h2>
 <p>A branch is enough for one thing at a time. Switching branches inside one folder is simpler, needs no cleanup afterwards, and keeps a single <code>node_modules</code> that is already installed.</p>
 <p>A worktree earns its keep the moment two things have to exist at the same time.</p>
 <div class="wrap">

@@ -45,7 +45,7 @@
 <p class="standfirst">Vibe Kanban put a sunset notice above the screenshots in <a href="https://github.com/BloopAI/vibe-kanban">its own README</a>, and 28,384 stars did not stop that happening. The repository is still unarchived, still Apache-2.0 and still clonable, so keeping the existing board is a real option. The maintained replacements are mostly a desktop app rather than the browser tab it used to be.</p>
 <p class="asof">Written 16 October 2026, updated 17 October. The stars and last-commit dates come from the GitHub API on the day of that update.</p>
 
-<h2>Emdash and Nimbalyst for the board</h2>
+<h2>Which replacement to try, depending on what mattered</h2>
 <p><a href="https://github.com/savannahfeder/agentbox">Agentbox</a> and <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> are the two that still open in a browser tab and install nothing. The largest community, at nearly four times Vibe Kanban's, belongs to <a href="https://github.com/stablyai/orca">Orca</a>, which is the one to read about if never being abandoned again is the point.</p>
 <p>Keeping Vibe Kanban is defensible too, an answer rather than a fallback, because the code did not stop working on the day the company did.</p>
 
@@ -64,7 +64,7 @@
 </svg>
 </div>
 
-<h2>The two commands these numbers came from</h2>
+<h2>The two commands that produced these numbers</h2>
 <pre><code>$ gh api repos/BloopAI/vibe-kanban --jq '"\(.stargazers_count) stars, pushed \(.pushed_at[0:10]), archived \(.archived)"'
 28384 stars, pushed 2026-09-19, archived false
 
@@ -76,7 +76,7 @@ $ curl -s https://raw.githubusercontent.com/BloopAI/vibe-kanban/main/README.md |
 <p>The question is who patches it the next time a coding agent changes its CLI, and every tool in this category drives those CLIs by shelling out to them.</p>
 <p>Apache-2.0 means the fork and the patch are available to whoever wants them.</p>
 
-<h2>A replacement has to cover three separate things</h2>
+<h2>A replacement has to cover three things Vibe Kanban did</h2>
 <div class="wrap">
 <table>
 <thead><tr><th>What is lost</th><th>What it did</th><th>Who still does it</th></tr></thead>
@@ -109,7 +109,7 @@ $ curl -s https://raw.githubusercontent.com/BloopAI/vibe-kanban/main/README.md |
 </div>
 <p><a href="https://github.com/stravu/crystal">Crystal</a> appears on most lists of these tools and is dead, which its own description gives away by reading "Crystal is now Nimbalyst".</p>
 
-<h2>The part that mattered decides which one to try</h2>
+<h2>What mattered most about Vibe Kanban decides the replacement</h2>
 <div class="dia">
 <svg viewBox="0 0 640 110" role="img" aria-label="A decision guide from what mattered about Vibe Kanban to which replacement fits">
   <text x="0" y="11" class="lbl">WHAT MATTERED</text><text x="320" y="11" class="lbl">WHAT TO TRY</text>
@@ -120,7 +120,7 @@ $ curl -s https://raw.githubusercontent.com/BloopAI/vibe-kanban/main/README.md |
 </svg>
 </div>
 
-<h2>Agentbox, and why three weeks old matters</h2>
+<h2>Agentbox, and why a four-week-old project is a risk here</h2>
 <p>Every task gets its own git worktree, its own branch and its own agent, and finished work comes back as a row on a board or in an inbox to be answered, approved or closed. It runs Claude Code and Codex on an existing subscription, with no server and no account to make.</p>
 <p>Agentbox is three weeks old and has 78 stars, against the 28,384 being left behind. It has not demonstrated longevity, and pretending otherwise would be insulting to someone arriving from a shutdown.</p>
 <p>Agentbox is GPL-3.0 and runs on the local machine, so if Agentbox disappears the working copy stays where it is and every repository is untouched. Vibe Kanban's licence is doing exactly that for its users today, which is the strongest argument for staying put.</p>
@@ -175,7 +175,7 @@ Press Ctrl-C to stop.</code></pre>
 </svg>
 </div>
 
-<h2>Questions people ask</h2>
+<h2>Questions people ask after the shutdown</h2>
 
 <h3>Is Vibe Kanban dead?</h3>
 <p>Sunsetting rather than dead. The company stopped, the hosted side is off, and the repository is unarchived, with its last commit dated 19 September 2026. It can still be cloned, run locally and forked under Apache-2.0.</p>

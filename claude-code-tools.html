@@ -44,9 +44,9 @@
 <p class="kicker">Directory</p>
 <h1>Claude Code tools</h1>
 <p class="standfirst">Six searches against the GitHub API turned up the fifty-two tools below, in six categories, with the licence, the star count and the last commit date on every row. Every result was read before it went in, and the ones that only matched the words were dropped.</p>
-<p class="asof">Built 17 October 2026. The tables are generated from the API response rather than typed by hand.</p>
+<p class="asof">Built 17 October 2026, with the orchestrator rows re-read on 23 October. Those rows now carry the last commit on each default branch rather than the date the API hands over, and the rest of the tables still carry the older reading.</p>
 
-<h2>The last commit column rules out four tools</h2>
+<h2>Why the last commit column is the one to read first</h2>
 <p>Star counts measure popularity and nothing else. The column worth reading first is the last commit, because a tool in this ecosystem can go stale in a couple of months while its stars keep climbing.</p>
 <p>Four widely recommended projects in this space are dead, deprecated or have quietly become something else, and all four still turn up in articles published this year.</p>
 <pre><code>$ gh api repos/OWNER/REPO --jq '"\(.stargazers_count) stars, pushed \(.pushed_at[0:10])"'</code></pre>
@@ -68,22 +68,22 @@
 <table>
 <thead><tr><th>Tool</th><th>What it is</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
 <tbody>
-<tr><td><a href="https://github.com/stablyai/orca">orca</a></td><td>Orca is the place for working with a fleet of agents (e.g. Grok Bot, Cla</td><td>MIT</td><td>95,206</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>Open source Ghostty-based macOS terminal with vertical tabs and notifica</td><td>Source-available</td><td>28,228</td><td>17 Oct 2026 <span class="n">now a terminal</span></td></tr>
-<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>A powerful GUI app and Toolkit for Claude Code - Create custom agents, m</td><td>AGPL-3.0</td><td>22,409</td><td>18 Sep 2026</td></tr>
-<tr><td><a href="https://github.com/superset-sh/superset">superset</a></td><td>Superset is an agentic IDE to orchestrate 100+ coding agents in parallel</td><td>Source-available</td><td>15,312</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>Use Claude Code, OpenCode, Cursor CLI, and Codex on mobile and web with </td><td>AGPL-3.0</td><td>14,150</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/smtg-ai/claude-squad">claude-squad</a></td><td>Manage multiple AI terminal agents like Claude Code, Codex, OpenCode, an</td><td>AGPL-3.0</td><td>8,618</td><td>20 Aug 2026</td></tr>
-<tr><td><a href="https://github.com/generalaction/emdash">emdash</a></td><td>Emdash is the Open-Source Agentic Development Environment (🧡 YC W26). Ru</td><td>Apache-2.0</td><td>6,019</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/nimbalyst/nimbalyst">nimbalyst</a></td><td>Nimbalyst - The open-source visual workspace for Claude Code, Codex, and</td><td>MIT</td><td>1,917</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/hanshuaikang/nezha">nezha</a></td><td>Code Editor for the AI Agents Era. Run multiple Claude Code and Codex ag</td><td>GPL-3.0</td><td>1,906</td><td>17 Sep 2026</td></tr>
-<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>Coding Agent Session Manager for Claude Code / Gemini CLI / Codex CLI / </td><td>MIT</td><td>1,265</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">claude_code_agent_farm</a></td><td>Orchestration framework for running 20+ Claude Code agents in parallel: </td><td>Source-available</td><td>922</td><td>21 Sep 2026</td></tr>
-<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>Open-source, desktop client/UI build to harness Claude Code, Codex and a</td><td>MIT</td><td>386</td><td>15 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/hermes-hq/hermes-ide">hermes-ide</a></td><td>One console for every coding agent. Claude Code, Codex, Copilot, OpenCod</td><td>Source-available</td><td>337</td><td>15 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/imbue-ai/sculptor">sculptor</a></td><td>Build product with grounded, parallel coding agents.</td><td>MIT</td><td>240</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>Run multiple Claude Code and Codex sessions in parallel , a browser term</td><td>MIT</td><td>239</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/savannahfeder/agentbox">agentbox</a></td><td>A desktop GUI for running dozens of Claude Code and Codex agents in para</td><td>GPL-3.0</td><td>78</td><td>17 Oct 2026 <span class="n">the app behind this page</span></td></tr>
+<tr><td><a href="https://github.com/stablyai/orca">orca</a></td><td>Orca is the place for working with a fleet of agents (e.g. Grok Bot, Cla</td><td>MIT</td><td>102,844</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>Open source Ghostty-based macOS terminal with vertical tabs and notifica</td><td>GPL-3.0</td><td>28,355</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>A powerful GUI app and Toolkit for Claude Code - Create custom agents, m</td><td>AGPL-3.0</td><td>22,418</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">superset</a></td><td>Superset is an agentic IDE to orchestrate 100+ coding agents in parallel</td><td>Elastic 2.0</td><td>15,479</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>Use Claude Code, OpenCode, Cursor CLI, and Codex on mobile and web with </td><td>AGPL-3.0</td><td>14,249</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">claude-squad</a></td><td>Manage multiple AI terminal agents like Claude Code, Codex, OpenCode, an</td><td>AGPL-3.0</td><td>8,649</td><td>20 Aug 2026 <span class="n">2 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">emdash</a></td><td>Emdash is the Open-Source Agentic Development Environment (🧡 YC W26). Ru</td><td>Apache-2.0</td><td>6,057</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">nimbalyst</a></td><td>Nimbalyst - The open-source visual workspace for Claude Code, Codex, and</td><td>MIT</td><td>1,960</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hanshuaikang/nezha">nezha</a></td><td>Code Editor for the AI Agents Era. Run multiple Claude Code and Codex ag</td><td>GPL-3.0</td><td>1,908</td><td>16 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>Coding Agent Session Manager for Claude Code / Gemini CLI / Codex CLI / </td><td>MIT</td><td>1,270</td><td>18 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">claude_code_agent_farm</a></td><td>Orchestration framework for running 20+ Claude Code agents in parallel: </td><td>MIT, with a rider</td><td>922</td><td>21 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>Open-source, desktop client/UI build to harness Claude Code, Codex and a</td><td>MIT</td><td>391</td><td>19 Jun 2026 <span class="n">4 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/hermes-hq/hermes-ide">hermes-ide</a></td><td>One console for every coding agent. Claude Code, Codex, Copilot, OpenCod</td><td>BUSL-1.1</td><td>342</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">sculptor</a></td><td>Build product with grounded, parallel coding agents.</td><td>MIT</td><td>240</td><td>20 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>Run multiple Claude Code and Codex sessions in parallel , a browser term</td><td>MIT</td><td>244</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">agentbox</a></td><td>A desktop GUI for running dozens of Claude Code and Codex agents in para</td><td>GPL-3.0</td><td>94</td><td>23 Oct 2026</td></tr>
 <tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>A Kanban-style TUI for parallel AI coding. Manage Git worktrees as tasks</td><td>MIT</td><td>47</td><td>13 Oct 2026</td></tr>
 <tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>Closed-source Mac app, cloud workspaces on Pro</td><td>Closed</td><td>no repo</td><td>Free / $50 / $60 seat</td></tr>
 </tbody>
@@ -266,7 +266,7 @@
 </svg>
 </div>
 
-<h2>What a good setup looks like</h2>
+<h2>What a good setup looks like, week by week</h2>
 <p>Most people end up with three or four of these rather than twenty.</p>
 
 <h3>Week one is a status line</h3>
@@ -300,7 +300,7 @@
 
 <h2>Where Agentbox sits in the list</h2>
 <p>Agentbox is the project behind this page and sits near the bottom of the first table by stars. It runs dozens of Claude Code and Codex agents in parallel, each in its own git worktree, and hands the finished ones back as rows to answer like email or to work through as a board.</p>
-<p>Agentbox is three weeks old, carries 78 stars against Orca's 95,206, has no native Windows build and has no company behind it. If any of that matters more than being free and readable, the tables above name the alternatives.</p>
+<p>Agentbox is four weeks old, carries 94 stars against Orca's 102,844, has no native Windows build and has no company behind it. If any of that matters more than being free and readable, the tables above name the alternatives.</p>
 
 <figure>
   <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">

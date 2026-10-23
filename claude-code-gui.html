@@ -42,98 +42,140 @@
 <main>
 <p class="kicker">Guide</p>
 <h1>Is there a GUI for Claude Code?</h1>
-<p class="standfirst">Yes, and Anthropic ships it. The Code tab in the Claude desktop app runs sessions in parallel, each optionally in its own git worktree, with an integrated terminal and a diff view, on macOS, Windows and a Linux beta. Twenty-one third-party front ends exist beside it, and the question this page answers is which of them is still worth running.</p>
-<p class="asof">Written 16 October 2026, corrected 23 October against Anthropic's own documentation. Stars and licences come from the GitHub API on 17 October and have moved since, by 7.9% in Orca's case.</p>
+<p class="standfirst">Yes, and Anthropic ships it. The Code tab in the Claude desktop app runs sessions in parallel, each optionally in its own git worktree, with an integrated terminal and a diff view, on macOS, Windows and a Linux beta. The CLI has <code>claude agents</code>, which groups every background session under Needs input and Working. Twenty-one third-party front ends exist beside those, and the question worth answering now is which of them still beats them.</p>
+<p class="asof">Written 16 October 2026, rewritten 23 October against Anthropic's own documentation. Every star count, licence and commit date below was read again that day, and the licences were read from each project's LICENSE file where the API could not name one.</p>
 
-<h2>People go looking after they lose track of an agent</h2>
-<p>Somebody starts four agents, goes off to do something else, and comes back unable to tell which has finished, which is mid-thought, and which has been sitting on a yes-or-no question for twenty minutes.</p>
+<h2>Anthropic ships Claude Code for the desktop, the browser, two editors and the terminal</h2>
+<p>Anthropic's overview page opens with the sentence that settles the question. Claude Code is "available in your terminal, IDE, desktop app, and browser".</p>
+
+<div class="wrap">
+<table>
+<thead><tr><th>Surface</th><th>Runs on</th><th>Several agents at once</th></tr></thead>
+<tbody>
+<tr><td>Desktop app, the Code tab</td><td>macOS, Windows x64 and ARM64, Linux beta</td><td>Yes, from a sidebar</td></tr>
+<tr><td>Web, at claude.ai/code</td><td>Any browser, plus the iOS and Android apps</td><td>Yes, and a project coordinates them</td></tr>
+<tr><td>VS Code extension</td><td>VS Code and Cursor</td><td>Yes, in separate tabs or windows</td></tr>
+<tr><td>JetBrains plugin</td><td>IntelliJ, PyCharm, WebStorm and others</td><td>Needs the CLI installed separately</td></tr>
+<tr><td>Terminal CLI</td><td>macOS, Linux, WSL, native Windows</td><td>Yes, through <code>claude agents</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>A paid Claude subscription covers the desktop app, which bundles Claude Code so the CLI need not be installed first.</p>
+
+<h2>What Anthropic's desktop app can do</h2>
+<p>Anthropic's own list for the desktop app reads "parallel sessions with Git isolation, drag-and-drop pane layout, integrated terminal and file editor, side chats, computer use, Dispatch sessions from your phone, visual diff review, app previews, PR monitoring, connectors, and enterprise configuration".</p>
+<p>Several sessions run at once from the sidebar. Turning on Worktree puts a session in its own git worktree, which is off by default and needs git installed. The app sends an operating system notification when a session finishes a task and nobody is looking at that session. Sessions run on the local machine, in the cloud, or over SSH, and the cloud ones keep going after the laptop shuts.</p>
+
+<h2>The terminal has its own version, called claude agents</h2>
+<p><code>claude agents</code> opens one screen for every background session. It groups them so the ones needing an answer sit at the top, under the headings Ready for review, Needs input, Working and Completed, and it sends a notification through the terminal's notification channel when a session starts needing input, finishes or fails.</p>
+<p>It also isolates them without being asked. Before a background session edits a file, Claude moves it into a worktree under <code>.claude/worktrees/</code>, so parallel sessions read one checkout and each writes to its own.</p>
+<p>Anthropic marks the feature a research preview and says the interface and shortcuts may change.</p>
+
+<h2>Six things Anthropic's app and claude agents still do not do</h2>
+<p>Four of the limits below are Anthropic's own, published in the agent view documentation, and the rest are plain properties of a first-party tool.</p>
+<ul>
+<li>An interactive session open in another terminal does not appear until it is backgrounded.</li>
+<li>Every prompt typed into agent view starts a new session rather than continuing one.</li>
+<li>Shutting the machine down stops the running sessions, though sleep is handled.</li>
+<li>Each session spends the subscription quota independently, so the docs say to read the limits before dispatching many at once.</li>
+<li>It drives Claude Code. Codex and the other coding CLIs are somebody else's problem.</li>
+<li>The sidebar is a list of sessions rather than a board, and nothing orders them by which task matters most.</li>
+</ul>
+<p>Those last two are why most of the twenty-one tools below exist, and the first four are why the terminal still loses people.</p>
 
 <div class="dia">
 <svg viewBox="0 0 640 104" role="img" aria-label="Five identical terminal tabs, only one of which is waiting for an answer">
-  <text x="0" y="11" class="lbl">FIVE TABS, ONE IS WAITING</text>
+  <text x="0" y="11" class="lbl">FIVE RAW TABS, ONE IS WAITING</text>
   <rect class="box" x="0" y="22" width="118" height="44"/><text x="14" y="48">tab 1</text>
   <rect class="box" x="130" y="22" width="118" height="44"/><text x="144" y="48">tab 2</text>
   <rect class="wait" x="260" y="22" width="118" height="44"/><text x="274" y="48" class="hot">tab 3</text>
   <rect class="box" x="390" y="22" width="118" height="44"/><text x="404" y="48">tab 4</text>
   <rect class="box" x="520" y="22" width="118" height="44"/><text x="534" y="48">tab 5</text>
-  <text x="0" y="90">a finished agent looks exactly like a working one</text>
+  <text x="0" y="90">agent view fixes this, and only for sessions it knows about</text>
 </svg>
 </div>
-<p>The test is whether the interface says which agent needs an answer, and several of the options in the table below do not.</p>
+<p>A session started in an ordinary terminal and never backgrounded is still a pane that looks identical to every other pane.</p>
 
 <figure>
   <img src="/assets/shots/inbox-urgent.webp" alt="Finished agents as rows, each saying what it did and asking to merge, with urgent ones grouped at the top" width="1600" height="631" loading="lazy">
-  <figcaption>One answer to that, with the stopped agents each saying what it did and what it wants next.</figcaption>
+  <figcaption>One of the third-party answers, with the stopped agents each saying what it did and what it wants next.</figcaption>
 </figure>
 
-<h2>The four shapes of front end</h2>
-<p>The right shape changes completely between running one agent and running five.</p>
+<h2>The four kinds of third-party front end</h2>
+<p>Editor plugins are missing from this list because the two that matter are Anthropic's own, covered above. What is left splits four ways, and the counts come from the table below rather than from a guess.</p>
 
-<h3>An editor plugin</h3>
-<p>An editor plugin keeps everything inside VS Code or a JetBrains IDE, the only one of the four shapes with no new window to learn. It handles one agent at a time, because the editor does not know the others exist.</p>
+<h3>Eleven of the twenty-one are desktop apps for running many agents</h3>
+<p>Each agent gets its own git worktree, and the app becomes the place where all of them are watched. They differ mainly in the form of the thing that reports an agent has stopped, which is a grid, a board, a list or an inbox.</p>
 
-<h3>A terminal that knows about agents</h3>
-<p>This shape adds tabs, status indicators and notifications over the same text that was there before. <a href="https://github.com/manaflow-ai/cmux">cmux</a> is the one in the table below now, having moved from orchestration to being a Ghostty-based macOS terminal.</p>
+<h3>Five of the twenty-one are terminal interfaces, not graphical ones</h3>
+<p>Claude Squad, ccmanager, devteam, grove and Agent Farm draw their interface in the terminal rather than in a window. Counting them among graphical front ends is a stretch, and they are here because every roundup in this category lists them.</p>
 
-<h3>A desktop app running many agents</h3>
-<p>Each agent gets its own git worktree, and the app itself becomes the place where all of them are watched. Most of the projects still alive sit in this shape, and they differ mainly in the form of the thing that reports an agent has stopped, which is a grid, a board, a list or an inbox.</p>
+<h3>Three of the twenty-one run in a browser</h3>
+<p>A web UI runs on a local machine or on a rented box and opens in a browser, which is the only one of the four shapes that reaches a phone without a native app. <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> is the largest of the three.</p>
 
-<h3>A self-hosted web UI</h3>
-<p>A self-hosted web UI runs on a local machine or on a box somebody rents and opens in a browser, which makes it the only one of the four shapes that reaches a phone without a native app. <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> is the biggest self-hosted web UI of the twenty-one.</p>
+<h3>One of the twenty-one is a terminal emulator built for agents</h3>
+<p><a href="https://github.com/manaflow-ai/cmux">cmux</a> adds tabs, status indicators and notifications over the same text that was there before, having moved from orchestration to being a Ghostty-based macOS terminal.</p>
 
 <div class="dia">
-<svg viewBox="0 0 640 128" role="img" aria-label="Four shapes of Claude Code front end and how many agents each suits">
-  <text x="0" y="11" class="lbl">SHAPE</text><text x="300" y="11" class="lbl">SUITS</text><text x="470" y="11" class="lbl">AGENTS</text>
-  <text x="0" y="34">editor plugin</text><line x1="250" y1="30" x2="290" y2="30"/><text x="300" y="34">staying in one IDE</text><text x="470" y="34" class="hot">1</text>
-  <text x="0" y="58">agent-aware terminal</text><line x1="250" y1="54" x2="290" y2="54"/><text x="300" y="58">terminal people</text><text x="470" y="58" class="hot">1 to 3</text>
-  <text x="0" y="82">desktop, many agents</text><line x1="250" y1="78" x2="290" y2="78"/><text x="300" y="82">losing track of them</text><text x="470" y="82" class="hot">3 and up</text>
-  <text x="0" y="106">self-hosted web UI</text><line x1="250" y1="102" x2="290" y2="102"/><text x="300" y="106">phone or remote box</text><text x="470" y="106" class="hot">any</text>
+<svg viewBox="0 0 640 128" role="img" aria-label="Four shapes of third-party Claude Code front end, how many there are and how many agents each suits">
+  <text x="0" y="11" class="lbl">SHAPE</text><text x="250" y="11" class="lbl">HOW MANY</text><text x="360" y="11" class="lbl">SUITS</text><text x="540" y="11" class="lbl">AGENTS</text>
+  <text x="0" y="34">desktop, many agents</text><text x="250" y="34">11</text><line x1="310" y1="30" x2="350" y2="30"/><text x="360" y="34">losing track of them</text><text x="540" y="34" class="hot">3 and up</text>
+  <text x="0" y="58">terminal interface</text><text x="250" y="58">5</text><line x1="310" y1="54" x2="350" y2="54"/><text x="360" y="58">staying in the terminal</text><text x="540" y="58" class="hot">1 to 3</text>
+  <text x="0" y="82">web UI</text><text x="250" y="82">3</text><line x1="310" y1="78" x2="350" y2="78"/><text x="360" y="82">a phone or a remote box</text><text x="540" y="82" class="hot">any</text>
+  <text x="0" y="106">agent-aware terminal</text><text x="250" y="106">1</text><line x1="310" y1="102" x2="350" y2="102"/><text x="360" y="106">one window for everything</text><text x="540" y="106" class="hot">1 to 3</text>
 </svg>
 </div>
 
-<h2>Twenty-one front ends, as of 17 October 2026</h2>
-<p>Other roundups list four to nine tools and copy each other's choices, and some of what they print carries no findable source at all.</p>
+<h2>Twenty-one front ends, read on 23 October 2026 UTC</h2>
+<p>Other roundups list four to nine tools and copy each other's choices, and some of what they print carries no findable source at all. The last column is the one to read first, and it is the last commit on each project's default branch rather than the figure the API hands over.</p>
 <div class="wrap">
 <table>
-<thead><tr><th>Project</th><th>Shape</th><th>Platform</th><th>Licence</th><th>Stars</th></tr></thead>
+<thead><tr><th>Project</th><th>Runs on</th><th>Licence</th><th>Stars</th><th>Last commit</th></tr></thead>
 <tbody>
-<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>Desktop, many agents</td><td>macOS, Windows, Linux</td><td>MIT</td><td>95,206</td></tr>
-<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>Agent-aware terminal</td><td>macOS</td><td>Source-available</td><td>28,228 <span class="n">pivoted</span></td></tr>
-<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>Local web app, board</td><td>Browser</td><td>Apache-2.0</td><td>28,384 <span class="n">sunsetting</span></td></tr>
-<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>Desktop, session manager</td><td>macOS, Windows, Linux</td><td>AGPL-3.0</td><td>22,409</td></tr>
-<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>Desktop, many agents</td><td>macOS, iOS</td><td>Source-available</td><td>15,312</td></tr>
-<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>Self-hosted web UI</td><td>Browser, mobile</td><td>AGPL-3.0</td><td>14,150</td></tr>
-<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>Terminal UI, tmux</td><td>macOS, Linux</td><td>AGPL-3.0</td><td>8,618</td></tr>
-<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>Desktop, board</td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>6,019</td></tr>
-<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td>Desktop, many agents</td><td>macOS</td><td>MIT</td><td>3,132 <span class="n">deprecated</span></td></tr>
-<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>Desktop, board</td><td>macOS, Windows, Linux, iOS</td><td>MIT</td><td>1,917</td></tr>
-<tr><td><a href="https://github.com/hanshuaikang/nezha">Nezha</a></td><td>Desktop editor</td><td>macOS, Windows, Linux</td><td>GPL-3.0</td><td>1,906</td></tr>
-<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>Terminal UI</td><td>macOS, Linux</td><td>MIT</td><td>1,265</td></tr>
-<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a></td><td>tmux orchestrator</td><td>macOS, Linux</td><td>Source-available</td><td>922</td></tr>
-<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>Desktop client</td><td>macOS, Windows, Linux</td><td>MIT</td><td>386</td></tr>
-<tr><td><a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a></td><td>Desktop console</td><td>macOS, Windows, Linux</td><td>Source-available</td><td>337</td></tr>
-<tr><td><a href="https://github.com/agent-era/devteam">devteam</a></td><td>Terminal UI</td><td>macOS, Linux</td><td>MIT</td><td>265</td></tr>
-<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>Desktop, Docker</td><td>Desktop</td><td>MIT</td><td>240</td></tr>
-<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>Browser terminal grid</td><td>Browser</td><td>MIT</td><td>239</td></tr>
-<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>Kanban TUI</td><td>macOS, Linux</td><td>MIT</td><td>47</td></tr>
-<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>Desktop, inbox and board</td><td>macOS, or a browser</td><td>GPL-3.0</td><td>78 <span class="n">the app behind this page</span></td></tr>
-<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>Desktop, many agents</td><td>macOS only</td><td>Closed</td><td>no public repo</td></tr>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>macOS, Windows, Linux, phone</td><td>MIT</td><td>102,844</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>28,434 <span class="n">sunsetting</span></td><td>19 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>macOS, phone</td><td>GPL-3.0</td><td>28,355 <span class="n">now a terminal</span></td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>macOS, Windows, Linux</td><td>AGPL-3.0</td><td>22,418</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>macOS, Linux, phone</td><td>Elastic 2.0</td><td>15,479</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>macOS, Windows, Linux, phone</td><td>AGPL-3.0</td><td>14,249 <span class="n">now CloudCLI</span></td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>macOS, Windows, Linux</td><td>AGPL-3.0</td><td>8,649</td><td>20 Aug 2026 <span class="n">2 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>macOS, Windows, Linux</td><td>Apache-2.0</td><td>6,057</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td>macOS, Linux</td><td>MIT</td><td>3,131 <span class="n">deprecated</span></td><td>26 Feb 2026 <span class="n">7 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>macOS, Windows, Linux, phone</td><td>MIT</td><td>1,960</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hanshuaikang/nezha">Nezha</a></td><td>macOS, Windows, Linux</td><td>GPL-3.0</td><td>1,908</td><td>16 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>macOS, Windows, Linux</td><td>MIT</td><td>1,270</td><td>18 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a></td><td>macOS, Linux</td><td>MIT, with a rider</td><td>922</td><td>21 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>macOS, Windows, Linux</td><td>MIT</td><td>391</td><td>19 Jun 2026 <span class="n">4 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a></td><td>macOS, Windows, Linux</td><td>BUSL-1.1</td><td>342</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/agent-era/devteam">devteam</a></td><td>macOS, Linux</td><td>MIT</td><td>265</td><td>25 May 2026 <span class="n">5 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>macOS, Windows, Linux, phone</td><td>MIT</td><td>244</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>macOS, Linux</td><td>MIT</td><td>240</td><td>20 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>macOS, Linux</td><td>GPL-3.0</td><td>94 <span class="n">the app behind this page</span></td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>macOS, Windows, Linux, phone</td><td>MIT</td><td>47</td><td>21 Oct 2026</td></tr>
+<tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>macOS, phone</td><td>Closed</td><td>no public repo</td><td>Free, Pro $50/mo</td></tr>
 </tbody>
 </table>
 </div>
 
-<h2>Three of these tools are dead or pivoted</h2>
-<p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is sunsetting, and its README puts the notice above the screenshots and links to <a href="https://www.vibekanban.com/blog/shutdown">the announcement</a> from 10 April 2026, with the last commit on 19 September. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated, with a description that now reads "Crystal is now Nimbalyst", and <a href="https://github.com/manaflow-ai/cmux">cmux</a> is no longer an orchestrator at all.</p>
-<p>All three of them still appear on recommendation lists written this year, and the last commit date is what catches them.</p>
+<h2>Six of the twenty-one are dead, renamed or have gone quiet</h2>
+<p>Three have said so themselves. <a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is sunsetting, with the notice above the screenshots in its own README, linking <a href="https://www.vibekanban.com/blog/shutdown">the announcement</a> from 10 April 2026. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated, and its description now opens "Crystal is now Nimbalyst". <a href="https://github.com/manaflow-ai/cmux">cmux</a> is a macOS terminal now rather than an orchestrator, and it is one of the most active repositories on the list.</p>
+<p>Three more have simply gone quiet, which nothing announces. <a href="https://github.com/OpenSource03/harnss">harnss</a> last moved its default branch on 19 June, <a href="https://github.com/agent-era/devteam">devteam</a> on 25 May, and <a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a> on 20 August. harnss is the one worth knowing about, because its <code>pushed_at</code> reads 21 October and sixty-five side branches keep it looking busy.</p>
+<p>All six still turn up on recommendation lists written this year. The default-branch commit date is what catches them, and it is the column those lists do not carry.</p>
 
-<h2>Four questions separate these tools</h2>
+<h2>Four questions worth asking about any of these tools</h2>
 <p>The screenshots are the least useful part of every project page on the list.</p>
 <p>The first question is whether the interface shows which agents are waiting without each one being opened, the second is whether it isolates each agent in its own worktree or lets them share a folder, the third is whether it runs on a Claude subscription or wants an API key, and the fourth is when it last got a commit.</p>
-<pre><code>$ gh repo view stablyai/orca --json stargazerCount,pushedAt,licenseInfo
-{"stargazerCount":95206,"pushedAt":"2026-10-17T...","licenseInfo":{"spdxId":"MIT"}}</code></pre>
-<p>That one command answers the last of those four questions for any repository on the list, and the licence and star columns above come from it.</p>
 
-<h2>What a GUI does not fix</h2>
+<h3>The commit date most roundups print is the wrong one</h3>
+<p>The obvious way to answer the fourth question returns a date that can be months newer than the truth. Taking harnss, which is in the table above.</p>
+<pre><code>$ gh repo view OpenSource03/harnss --json pushedAt
+{"pushedAt":"2026-10-21T07:07:52Z"}</code></pre>
+<p><code>pushedAt</code> moves when anything is pushed to any branch, including a branch nobody ever merges. The date that answers the question is the last commit on the branch a reader would install from, which for harnss is <code>master</code> rather than <code>main</code>.</p>
+<pre><code>$ gh api repos/OpenSource03/harnss/commits/master --jq .commit.committer.date
+2026-06-19T...</code></pre>
+<p>Four months separate those two readings of the same repository, and the newer one is what makes a quiet project look busy. Every date in the table above is the second kind, which is the one roundups in this category almost never use.</p>
+
+<h2>Three problems no front end fixes</h2>
 <p>None of the twenty-one front ends fixes the three things below.</p>
 <p><strong>Reviewing the work.</strong> Five finished agents mean five diffs to read, and that reading is the slowest part of the whole loop. An app can put the diff on screen, but it cannot decide whether the change is right.</p>
 <p><strong>Writing the task.</strong> A vague instruction produces a vague branch, and running ten agents at once multiplies the vagueness.</p>
@@ -167,16 +209,16 @@ Press Ctrl-C to stop.</code></pre>
 <p>It listens only on <code>127.0.0.1</code>, the key changes every run and nothing is hosted.</p>
 
 <h3>Is there a free and open-source option?</h3>
-<p>Most of the table is. MIT, Apache-2.0, AGPL-3.0 and GPL-3.0 are all represented, and the only closed-source entry is Conductor. Two of the projects are source-available, which is not the same as open source.</p>
+<p>Seventeen of the twenty-one are, under MIT, Apache-2.0, AGPL-3.0 or GPL-3.0. Four are not. Superset is Elastic License 2.0, Hermes IDE is Business Source License 1.1, Agent Farm is MIT with a rider barring use in machine learning training, and Conductor is closed and has no public repository. Conductor does have a free tier, so "not open source" and "not free" are different lists here.</p>
 
 <h3>Is there one for Windows?</h3>
-<p>Yes, and the list is shorter than it looks because several well-known options are macOS only. <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a>, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, <a href="https://github.com/hanshuaikang/nezha">Nezha</a> and <a href="https://github.com/OpenSource03/harnss">harnss</a> all ship Windows builds, according to their own READMEs.</p>
+<p>Anthropic's own desktop app ships Windows x64 and ARM64 installers, and the CLI installs with <code>winget install Anthropic.ClaudeCode</code>, so the first answer here is first-party. Among the twenty-one, <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/winfunc/opcode">opcode</a>, <a href="https://github.com/generalaction/emdash">Emdash</a>, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a>, <a href="https://github.com/hanshuaikang/nezha">Nezha</a>, <a href="https://github.com/OpenSource03/harnss">harnss</a> and <a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a> ship Windows builds. Nezha states no platforms in either of its READMEs, so that one is read from its release assets instead.</p>
 
 <h3>Is there one for Linux?</h3>
-<p>The same five, plus the terminal UIs, plus anything that runs in a browser. Agentbox installs on Linux from a checkout and adds a launcher entry, and `npx agentbox-app` works anywhere Node 22 does.</p>
+<p>Anthropic's desktop app has a Linux beta, installed with apt or a .deb on Ubuntu and Debian. Among the twenty-one, the same seven that ship Windows mostly ship Linux too, plus the terminal interfaces and anything that runs in a browser. Agentbox installs on Linux from a checkout and adds a launcher entry, and <code>npx agentbox-app</code> works anywhere Node 22 does.</p>
 
 <h3>Can I run one in a browser or on my phone?</h3>
-<p><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> is built for exactly that and is the largest of the self-hosted web UIs among the twenty-one. <a href="https://github.com/superset-sh/superset">Superset</a> has a native iOS app and <a href="https://conductor.build/pricing">Conductor</a> has a mobile app on its $50 Pro plan.</p>
+<p>Anthropic reaches a phone first, through claude.ai/code in a mobile browser and the Claude apps for iOS and Android, and Dispatch pushes a notification when a desktop session finishes or needs approval. Among the twenty-one, <a href="https://github.com/stablyai/orca">Orca</a> ships both an iOS and an Android app, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> ships an iOS companion, <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> runs in any mobile browser, <a href="https://github.com/superset-sh/superset">Superset</a>'s iOS app needs its paid tier, and <a href="https://conductor.build/pricing">Conductor</a>'s mobile app needs the $50 Pro plan.</p>
 
 <h2>Questions about the terminal</h2>
 
@@ -184,13 +226,13 @@ Press Ctrl-C to stop.</code></pre>
 <p>Below three agents, the terminal is fine and an app is overhead. Above three, the app starts paying for itself, because the cost it removes is the tab-checking rather than anything the machine does.</p>
 
 <h3>Is a GUI slower than the terminal?</h3>
-<p>No, because the agents wait on a model rather than on the interface. Three agents running together finished in 17.1 seconds against 16.4 for one alone, and the front end accounts for none of that. <a href="/run-multiple-claude-code-agents#measured">The timings and the method are here</a>.</p>
+<p>No, because the agents wait on a model rather than on the interface. Three agents started together finished inside the time a single agent took, and the front end accounts for none of that. <a href="/run-multiple-claude-code-agents#measured">The timings and the method are here</a>.</p>
 
 <h3>What about a TUI instead?</h3>
-<p><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a>, <a href="https://github.com/kbwo/ccmanager">ccmanager</a>, <a href="https://github.com/agent-era/devteam">devteam</a> and <a href="https://github.com/GarrickZ2/grove">grove</a> are terminal interfaces rather than graphical ones, and the twenty-one includes them. They stay in one window, carry no Electron, and suit people who already live in tmux.</p>
+<p><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a>, <a href="https://github.com/kbwo/ccmanager">ccmanager</a>, <a href="https://github.com/agent-era/devteam">devteam</a> and <a href="https://github.com/GarrickZ2/grove">grove</a> and <a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a> are terminal interfaces rather than graphical ones, and the twenty-one includes all five. They stay in one window, carry no Electron, and suit people who already live in tmux. <code>claude agents</code> now covers much of the same ground without installing any of them.</p>
 
 <h3>Can I use one over ssh?</h3>
-<p>A TUI works over ssh and a desktop app does not. For a remote box, a self-hosted web UI is the usual answer, because it needs only a forwarded port and a browser.</p>
+<p>Anthropic's desktop app runs sessions over SSH on a remote machine, which it lists beside local and cloud as one of three environments, so the old answer that desktop apps cannot do this is no longer right. Among the twenty-one, a terminal interface works over ssh by its nature, and a web UI needs only a forwarded port and a browser.</p>
 
 <h2>Questions about how they work</h2>
 
@@ -210,12 +252,14 @@ Press Ctrl-C to stop.</code></pre>
 <h3>What happens to my repository?</h3>
 <p>Each task gets a worktree and a branch, to merge or delete when it is done. A local tool sends nothing anywhere and leaves the existing branches alone.</p>
 
-<h2>Every number came off the GitHub API</h2>
-<p>Every number in the table comes from the GitHub API on 17 October 2026, and the check is short enough for anybody to re-run.</p>
-<pre><code>for r in stablyai/orca manaflow-ai/cmux smtg-ai/claude-squad; do
-  gh api repos/$r --jq '"\(.full_name) \(.stargazers_count) \(.pushed_at[0:10])"'
+<h2>How to check every number in the table yourself</h2>
+<p>Every figure in the table was read on 23 October 2026 UTC, and the check fits in four lines. It asks for the default branch first, then the last commit on it, which is the step the <code>pushed_at</code> shortcut skips.</p>
+<pre><code>for r in stablyai/orca OpenSource03/harnss smtg-ai/claude-squad; do
+  b=$(gh api repos/$r --jq .default_branch)
+  gh api repos/$r/commits/$b --jq "\"$r \(.commit.committer.date[0:10])\""
 done</code></pre>
-<p>The platform and shape columns come from the README of every project on the list. Where a project calls itself source-available rather than open source, the table repeats that wording, because the distinction matters to the people who go looking for an open-source option.</p>
+<p>Licences needed a second step for four of the twenty-one. The API answers <code>NOASSERTION</code> for cmux, Superset, Hermes IDE and Agent Farm, so those four were read from the LICENSE file itself. cmux is the one that matters, because the API's silence hides that everything a reader downloads is GPL-3.0 and only six server directories are not, and a table trusting the API alone marks the whole project source-available.</p>
+<p>The platform and shape columns come from each project's README and its release assets. Nezha states no platforms in either README, so its row is built from the installers it publishes. Where a project calls itself source-available rather than open source, the table repeats that wording, because the distinction matters to the people who go looking for an open-source option.</p>
 
 <div class="dia">
 <svg viewBox="0 0 640 96" role="img" aria-label="How a claim moves from one roundup to the next without being rechecked">
@@ -235,36 +279,38 @@ done</code></pre>
 <p>Some front ends allow pointing Claude Code at a different endpoint, which is a Claude Code setting rather than something the interface provides. Most of the tools assume the hosted model and say nothing either way, so the project's README is the place to look for it.</p>
 
 <h3>Will it keep working when Claude Code changes?</h3>
-<p>Every tool here drives the CLI, so one change to the CLI can break all of them at once. What protects against that is a commit in the last month, and four entries in the table above have not had one.</p>
+<p>Most tools here drive the CLI by shelling out to it, so one change to the CLI can break several at once. harnss is the exception, speaking the Agent Client Protocol instead, which is a published boundary rather than screen scraping. What protects against the rest is a recent commit on the default branch, which is the column most roundups get wrong.</p>
 
 <h3>What happens to my shell setup, aliases and hooks?</h3>
 <p>A desktop app usually spawns its own shell, so a login-shell alias may be missing. Anything configured inside Claude Code travels with it, because the app runs the same binary as the command line.</p>
 
-<h2>What Agentbox does</h2>
+<h2>What Agentbox does that Anthropic's app does not</h2>
 <p>Every task in Agentbox gets its own git worktree, its own branch and its own agent, and all of them run at the same time. When one finishes or gets stuck, its row comes back to the top of the inbox, to be answered, approved or closed. There is a board as well as the inbox, and the terminal and the diff are built in.</p>
-<p>It runs Claude Code and Codex locally on an existing Claude or Codex subscription, with no server in the middle, no account and no API key.</p>
+<p>Three of those differ from Anthropic's own app rather than repeating it. Claude Code and Codex run side by side on the same board, on whichever subscription each task should spend. Projects can be ranked so the most important work starts first, where a sidebar is an undifferentiated list. And it runs in a browser through <code>npx agentbox-app</code>, which reaches Linux and Windows without a build for either.</p>
+<p>Everything runs locally on an existing subscription, with no server in the middle, no account and no API key.</p>
 
 <figure>
   <img src="/assets/shots/agents-working.webp" alt="A grid of more than a hundred agent rows, each with a task title and how long it has been working" width="960" height="540" loading="lazy">
   <figcaption>More than a hundred agents still working. Nothing in this view is asking for anything.</figcaption>
 </figure>
 
-<h2>Start with the CLI's own worktree support</h2>
-<p>The CLI's own worktree support costs five minutes and is enough for a lot of people.</p>
-<p>Windows narrows the list to five, a phone narrows it to three, wanting to read the source removes one, and wanting a support contract leaves only Conductor.</p>
+<h2>Try Anthropic's own app before installing a third-party one</h2>
+<p>The desktop app comes with a Claude subscription and <code>claude agents</code> costs one command, and between them they cover what most people came to this page for. Anything on the list below has to beat that rather than beat a bare terminal.</p>
+<p>What is left to choose on is narrower than it was. Windows narrows the twenty-one to seven, a phone to five, wanting to read the source removes four, and wanting a support contract leaves only Conductor.</p>
 
 <h2>Where Agentbox loses</h2>
-<p>Agentbox has 78 stars against Orca's 95,206 and is three weeks old. There is no native Windows build, where <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/generalaction/emdash">Emdash</a> and <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> all ship one, and no mobile app, where <a href="https://github.com/superset-sh/superset">Superset</a> and <a href="https://conductor.build/pricing">Conductor</a> both have one. And there is no company behind it.</p>
+<p>The competitor that matters most is Anthropic, and it wins on the things a first party wins on. The desktop app is supported, it is included in a subscription, it will track every change to Claude Code before anybody else does, and it reaches a phone through Dispatch and the Claude apps. Agentbox has none of that.</p>
+<p>Against the twenty-one, Agentbox is four weeks old with no native Windows build, where <a href="https://github.com/stablyai/orca">Orca</a>, <a href="https://github.com/winfunc/opcode">opcode</a>, <a href="https://github.com/generalaction/emdash">Emdash</a>, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> and three others ship one, and no mobile app, where Orca ships iOS and Android. If any of those is the deciding thing, the table above says who to use instead.</p>
 
-<h2>Which one to pick</h2>
+<h2>Which front end to pick, by what matters most</h2>
 <div class="dia">
 <svg viewBox="0 0 640 128" role="img" aria-label="A decision guide from what matters most to which front end fits">
   <text x="0" y="11" class="lbl">WHAT MATTERS MOST</text><text x="330" y="11" class="lbl">WHAT FITS</text>
-  <text x="0" y="34">the largest community</text><line x1="230" y1="30" x2="320" y2="30"/><text x="330" y="34" class="hot">Orca</text>
-  <text x="0" y="56">a native Windows build</text><line x1="230" y1="52" x2="320" y2="52"/><text x="330" y="56" class="hot">Emdash, Nimbalyst, Nezha</text>
-  <text x="0" y="78">a browser or a phone</text><line x1="230" y1="74" x2="320" y2="74"/><text x="330" y="78" class="hot">claudecodeui, Agentbox</text>
-  <text x="0" y="100">to stay in the terminal</text><line x1="230" y1="96" x2="320" y2="96"/><text x="330" y="100" class="hot">Claude Squad, ccmanager</text>
-  <text x="0" y="122">free, open source, an existing plan</text><line x1="230" y1="118" x2="320" y2="118"/><text x="330" y="122" class="hot">Agentbox</text>
+  <text x="0" y="34">support, and one vendor</text><line x1="230" y1="30" x2="320" y2="30"/><text x="330" y="34" class="hot">Anthropic's desktop app</text>
+  <text x="0" y="56">nothing to install</text><line x1="230" y1="52" x2="320" y2="52"/><text x="330" y="56" class="hot">claude agents, claude.ai/code</text>
+  <text x="0" y="78">the largest community</text><line x1="230" y1="74" x2="320" y2="74"/><text x="330" y="78" class="hot">Orca</text>
+  <text x="0" y="100">a phone</text><line x1="230" y1="96" x2="320" y2="96"/><text x="330" y="100" class="hot">Orca, Nimbalyst, claudecodeui</text>
+  <text x="0" y="122">Claude and Codex on one board</text><line x1="230" y1="118" x2="320" y2="118"/><text x="330" y="122" class="hot">Agentbox</text>
 </svg>
 </div>
 

@@ -43,9 +43,9 @@
 <p class="kicker">Guide</p>
 <h1>How to run multiple Claude Code agents in parallel</h1>
 <p class="standfirst">Three Claude Code agents running against one repository finished in 17.1 seconds of wall clock, inside the 16.4 seconds a single agent took on its own question. In bare terminal panes, finding out which of the three had finished meant opening all three.</p>
-<p class="asof">Written 16 October 2026, updated 17 October. Every star count, licence and commit date below comes from the GitHub API on that date.</p>
+<p class="asof">Written 16 October 2026, rewritten 23 October against Anthropic's own documentation. Every star count, licence and commit date below was read again that day, and the dates are the last commit on each default branch rather than the figure the API hands over.</p>
 
-<h2>One command per task</h2>
+<h2>One git command gives each agent its own folder</h2>
 <p><code>git worktree add</code> makes a second folder on a new branch. It runs once per task.</p>
 <pre><code>$ git worktree add ../app-dark-mode -b dark-mode
 Preparing worktree (new branch 'dark-mode')
@@ -73,12 +73,29 @@ HEAD is now at 4a1c9f2 Snooze survives a restart</code></pre>
 </div>
 <p>Every tool below fixes this the same way, by giving each agent a folder of its own.</p>
 
-<h2>The four ways people do this</h2>
+<h2>Anthropic ships five ways to run agents in parallel</h2>
+<p>Most roundups in this category open with tmux, which skips past the shelf of first-party answers. Anthropic's own page on running agents in parallel names five.</p>
 
-<h3>Let the Claude Code CLI make the worktree</h3>
-<p>Claude Code can make the worktree itself. For two or three tasks at a time that is the end of the problem, with nothing installed and nothing to maintain.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>What it is</th><th>How it starts</th><th>Suits</th></tr></thead>
+<tbody>
+<tr><td>Worktrees</td><td><code>claude --worktree &lt;name&gt;</code></td><td>Two or three tasks, nothing installed</td></tr>
+<tr><td>Agent view</td><td><code>claude agents</code></td><td>Watching many background sessions on one screen</td></tr>
+<tr><td>Subagents</td><td>Asking for them inside a session</td><td>Splitting one task, with a lead agent merging results</td></tr>
+<tr><td>Agent teams</td><td><code>/agent-teams</code></td><td>Coordinating several sessions automatically</td></tr>
+<tr><td>Projects, in the cloud</td><td>claude.ai/code</td><td>Work that should survive the laptop shutting</td></tr>
+</tbody>
+</table>
+</div>
+<p>Agent view is the one that matters for this question. It groups sessions under Ready for review, Needs input, Working and Completed, notifies when one starts needing an answer, and moves each background session into a worktree under <code>.claude/worktrees/</code> before it edits anything. Anthropic marks it a research preview.</p>
 
-<h3>tmux and a shell script</h3>
+<h2>The four ways people run agents in parallel themselves</h2>
+
+<h3>The Claude Code CLI makes the worktree itself</h3>
+<p>Claude Code can make the worktree itself, under <code>.claude/worktrees/&lt;name&gt;</code> on a branch called <code>worktree-&lt;name&gt;</code>. For two or three tasks at a time that is the end of the problem, with nothing installed and nothing to maintain.</p>
+
+<h3>A tmux session and a shell script, maintained by hand</h3>
 <p>The setup is a worktree per task, a tmux pane for each and an agent in every pane, maintained by whoever built it.</p>
 <p>Six lines will do it.</p>
 <pre><code>for task in dark-mode snooze-restart search-archive; do
@@ -90,15 +107,16 @@ done</code></pre>
 <p><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a> packages that loop as a terminal UI, managing one tmux session and one worktree per agent under AGPL-3.0 with no telemetry. Its last commit was 20 August 2026, which left it quiet for about two months.</p>
 <p><a href="https://skeptrune.com/posts/git-worktrees-agents-and-tmux/">Nick Khami wrote up a month of living this way</a> before building a tool to escape it, and that write-up reached 156 points on Hacker News.</p>
 
-<h3>A desktop app</h3>
+<h3>A desktop app that manages the worktrees for you</h3>
 <p>Every app in the table handles worktrees. What is left to choose between is a grid of terminals, a kanban board, a list and an inbox.</p>
 
-<h3>Hand the work to the cloud</h3>
+<h3>Cloud sessions, which keep running when the laptop shuts</h3>
 <p>Claude Code on the web and Codex's hosted runs move the work off the local machine. They suit a task that can be described completely, and get harder when one needs interrupting and redirecting halfway.</p>
 
-<h2>What actually stops a fourth agent</h2>
-<p>Agents spend nearly all their time waiting on a model. The machine is idle while they think, so CPU and memory are not the limit.</p>
-<p>A terminal pane holding a finished agent looks exactly like one holding a working agent. The only way to tell is to open it. With five open that means opening five, and the one that has been waiting twenty minutes for a yes is the one checked last.</p>
+<h2>What actually limits how many agents run at once</h2>
+<p>Agents spend nearly all their time waiting on a model, so CPU is not the first limit. The run below put a Mac under a load average between 12 and 19 while three agents worked, which is not an idle machine, and still none of them slowed each other measurably.</p>
+<p>The limit is attention. A terminal pane holding a finished agent looks exactly like one holding a working agent, so telling them apart means opening each one, and the agent that has been waiting twenty minutes for a yes is the one checked last.</p>
+<p>Agent view answers exactly that, for the sessions it knows about. Four of its limits are worth knowing before leaning on it, and all four are Anthropic's own words. A session open in another terminal does not appear until it is backgrounded. Every prompt typed into agent view starts a new session rather than continuing one. Shutting the machine down stops the running sessions. And each session spends the subscription quota independently, so the docs say to read the limits before dispatching many at once.</p>
 
 <div class="dia">
 <svg viewBox="0 0 640 104" role="img" aria-label="Five identical terminal tabs, only one of which is waiting for an answer">
@@ -112,7 +130,7 @@ done</code></pre>
 </svg>
 </div>
 
-<h2>The same question, four times in four months</h2>
+<h2>Hacker News asked this same question four times in four months</h2>
 <p>Four Hacker News threads have asked a version of this question since March, with the scores and comment counts below as they stood on 20 October 2026.</p>
 
 <div class="wrap">
@@ -129,7 +147,7 @@ done</code></pre>
 
 <p>The wording moves from &ldquo;control plane&rdquo; in March to &ldquo;GUI/desktop app&rdquo; in June, and no settled name for it turns up anywhere. None of the four threads cleared 11 points either, so the people hitting this are still finding each other slowly.</p>
 
-<h2 id="measured">Three agents cost 0.7 seconds more than one</h2>
+<h2 id="measured">What three agents at once actually cost, measured on one Mac</h2>
 <p>Each agent got its own worktree of a shallow clone of <a href="https://github.com/savannahfeder/agentbox">this repository</a>. All of them started at the same moment under <code>claude -p</code>, each with one factual question about the code to answer. The harness recorded wall clock per agent and the machine's load average.</p>
 
 <div class="wrap">
@@ -158,7 +176,7 @@ done</code></pre>
 <p>That is not a controlled comparison, and saying so is more useful than the headline it replaced. The three agents answered three different questions and the single agent answered a fourth, which is why the three have a median of 11.8 seconds against the single agent's 16.4. An agent cannot get faster because two others are running beside it, so the gap measures the questions rather than the parallelism. What the run does establish is the ceiling, since three agents at once finished inside the time one agent took, and no run has yet been done on a quiet machine with every agent asked the same question.</p>
 <p>The tasks were small and read-only, so this measures what parallelism costs rather than how fast Claude writes code. The Mac carried a load average between 12 and 19 throughout. Six and ten agents remain untested.</p>
 
-<h2>Where the tools put their worktrees</h2>
+<h2>Where each tool puts the worktrees it creates</h2>
 <p>No two of the tools agree on where the worktree folder should go, so the README of whichever one is running is the only reliable answer. Somebody who built a worktree cleaner to deal with it <a href="https://news.ycombinator.com/item?id=50110204">wrote on Hacker News on 15 October 2026</a> that Codex, Claude Code, Orca and Superset each put their worktrees somewhere different, which made them hard to find. That post drew one point and no replies, so this is one person's annoyance rather than a groundswell.</p>
 
 <div class="dia">
@@ -177,53 +195,54 @@ done</code></pre>
 </div>
 <p>Agentbox uses the middle layout, <code>.claude/worktrees/&lt;task id&gt;</code>, with a branch of the same name, so every task does its work inside the repository it belongs to. <a href="/claude-code-worktrees">The worktree guide</a> covers cleanup and the empty <code>node_modules</code> that catches everyone once.</p>
 
-<h2>Twenty-three tools, as of 17 October 2026</h2>
-<p>Roundups in this category list between four and nine tools and mostly copy that list from the previous roundup. A pass through GitHub that reads the licence and the last commit of every candidate turns up twenty-three.</p>
+<h2>Twenty-three tools, read on 23 October 2026 UTC</h2>
+<p>Roundups in this category list between four and nine tools and mostly copy that list from the previous roundup. A pass through GitHub that reads the licence and the last commit of every candidate turns up twenty-three. The dates are the last commit on each project's default branch, which is not the date the API hands over and is the one that catches a quiet project.</p>
 <div class="wrap">
 <table>
 <thead><tr><th>Tool</th><th>Stars</th><th>Licence</th><th>Last commit</th></tr></thead>
 <tbody>
-<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>95,206</td><td>MIT</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>28,384</td><td>Apache-2.0</td><td>19 Sep 2026, <span class="n">sunsetting</span></td></tr>
-<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>28,228</td><td>Source-available</td><td>17 Oct 2026, <span class="n">now a terminal</span></td></tr>
-<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>22,409</td><td>AGPL-3.0</td><td>18 Sep 2026</td></tr>
-<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>15,312</td><td>Source-available</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/siteboon/claudecodeui">claudecodeui</a></td><td>14,150</td><td>AGPL-3.0</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>8,618</td><td>AGPL-3.0</td><td>20 Aug 2026</td></tr>
-<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>6,019</td><td>Apache-2.0</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td>3,132</td><td>MIT</td><td>26 Feb 2026, <span class="n">deprecated</span></td></tr>
-<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>1,917</td><td>MIT</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/hanshuaikang/nezha">Nezha</a></td><td>1,906</td><td>GPL-3.0</td><td>17 Sep 2026</td></tr>
-<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>1,265</td><td>MIT</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a></td><td>922</td><td>Source-available</td><td>21 Sep 2026</td></tr>
-<tr><td><a href="https://github.com/madarco/agentbox">agentbox (sandboxes)</a></td><td>538</td><td>MIT</td><td>7 Oct 2026, <span class="n">name collision, different project</span></td></tr>
-<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>386</td><td>MIT</td><td>15 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a></td><td>337</td><td>Source-available</td><td>15 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/agent-era/devteam">devteam</a></td><td>265</td><td>MIT</td><td>26 May 2026</td></tr>
-<tr><td><a href="https://github.com/terragon-labs/terragon-oss">Terragon</a></td><td>261</td><td>Apache-2.0</td><td>10 Feb 2026, <span class="n">dead</span></td></tr>
-<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>240</td><td>MIT</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>239</td><td>MIT</td><td>17 Oct 2026</td></tr>
-<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>78</td><td>GPL-3.0</td><td>17 Oct 2026, <span class="n">the app behind this page</span></td></tr>
-<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>47</td><td>MIT</td><td>13 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/stablyai/orca">Orca</a></td><td>102,844</td><td>MIT</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a></td><td>28,434 <span class="n">sunsetting</span></td><td>Apache-2.0</td><td>19 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/manaflow-ai/cmux">cmux</a></td><td>28,355 <span class="n">now a terminal</span></td><td>GPL-3.0</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/winfunc/opcode">opcode</a></td><td>22,418</td><td>AGPL-3.0</td><td>18 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/superset-sh/superset">Superset</a></td><td>15,479</td><td>Elastic 2.0</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/siteboon/claudecodeui">CloudCLI, was claudecodeui</a></td><td>14,249</td><td>AGPL-3.0</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a></td><td>8,649</td><td>AGPL-3.0</td><td>20 Aug 2026 <span class="n">2 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/generalaction/emdash">Emdash</a></td><td>6,057</td><td>Apache-2.0</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/stravu/crystal">Crystal</a></td><td>3,131 <span class="n">deprecated</span></td><td>MIT</td><td>26 Feb 2026 <span class="n">7 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a></td><td>1,960</td><td>MIT</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/hanshuaikang/nezha">Nezha</a></td><td>1,908</td><td>GPL-3.0</td><td>16 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/kbwo/ccmanager">ccmanager</a></td><td>1,270</td><td>MIT</td><td>18 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/Dicklesworthstone/claude_code_agent_farm">Agent Farm</a></td><td>922</td><td>MIT, with a rider</td><td>21 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/madarco/agentbox">agentbox (sandboxes)</a></td><td>544 <span class="n">name collision, different project</span></td><td>MIT</td><td>23 Sep 2026</td></tr>
+<tr><td><a href="https://github.com/OpenSource03/harnss">harnss</a></td><td>391</td><td>MIT</td><td>19 Jun 2026 <span class="n">4 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/hermes-hq/hermes-ide">Hermes IDE</a></td><td>342</td><td>BUSL-1.1</td><td>15 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/agent-era/devteam">devteam</a></td><td>265</td><td>MIT</td><td>25 May 2026 <span class="n">5 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/terragon-labs/terragon-oss">Terragon</a></td><td>261 <span class="n">dead</span></td><td>Apache-2.0</td><td>10 Feb 2026 <span class="n">8 months quiet</span></td></tr>
+<tr><td><a href="https://github.com/receptron/mulmoterminal">mulmoterminal</a></td><td>244</td><td>MIT</td><td>22 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/imbue-ai/sculptor">Sculptor</a></td><td>240</td><td>MIT</td><td>20 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/savannahfeder/agentbox">Agentbox</a></td><td>94 <span class="n">the app behind this page</span></td><td>GPL-3.0</td><td>23 Oct 2026</td></tr>
+<tr><td><a href="https://github.com/GarrickZ2/grove">grove</a></td><td>47</td><td>MIT</td><td>21 Oct 2026</td></tr>
 <tr><td><a href="https://conductor.build/pricing">Conductor</a></td><td>no public repo</td><td>Closed</td><td>Free, Pro $50/mo</td></tr>
 </tbody>
 </table>
 </div>
 
-<h2>Three of these are dead or no longer orchestrators</h2>
+<h2>Seven of the twenty-three are dead, renamed or have gone quiet</h2>
 <p><a href="https://github.com/BloopAI/vibe-kanban">Vibe Kanban</a> is sunsetting, <a href="https://www.vibekanban.com/blog/shutdown">announced 10 April 2026</a>, and still appears on most of the recommendation lists in this category. <a href="https://github.com/stravu/crystal">Crystal</a> is deprecated and its own description now points at Nimbalyst, and <a href="https://github.com/manaflow-ai/cmux">cmux</a> has become a macOS terminal rather than an orchestrator.</p>
-<p><a href="https://github.com/madarco/agentbox">madarco/agentbox</a> runs its agents in sandboxed virtual machines instead. It shares the Agentbox name and had it first.</p>
+<p>Three more have gone quiet without saying so, which is the kind a list never catches. <a href="https://github.com/OpenSource03/harnss">harnss</a> last moved its default branch on 19 June, <a href="https://github.com/agent-era/devteam">devteam</a> on 25 May, and <a href="https://github.com/smtg-ai/claude-squad">Claude Squad</a> on 20 August. harnss is worth singling out, because its <code>pushed_at</code> reads 21 October and about sixty-five side branches keep it looking busy to anybody reading the easy field.</p>
+<p><a href="https://github.com/madarco/agentbox">madarco/agentbox</a> is a seventh kind of not-what-it-looks-like. It runs agents in Docker containers rather than orchestrating local CLIs, and it shares the Agentbox name and had it first.</p>
 
-<h2>Questions about running them</h2>
+<h2>Questions about running several agents at once</h2>
 
 <h3>Can you run multiple Claude Code agents at once?</h3>
-<p>Yes, once each one has its own directory. Claude Code has no setting to switch on and no limit of its own.</p>
+<p>Yes, once each one has its own directory, and Claude Code has settings for exactly this. <code>claude --worktree &lt;name&gt;</code> makes the directory, <code>worktree.baseRef</code> chooses what it branches from, and <code>isolation: worktree</code> in a subagent's frontmatter makes it permanent for that agent. In the desktop app the Worktree toggle is per session and off by default.</p>
 
 <h3>How many agents can I run?</h3>
 <p>Three ran with no measurable penalty. Past that is untested here, and the ceilings other pages print carry no source. Rate limits and human attention both give out before the machine does.</p>
 
 <h3>How do I run multiple agents in VS Code?</h3>
-<p>Each worktree opens as its own window with an agent in that window's terminal, and the editor has no idea the other windows exist.</p>
+<p>The extension does it on its own. Its sessions list sits in the Activity Bar, and Open in New Tab or Open in New Window runs several conversations at once, each resumable from history. Pairing that with <code>claude --worktree</code> gives each one its own checkout.</p>
 
 <h3>What is the best way to manage multiple Claude Code sessions?</h3>
 <p>Below three agents, tabs are fine. Above three, pick from the table of twenty-three.</p>
@@ -270,24 +289,24 @@ $ du -sh ../app-*/node_modules | tail -1
 <p>Five finished branches are five diffs to read, whatever tool produced them. The thing worth having is one that shows the diff in the same window.</p>
 
 <h3>Can I check on agents from my phone?</h3>
-<p><a href="https://conductor.build/pricing">Conductor</a> includes a mobile app on Pro and <a href="https://github.com/superset-sh/superset">Superset</a> has an iOS app. Agentbox has neither.</p>
+<p>Anthropic gets there first. Claude Code runs at claude.ai/code in a mobile browser and in the Claude apps for iOS and Android, and Dispatch pushes a notification when a desktop session finishes or needs approval. Among the twenty-three, <a href="https://github.com/stablyai/orca">Orca</a> ships iOS and Android, <a href="https://github.com/nimbalyst/nimbalyst">Nimbalyst</a> an iOS companion, <a href="https://github.com/superset-sh/superset">Superset</a> an iOS app on its paid tier, and <a href="https://conductor.build/pricing">Conductor</a> one on Pro. Agentbox has none of them.</p>
 
 <h3>Does a GUI actually help, or is the terminal fine?</h3>
 <p>Under three agents an app is overhead. Over three it pays for itself in tabs nobody has to open. <a href="/claude-code-gui">Twenty-one front ends exist, in four shapes</a>.</p>
 
-<h2>Which one fits</h2>
+<h2>Which tool fits which need</h2>
 <div class="dia">
 <svg viewBox="0 0 640 128" role="img" aria-label="A decision guide from what matters most to which tool fits">
   <text x="0" y="11" class="lbl">WHAT MATTERS MOST</text><text x="330" y="11" class="lbl">WHAT FITS</text>
   <text x="0" y="34">largest community</text><line x1="210" y1="30" x2="320" y2="30"/><text x="330" y="34" class="hot">Orca</text>
-  <text x="0" y="56">a native Windows build</text><line x1="210" y1="52" x2="320" y2="52"/><text x="330" y="56" class="hot">Emdash, Nimbalyst</text>
+  <text x="0" y="56">a native Windows build</text><line x1="210" y1="52" x2="320" y2="52"/><text x="330" y="56" class="hot">Anthropic's app, Orca, Emdash</text>
   <text x="0" y="78">to stay in the terminal</text><line x1="210" y1="74" x2="320" y2="74"/><text x="330" y="78" class="hot">Claude Squad</text>
   <text x="0" y="100">a company and support</text><line x1="210" y1="96" x2="320" y2="96"/><text x="330" y="100" class="hot">Conductor</text>
   <text x="0" y="122">free, open source, an existing plan</text><line x1="210" y1="118" x2="320" y2="118"/><text x="330" y="122" class="hot">Agentbox</text>
 </svg>
 </div>
 
-<h2>What Agentbox does with all this</h2>
+<h2>What Agentbox does with worktrees and the inbox</h2>
 <p>Every task gets a worktree, a branch and an agent of its own, and when one finishes or gets stuck its row comes back to the top of the inbox to be answered, approved or closed. The terminal and the diff sit in the same window.</p>
 <p>It runs Claude Code and Codex locally on an existing subscription, with no server in the middle, no account to make and no API key anywhere in it.</p>
 
@@ -302,7 +321,8 @@ $ du -sh ../app-*/node_modules | tail -1
 </figure>
 
 <h2>Where Agentbox loses</h2>
-<p>Three weeks old, Agentbox has 78 stars against Orca's 95,206, with no native Windows build, no mobile app and no company behind it. Orca, Emdash and Nimbalyst all ship a Windows build, and Conductor sells somebody to call, which Agentbox does not.</p>
+<p>The first thing Agentbox loses to is Anthropic. The desktop app comes with the subscription, it is supported, and it will follow every change to Claude Code before anybody else can. Anyone who only runs Claude Code, on one machine, should try <code>claude agents</code> and the Code tab before installing anything from the table above, including this one.</p>
+<p>Against the rest, Agentbox is four weeks old with 94 stars to Orca's 102,844. There is no native Windows build, where Orca, opcode, Emdash, Nimbalyst and three others ship one. There is no mobile app, where Orca ships two. And there is no company behind it, where Conductor sells somebody to call.</p>
 
 <div class="cta">
   <h2>Agentbox</h2>
