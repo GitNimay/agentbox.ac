@@ -61,7 +61,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <div class="kicker">Astral AI Inc.</div>
     <h1 style="margin-top:18px">Privacy policy</h1>
     <p class="scope">This policy states what information the Agentbox application for macOS, Agentbox Cloud and the Agentbox website collect, why they collect it, who receives it, how long it is held and what you can require of us. It is given by Astral AI Inc. and covers no other company.</p>
-    <p class="stamp">Last changed 22 October 2026. This version replaces every earlier version.</p>
+    <p class="stamp">Last changed 25 October 2026. This version replaces every earlier version.</p>
   </div>
   <div class="wrap">
     <nav class="toc">
@@ -99,7 +99,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
 <section class="cl" id="s2">
   <div class="wrap">
     <div class="hd"><span class="num">2</span><h2>The short statement</h2></div>
-    <p>Agentbox runs on your own computer. Your files, your code, the prompts you write, the replies your agents write, your keys and your file paths are not sent to us and we have no way to read them. What we receive is a small amount of information about how the application is used, how it is configured and how it fails. It is not attached to your name or your email address, because Agentbox has neither. The one exception is Agentbox Cloud, which you can choose to use, and section 5.7 says exactly what it sends and what it keeps.</p>
+    <p>Agentbox runs on your own computer. Your files, your code, the prompts you write, the replies your agents write, your keys and your file paths are not sent to us and we have no way to read them. What we receive is a small amount of information about how the application is used, how it is configured and how it fails. Unless you sign in, it is not attached to your name or your email address, because Agentbox then has neither. There are two exceptions, and both are your choice. Signing in backs up your threads to your account, which section 5.8 describes, and Agentbox Cloud runs tasks on computers we rent, which section 5.7 describes. Each section says exactly what is sent and what is kept.</p>
     <p>This section is a summary and nothing more. Sections 3 to 17 are the policy, and where the summary is less precise than they are, they govern.</p>
   </div>
 </section>
@@ -116,7 +116,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <p>In personal Claude Code conversations, requests that need your approval can be shown in Agentbox. The request and your decision are kept locally so the waiting agent can receive your answer. This approval channel does not give the conversation access to Agentbox task store tools and does not send approval records to us.</p>
     <p>Commands you invoke can also request code review, manage conversation goals, or inspect the connected provider and local project. Provider commands use your existing provider account. Review may send project content to that provider as part of its normal operation. Command results, model and effort choices, and the available Claude Code command names are kept locally. These results and command names are not sent to us.</p>
     <p>When you enable Remote Control for a Claude Code conversation, the installed Claude Code connects that conversation to Anthropic so you can continue it in Claude on another device. Anthropic receives the conversation history and subsequent messages under your agreement with it. Tool execution remains on your computer. Agentbox stores remote replies and connection state locally and does not receive a cloud copy of the conversation. Turning Remote Control off disconnects access through this local session. It does not promise deletion of records held by Anthropic.</p>
-    <p>Unless you choose Agentbox Cloud, Agentbox has no sign in, no user account and no cloud copy of your work. We then hold no name, no password and no profile of you, and no email address either, and the feedback box described in section 5.4 has nowhere to type one. Section 5.7 says what changes if you do choose it.</p>
+    <p>Agentbox asks you to sign in when you first open it, and you can skip that. If you skip it and do not choose Agentbox Cloud, Agentbox has no user account and no copy of your work anywhere but your computer. We then hold no name, no password and no profile of you, and no email address either, and the feedback box described in section 5.4 has nowhere to type one. Sections 5.7 and 5.8 say what changes if you do sign in.</p>
     <p>Agentbox can also use the services you have connected to Claude&nbsp;Code, such as Slack or Linear. When an agent reads from one of them, the request goes from your computer to that service through Claude&nbsp;Code, signed in as you, under your own account with that service and its own terms. Agentbox holds no password, key or token for any of them, and nothing an agent reads there reaches us. In this version an agent can only read from a connected service. It cannot send or post anything through one, and a version that can will change this policy and section 7 of the terms before it is released.</p>
   </div>
 </section>
@@ -124,7 +124,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
 <section class="cl" id="s4">
   <div class="wrap">
     <div class="hd"><span class="num">4</span><h2>What never leaves your computer</h2></div>
-    <p>We do not receive, and no future version of Agentbox will send us, any of the following, except for a task you yourself choose to run in Agentbox Cloud, which section 5.7 describes in full.</p>
+    <p>We do not receive, and no future version of Agentbox will send us, any of the following, except for what you yourself choose to back up by signing in, which section 5.8 describes in full, and a task you yourself choose to run in Agentbox Cloud, which section 5.7 describes in full.</p>
     <ul class="plain">
       <li><b>The contents of your files and your code.</b></li>
       <li><b>Prompts you write and the replies your agents write</b>, including the titles and the bodies of your tasks, which in Agentbox are the prompt itself.</li>
@@ -132,7 +132,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
       <li><b>File paths, folder names, repository names and project names.</b></li>
       <li><b>Terminal output, diffs and the results of commands your agents run.</b></li>
     </ul>
-    <p>This section is the binding limit of the whole policy. Every other section describes information received inside it, and section 5 may grow only inside it. The one exception is section 5.7, which applies only to a task you send to Agentbox Cloud yourself and to nothing else Agentbox does. If we ever intend to send anything named above in any other way, we will change this section before doing so and we will say in the application that it has changed.</p>
+    <p>This section is the binding limit of the whole policy. Every other section describes information received inside it, and section 5 may grow only inside it. The two exceptions are section 5.7, which applies only to a task you send to Agentbox Cloud yourself, and section 5.8, which applies only while you are signed in. Neither applies to anything else Agentbox does. If we ever intend to send anything named above in any other way, we will change this section before doing so and we will say in the application that it has changed.</p>
   </div>
 </section>
 
@@ -198,6 +198,20 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <p>For as long as you have an Agentbox Cloud account we also keep the identifier and the email address of the account you signed in with, its name and picture if it has them, the name of each computer you signed in to it from, the plan you are on, when you accepted the terms, and for each run when it started, when it ended and how long it ran. We keep these to hold your plan's limits and to charge you correctly.</p>
     <p>If you choose a paid plan, you pay on a page run by Stripe, and Stripe takes your card or other payment details. We never see or hold your card number. Stripe tells us which plan you chose and whether it is paid, and we keep that with your Agentbox Cloud account, together with the reference numbers Stripe gives your customer record and your subscription.</p>
     <p>Only the systems that run Agentbox Cloud read what a run carries. Nobody at Astral AI Inc. looks at it, unless you ask us to in order to fix a problem with your run or the law requires it.</p>
+
+    <h3>5.8 Your account and its backup, if you sign in</h3>
+    <p>Agentbox asks you to sign in when you first open it, with Google or with an email address and a password. Signing in is optional. If you skip it, everything else in Agentbox still works on your own computer and nothing in this section happens. Signing out stops anything new being sent.</p>
+    <p>While you are signed in, Agentbox backs up your work to your account and keeps the copy up to date, so that you can read and answer your threads from the Agentbox app on your phone, including while your computer is closed. The following leaves your computer for that.</p>
+    <ul class="plain">
+      <li>Your threads, with their titles, what you wrote, what your agents wrote and where each one stands</li>
+      <li>The names of your projects</li>
+      <li>The pictures, films, sounds and pages a thread names, so that they open with it</li>
+      <li>A copy of your Agentbox settings without any file paths, which includes the email addresses of the Claude and Codex accounts Agentbox uses</li>
+      <li>The name of each computer you are signed in on</li>
+    </ul>
+    <p>Before a thread is copied, Agentbox hides any text in it that looks like a key, a token or a password. Your repositories, your terminal and the rest of your files are not copied.</p>
+    <p>For the account itself we keep its identifier, the email address you signed in with, and its name and picture if it has them.</p>
+    <p>Only you can read the copy, along with anyone you share a project with, who can read that project's threads. Nobody at Astral AI Inc. looks at it, unless you ask us to in order to fix a problem or the law requires it. We do not use it to train any model, and we do not sell it. Deleting your account deletes everything in this section.</p>
   </div>
 </section>
 
@@ -206,6 +220,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <div class="hd"><span class="num">6</span><h2>Why we collect it</h2></div>
     <p>We use what is described in section 5 to see whether Agentbox is used and which parts of it are used, to find and fix faults, to decide what to build next, and to count installations. We use it for nothing else.</p>
     <p>We do not use it to build a profile of you, to target advertising, to score you, or to make any decision about you by automated means. We do not attempt to identify you from it and we hold nothing that would let us.</p>
+    <p>What sections 5.7 and 5.8 describe is used only to run the service you chose and to show your work back to you and to the people you share it with.</p>
   </div>
 </section>
 
@@ -214,7 +229,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <div class="hd"><span class="num">7</span><h2>Our legal basis, for people in the United Kingdom and the European Economic Area</h2></div>
     <p>Where data protection law requires us to name a basis, we rely on our legitimate interest in understanding, maintaining and improving software we make. We consider that interest balanced against your privacy by the limit in section 4, which keeps everything of consequence off our systems entirely, and by the control in section 10.</p>
     <p>You may object to this use at any time, and section 10 is how you do it without writing to anyone.</p>
-    <p>For Agentbox Cloud, described in section 5.7, we rely on the need to provide the service you asked for under its terms.</p>
+    <p>For Agentbox Cloud, described in section 5.7, and for the backup described in section 5.8, we rely on the need to provide the service you asked for under its terms.</p>
   </div>
 </section>
 
@@ -225,6 +240,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <p>A feedback message takes a different path and passes through two other companies, which receive only what is in the feedback box and nothing else in this policy. Supabase hosts the small program the application sends it to, and Resend delivers it to us as an email. Both act only on our instructions, neither keeps it for any purpose of its own, and neither receives the counts or the crash reports.</p>
     <p>The two things that go anywhere else are the question in section 5.5, which asks GitHub whether a newer version of Agentbox has been released, and the download in section 5.6, which asks Anthropic or OpenAI for its installer when you choose a plan during setup. None of those companies is storing anything for us, and none receives the counts, the crash reports or anything from the feedback box.</p>
     <p>Agentbox Cloud, described in section 5.7, uses three more. Amazon Web Services runs its computers and holds what a run carries, Supabase holds your Agentbox Cloud account, and Stripe takes payment for a plan. Amazon Web Services and Supabase act only on our instructions and for no purpose of their own. Stripe also keeps its own record of each payment, as the law requires of it, under its own privacy policy. If you sign in with Google, Google tells us which Google account signed in, under your own agreement with Google.</p>
+    <p>The backup described in section 5.8 is held by Supabase, which acts only on our instructions and for no purpose of its own.</p>
     <p>We may disclose what we hold if the law requires it of us, such as under a valid legal demand, or where it is necessary to establish or defend a legal claim or to protect the safety of a person. If we are ever asked for information in a way we are permitted to tell you about, we will.</p>
     <p>If Astral AI Inc. is sold, merged or reorganised, what we hold may pass to the buyer. The buyer would be bound by this policy until it gives notice of a different one.</p>
   </div>
@@ -236,6 +252,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <p>The counts and the crash reports described in sections 5.1 to 5.3 are stored by the service named first in section 8, in the United States. If you use Agentbox from another country, using it sends that information there.</p>
     <p>A feedback message is not stored by that service at all. It passes through the two companies named after it in section 8 and arrives with us as an email, which we hold in our own mailbox.</p>
     <p>What Agentbox Cloud carries and keeps is held by Amazon Web Services and Supabase in the United States. Stripe holds the record of your payments under its own privacy policy.</p>
+    <p>The backup described in section 5.8 is held by Supabase in the United States, encrypted while it is sent and while it is stored.</p>
   </div>
 </section>
 
@@ -253,6 +270,7 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
     <div class="hd"><span class="num">11</span><h2>How long we keep it</h2></div>
     <p>We keep what arrives only for as long as it is useful for building, fixing and understanding the use of Agentbox, and we delete it when it is not. We have not yet fixed a period, and when we do it will be stated in this section rather than left to practice.</p>
     <p>Agentbox Cloud is the exception, because there the periods are fixed. The copies a run leaves are deleted seven days after it. Your Agentbox Cloud account and its records are kept until you delete the account, apart from what the law requires us to keep for billing.</p>
+    <p>The backup described in section 5.8 is kept while you have an account. A thread you delete on your computer is deleted from it, and deleting your account deletes all of it.</p>
   </div>
 </section>
 
@@ -260,8 +278,8 @@ footer .foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:w
   <div class="wrap">
     <div class="hd"><span class="num">12</span><h2>Your rights</h2></div>
     <p>Depending on where you live you may have the right to ask what we hold about you, to receive a copy of it, to have it corrected, to have it deleted, to object to or restrict how we use it, and to complain to your data protection authority. We will not treat you differently for exercising any of them, and we will not withdraw an Agentbox Cloud plan because you did.</p>
-    <p>Because Agentbox holds no account, what we receive from the counts and the crash reports is tied to the installation identifier in section 5.2 and to nothing else. To act on a request we need that identifier, since without it we cannot find your records among anyone else's, and we will not ask you for identity documents or any other personal information in order to answer. Requests are made in the way section 17 states.</p>
-    <p>If you use Agentbox Cloud, what we hold about you there is tied to the account you signed in with, and a request about it is made in the same way. Deleting your Agentbox Cloud account deletes what section 5.7 says we keep, apart from what the law requires us to keep for billing.</p>
+    <p>Unless you sign in, Agentbox holds no account, so what we receive from the counts and the crash reports is tied to the installation identifier in section 5.2 and to nothing else. To act on a request we need that identifier, since without it we cannot find your records among anyone else's, and we will not ask you for identity documents or any other personal information in order to answer. Requests are made in the way section 17 states.</p>
+    <p>If you sign in or use Agentbox Cloud, what we hold about you there is tied to the account you signed in with, and a request about it is made in the same way. Deleting your account deletes what sections 5.7 and 5.8 say we keep, apart from what the law requires us to keep for billing.</p>
   </div>
 </section>
 
