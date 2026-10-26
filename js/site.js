@@ -585,19 +585,11 @@ document.addEventListener('keydown', function (e) {
       var a = r[4];
       if (r[5]) { pri.textContent = r[2].replace('Priority ', ''); pri.classList.toggle('u', r[5] === 'u'); pri.classList.remove('flash'); void pri.offsetWidth; pri.classList.add('flash'); toast(a); }
       else if (a === 'term') { term.classList.add('on'); toast('Terminal open in agentbox/w-7c21'); timers.push(setTimeout(function () { term.classList.remove('on'); }, 3200)); }
-      else if (a.indexOf('rank:') === 0) { rank(a.slice(5)); toast(a.slice(5) + ' now ranks first. Its work starts first'); }
+      else if (a.indexOf('rank:') === 0) toast(a.slice(5) + ' now ranks first. Its work starts first');
       else if (a === 'pause') { stage.classList.add('paused'); q(s, '.command-k-livet').textContent = 'Agents paused, nothing new starts'; toast('Every agent paused'); }
       else if (a === 'resume') { stage.classList.remove('paused'); q(s, '.command-k-livet').textContent = 'Finished 2m ago, 14 steps, 31 tests passed'; toast('Agents resumed'); }
       else toast(a);
     }, 160);
-  }
-  function rank(p) {
-    var box = q(s, '.command-k-projs'), el = q(box, '[data-p="' + p + '"]');
-    if (!el || box.firstElementChild === el) return;
-    var before = qa(box, '.command-k-proj').map(function (x) { return x.getBoundingClientRect().top; });
-    var items = qa(box, '.command-k-proj');
-    box.insertBefore(el, box.firstElementChild);
-    items.forEach(function (x, i) { var d = before[i] - x.getBoundingClientRect().top; x.style.transition = 'none'; x.style.transform = 'translateY(' + d + 'px)'; void x.offsetWidth; x.style.transition = ''; x.style.transform = ''; });
   }
   input.addEventListener('input', function () { sel = 0; render(); });
   input.addEventListener('keydown', function (e) {
