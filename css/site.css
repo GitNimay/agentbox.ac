@@ -62,7 +62,7 @@ body {
 }
 #hero .nav { position: relative; z-index: 20; max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 #hero .wm { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; font-weight: 600; font-size: 19px; letter-spacing: -.03em; }
-#hero .wm img { width: 24px; height: 24px; display: block; }
+#hero .wm img { width: 16px; height: 16px; display: block; }
 #hero .links { display: flex; align-items: center; gap: 28px; font-size: 14px; }
 #hero .links > a:not(.nd) { color: inherit; opacity: .66; text-decoration: none; transition: opacity .2s; }
 #hero .links > a:not(.nd):hover { opacity: 1; }
@@ -378,7 +378,7 @@ body {
 #priorities .priorities-bar span { flex: 1; text-align: center; margin-right: 44px; font: 500 10.5px/1 'Geist Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: #6c6661; }
 #priorities .priorities-top { display: flex; align-items: center; gap: 22px; height: 58px; padding: 18px 22px 0; border-bottom: 1px solid #2c2a29; }
 #priorities .priorities-logo { display: flex; align-items: center; gap: 9px; padding-bottom: 18px; font-size: 14px; color: #efebe7; }
-#priorities .priorities-logo img { width: 18px; height: 18px; }
+#priorities .priorities-logo img { width: 12px; height: 12px; }
 #priorities .priorities-tabs { display: flex; gap: 4px; align-self: stretch; }
 #priorities .priorities-tab { position: relative; display: flex; align-items: flex-start; gap: 7px; padding: 4px 10px 0; font-size: 13px; color: #8f8883; white-space: nowrap; }
 #priorities .priorities-tab b { font: 500 11px/1.5 'Geist Mono', monospace; color: #6c6661; }
@@ -573,7 +573,7 @@ body {
 #inbox .inbox-win { max-width: 1120px; margin: 0 auto; }
 #inbox .inbox-top { display: flex; align-items: center; gap: 22px; padding: 18px 22px 0; border-bottom: 1px solid #2c2a29; height: 58px; }
 #inbox .inbox-logo { display: flex; align-items: center; gap: 9px; font-size: 14px; color: #efebe7; padding-bottom: 18px; }
-#inbox .inbox-logo img { width: 18px; height: 18px; }
+#inbox .inbox-logo img { width: 12px; height: 12px; }
 #inbox .inbox-tabs { display: flex; gap: 4px; align-self: stretch; transition: opacity .35s, transform .45s cubic-bezier(.7,0,.2,1); }
 #inbox .inbox-tab { position: relative; display: flex; align-items: flex-start; gap: 7px; padding: 4px 10px 0; font-size: 13px; color: #8f8883; white-space: nowrap; }
 #inbox .inbox-tab b { font: 500 11px/1.5 'Geist Mono', monospace; color: #6c6661; }
@@ -667,7 +667,7 @@ body {
 #command-k .command-k-app { position: absolute; inset: 36px 0 0; display: grid; grid-template-columns: 210px minmax(0,1fr); transition: filter .35s, background .5s; }
 #command-k .command-k-side { border-right: 1px solid #2c2a29; padding: 18px 12px; background: #1b1918; transition: background .5s, border-color .5s; }
 #command-k .command-k-logo { display: flex; align-items: center; gap: 9px; font-size: 14px; padding: 2px 8px 18px; }
-#command-k .command-k-logo img { width: 18px; height: 18px; }
+#command-k .command-k-logo img { width: 12px; height: 12px; }
 #command-k .command-k-nav { display: flex; justify-content: space-between; padding: 8px 10px; font-size: 13px; color: #8f8883; }
 #command-k .command-k-nav b { font: 400 11.5px/1.4 'Geist Mono', monospace; color: #6c6661; }
 #command-k .command-k-nav.on { background: #2a2827; color: #efebe7; }
@@ -1120,7 +1120,7 @@ body {
 .site-foot * { box-sizing: border-box; }
 .site-foot .ft-in { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(4, minmax(0, 1fr)); gap: 40px; }
 .site-foot .ft-wm { display: inline-flex; align-items: center; gap: 10px; color: #efebe7; text-decoration: none; font-weight: 600; font-size: 19px; letter-spacing: -.03em; }
-.site-foot .ft-wm img { width: 24px; height: 24px; display: block; }
+.site-foot .ft-wm img { width: 16px; height: 16px; display: block; }
 .site-foot .ft-tag { margin: 16px 0 0; max-width: 280px; font-size: 14.5px; line-height: 1.5; color: #a09994; }
 .site-foot h3 { margin: 4px 0 16px; font: 500 11px/1 'Geist Mono', ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; color: #8f8883; }
 .site-foot ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 11px; }

@@ -8,7 +8,7 @@ privacy.html        privacy policy (draft, see the launch checklist)
 terms.html          terms of service (draft, see the launch checklist)
 css/site.css        every rule is scoped to its section's id
 js/site.js          one self-contained block per section
-assets/             the app icon and the Geist fonts
+assets/             the app icon (icon.svg), the logo's dots alone (mark.svg) and the Geist fonts
 drafts/             approved.html, the first approved layout, kept to compare against
 vercel.json         clean URLs and the /download redirect
 ```
