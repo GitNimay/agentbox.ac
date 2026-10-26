@@ -1,5 +1,23 @@
 /* Agentbox landing page. Each section's script is its own IIFE and only touches its own section. */
 
+/* ===== Every npx command on the page copies itself ===== */
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
+    var t;
+    /* Without the clipboard API the command is still on screen, so hand it to the selection. */
+    function select() {
+      var el = b.querySelector('.cmd-x'); if (!el || !window.getSelection) return;
+      var r = document.createRange(); r.selectNodeContents(el);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    }
+    b.addEventListener('click', function () {
+      function said() { clearTimeout(t); b.classList.add('copied'); t = setTimeout(function () { b.classList.remove('copied'); }, 1600); }
+      if (navigator.clipboard) { navigator.clipboard.writeText(b.getAttribute('data-copy')).then(said, select); return; }
+      select();
+    });
+  });
+})();
+
 /* ===== Hero: one task at a time, answered with 1, 2, 3 or R ===== */
 (function () {
   var s = document.getElementById('hero'); if (!s) return;

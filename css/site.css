@@ -11,6 +11,8 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+/* The head script tags <html> with the visitor's computer. With no script there is no tag and the Mac page shows. */
+.not-mac .for-mac, html:not(.not-mac) .for-nm, html:not(.is-linux) .for-linux, html:not(.is-windows) .for-windows, html:not(.is-other) .for-other { display: none !important; }
 /* One continuous background for the whole page: the ground and its faint dot grid live here, on the
    body, and no section paints a tone, a grid or a border of its own. Sections only add soft glows,
    and every glow fades out before its section's edge, so nothing shows a seam. */
@@ -82,6 +84,15 @@ body {
 #hero .cta.dl:hover { background: #fff; }
 #hero .cta.gh { background: rgba(40,38,37,.7); color: #efebe7; border: 1px solid #464443; font-weight: 500; box-shadow: 0 1px 0 rgba(255,255,255,.05) inset; }
 #hero .cta.gh:hover { background: #2f2d2c; border-color: #6a6563; }
+#hero .cta.cmd { position: relative; gap: 0; padding: 0; cursor: pointer; background: #141211; color: #efebe7; border: 1px solid #464443; font: 400 15px/1 var(--mono); letter-spacing: 0; box-shadow: 0 14px 30px -14px rgba(0,0,0,.8); }
+#hero .cta.cmd:hover { border-color: #6a6563; }
+#hero .cta.cmd .cmd-t { display: flex; align-items: center; gap: 10px; padding: 0 18px 0 16px; }
+#hero .cta.cmd .cmd-t i { font-style: normal; color: #ee6018; }
+#hero .cta.cmd .cmd-c { position: relative; display: grid; place-items: center; width: 44px; height: 100%; border-left: 1px solid #464443; color: #a09994; }
+#hero .cta.cmd:hover .cmd-c { color: #efebe7; }
+#hero .cta.cmd .cmd-c svg { width: 16px; height: 16px; }
+#hero .cta.cmd .cmd-ok, #hero .cta.cmd.copied .cmd-c svg:not(.cmd-ok) { display: none; }
+#hero .cta.cmd.copied .cmd-ok { display: block; color: #efebe7; }
 #hero .fig { max-width: 1180px; margin: 76px auto 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; }
 #hero .keys { order: 2; display: flex; justify-content: center; align-items: center; gap: 26px; min-height: 46px; transition: opacity .55s ease .2s, transform .7s cubic-bezier(.2,.8,.2,1) .2s, visibility 0s 0s; }
 #hero:not(.vth) .keys { opacity: 0; transform: translateY(-6px); visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .3s ease, visibility 0s .3s; }
@@ -128,6 +139,9 @@ body {
 #hero .tb .lt { position: absolute; left: 14px; top: 13px; display: flex; gap: 7px; }
 #hero .tb .lt i { width: 10px; height: 10px; border-radius: 50%; background: #3a3735; }
 #hero .tb .mono { color: #6c6661; font-size: 10.5px; letter-spacing: .16em; }
+#hero .tb .addr { display: flex; align-items: center; gap: 10px; width: min(476px, 46%); height: 24px; padding: 0 12px; background: #141211; border: 1px solid #2c2a29; font: 400 11.5px/1 var(--mono); color: #a09994; }
+#hero .tb .addr img { width: 10px; height: 10px; opacity: .7; }
+#hero .tb .addr em { font-style: normal; margin-left: -4px; color: #6c6661; }
 #hero .bar { position: relative; border-bottom: 1px solid #2c2a29; }
 #hero .crumb { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; color: #8a827d; font-size: 10px; transition: opacity .3s; }
 #hero .crumb .nb { display: inline-flex; align-items: center; gap: 10px; }
