@@ -488,7 +488,6 @@ document.addEventListener('keydown', function (e) {
   var s = document.getElementById('command-k'); if (!s) return;
   var stage = q(s, '.command-k-stage'), input = q(s, '.command-k-in'), list = q(s, '.command-k-list'), toastEl = q(s, '.command-k-toast');
   var term = q(s, '.command-k-term'), pri = q(s, '.command-k-pri'), tries = q(s, '.command-k-tries');
-  var CTX = 'Dark mode flashes white on launch';
   /* [group, glyph, label, key, what happens] all real rows from the app */
   var ROWS = [
     ['t', '✓', 'Approve Recommended', '', 'Merging into main'],
@@ -522,43 +521,21 @@ document.addEventListener('keydown', function (e) {
     ['a', '◇', 'Open a demo inbox', '', 'Demo inbox opened']
   ];
   var open = false, sel = 0, shown = [], touched = false, onScreen = false, timers = [], toastT = null;
-  /* every word must start a word in the row, or failing that sit inside it. Any order. */
-  function match(label, words) {
-    var lw = label.toLowerCase(), marks = [];
-    for (var i = 0; i < words.length; i++) {
-      var w = words[i], at = -1, re = /\S+/g, m;
-      while ((m = re.exec(lw))) { if (m[0].indexOf(w) === 0 && !marks.some(function (r) { return r[0] === m.index; })) { at = m.index; break; } }
-      if (at < 0) at = lw.indexOf(w);
-      if (at < 0) return null;
-      marks.push([at, at + w.length]);
-    }
-    return marks;
-  }
-  function hl(label, marks) {
-    var on = []; marks.forEach(function (r) { for (var i = r[0]; i < r[1]; i++) on[i] = 1; });
-    var out = '', inM = false;
-    for (var i = 0; i < label.length; i++) {
-      if (on[i] && !inM) { out += '<mark>'; inM = true; }
-      if (!on[i] && inM) { out += '</mark>'; inM = false; }
-      out += esc(label[i]);
-    }
-    return out + (inM ? '</mark>' : '');
+  /* every word must be in the row, in any order, as the app's own box does it */
+  function matches(label, words) {
+    var lw = label.toLowerCase();
+    return words.every(function (w) { return lw.indexOf(w) >= 0; });
   }
   function render() {
     var words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
     shown = [];
-    var html = '', last = '';
+    var html = '';
     ROWS.forEach(function (r) {
-      var mk = words.length ? match(r[2], words) : [];
-      if (!mk) return;
-      if (r[0] !== last) {
-        html += r[0] === 't' ? '<div class="command-k-gh">This thread <span>' + esc(CTX) + '</span></div>' : '<div class="command-k-gh">Anywhere</div>';
-        last = r[0];
-      }
-      html += '<div class="command-k-r" role="option" data-i="' + shown.length + '"><i>' + esc(r[1]) + '</i><span>' + hl(r[2], mk) + '</span>' + (r[3] ? '<kbd>' + esc(r[3]) + '</kbd>' : '') + '</div>';
+      if (!matches(r[2], words)) return;
+      html += '<div class="command-k-r" role="option" data-i="' + shown.length + '"><i>' + esc(r[1]) + '</i><span>' + esc(r[2]) + '</span>' + (r[3] ? '<kbd>' + esc(r[3]) + '</kbd>' : '') + '</div>';
       shown.push(r);
     });
-    list.innerHTML = html || '<div class="command-k-none">Nothing matches every word yet</div>';
+    list.innerHTML = html || '<div class="command-k-none">Nothing matches “' + esc(input.value.trim()) + '”.</div>';
     sel = Math.min(sel, Math.max(0, shown.length - 1));
     paintSel();
   }
@@ -815,14 +792,11 @@ var WORD = { u: 'Urgent', h: 'High', m: 'Medium', l: 'Low' };
   }
   var CMDS = [['u', 'Priority Urgent'], ['h', 'Priority High'], ['m', 'Priority Medium'], ['l', 'Priority Low']];
   function palette(typed) {
-    q(pal, '.priorities-on b').textContent = star.t;
     qtx.innerHTML = (typed ? esc(typed) : '<span class="ph">Type a command</span>') + '<span class="cur"></span>';
     var words = typed.toLowerCase().split(/\s+/).filter(Boolean);
     var hits = CMDS.filter(function (c) { return words.every(function (w) { return c[1].toLowerCase().split(' ').some(function (x) { return x.indexOf(w) === 0; }); }); });
     ks.innerHTML = hits.map(function (c, i) {
-      var label = esc(c[1]);
-      words.forEach(function (w) { label = label.replace(new RegExp('(^|\\s)(' + w + ')', 'i'), '$1<mark>$2</mark>'); });
-      return '<div class="priorities-k' + (i === 0 ? ' sel' : '') + '"><span class="priorities-pr pr-' + c[0] + '"></span><span>' + label + '</span>' + (i === 0 ? '<kbd>&#8629;</kbd>' : '') + '</div>';
+      return '<div class="priorities-k' + (i === 0 ? ' sel' : '') + '"><span class="priorities-pr pr-' + c[0] + '"></span><span>' + esc(c[1]) + '</span>' + (i === 0 ? '<kbd>&#8629;</kbd>' : '') + '</div>';
     }).join('');
   }
   function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }

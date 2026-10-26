@@ -448,19 +448,15 @@ body {
 }
 #priorities .priorities-stage.k .priorities-dim { opacity: 1; }
 #priorities .priorities-stage.k .priorities-pal { opacity: 1; transform: translate(-50%, 0) scale(1); }
-#priorities .priorities-on { padding: 12px 16px 0; font: 500 9.5px/1 'Geist Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #8f8883; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#priorities .priorities-on b { font-weight: 500; color: #c4bdb8; }
 #priorities .priorities-q { display: flex; align-items: center; gap: 12px; height: 50px; padding: 0 16px; border-bottom: 1px solid #45423f; font-size: 16px; letter-spacing: -.01em; color: #efebe7; }
 #priorities .priorities-q svg { width: 16px; height: 16px; flex: none; color: #8f8883; }
 #priorities .priorities-q .ph { color: #6c6661; }
 #priorities .priorities-q .cur { display: inline-block; width: 1.5px; height: 18px; margin-left: 1px; vertical-align: -3px; background: #ee6018; animation: priorities-caret 1s steps(2) infinite; }
 #priorities .priorities-q kbd { margin-left: auto; font: 500 10px/1 'Geist Mono', monospace; letter-spacing: .1em; color: #8f8883; border: 1px solid #4a4744; padding: 4px 6px; }
 #priorities .priorities-ks { padding: 6px 0; }
-#priorities .priorities-k { position: relative; display: flex; align-items: center; gap: 12px; height: 36px; margin: 0 6px; padding: 0 12px; font-size: 14px; color: #c4bdb8; }
-#priorities .priorities-k.sel { background: #3a3735; color: #efebe7; }
-#priorities .priorities-k.sel::before { content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 2px; background: #ee6018; }
+#priorities .priorities-k { position: relative; display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 18px; font-size: 14px; color: #c4bdb8; }
+#priorities .priorities-k.sel { background: rgba(255,255,255,.04); box-shadow: inset 2px 0 0 #ee6018; color: #efebe7; }
 #priorities .priorities-k .priorities-pr { width: 16px; gap: 0; }
-#priorities .priorities-k mark { background: none; color: #efebe7; box-shadow: inset 0 -1.5px 0 #ee6018; }
 #priorities .priorities-k kbd { margin-left: auto; font: 500 11px/1 'Geist Mono', monospace; color: #8f8883; border: 1px solid #4a4744; padding: 3px 7px; background: #2f2d2c; }
 #priorities .priorities-k.run { animation: priorities-run .3s ease; }
 @keyframes priorities-run { 40% { background: rgba(238,96,24,.35); } }
@@ -713,11 +709,8 @@ body {
 #command-k .command-k-in::placeholder { color: #6c6661; }
 #command-k .command-k-esc { font: 500 10px/1 'Geist Mono', monospace; letter-spacing: .1em; color: #8f8883; border: 1px solid #4a4744; padding: 4px 6px; cursor: pointer; }
 #command-k .command-k-list { max-height: 318px; overflow-y: auto; padding: 6px 0; scrollbar-width: thin; scrollbar-color: #4a4744 transparent; }
-#command-k .command-k-gh { padding: 10px 18px 6px; font: 500 9.5px/1 'Geist Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #6c6661; display: flex; gap: 8px; white-space: nowrap; overflow: hidden; }
-#command-k .command-k-gh span { color: #a09994; text-transform: none; letter-spacing: 0; font-size: 11px; overflow: hidden; text-overflow: ellipsis; }
 #command-k .command-k-r { position: relative; display: flex; align-items: center; gap: 12px; height: 38px; padding: 0 18px; font-size: 14.5px; color: #c4bdb8; cursor: pointer; }
 #command-k .command-k-r i { flex: none; width: 18px; text-align: center; font: normal 400 13px/1 'Geist Mono', monospace; color: #77706b; }
-#command-k .command-k-r mark { background: none; color: #efebe7; box-shadow: inset 0 -1.5px 0 #ee6018; }
 #command-k .command-k-r kbd { margin-left: auto; font: 500 11px/1 'Geist Mono', monospace; color: #8f8883; border: 1px solid #4a4744; padding: 3px 7px; background: #2f2d2c; }
 /* The app's own pick: a faint fill and a full-height orange edge. */
 #command-k .command-k-r.sel { background: rgba(255,255,255,.04); box-shadow: inset 2px 0 0 #ee6018; color: #efebe7; }
@@ -727,7 +720,6 @@ body {
 #command-k .command-k-none { padding: 22px 18px; font-size: 14px; color: #8f8883; }
 #command-k .command-k-pf { display: flex; gap: 18px; padding: 10px 16px; border-top: 1px solid #45423f; font: 500 9.5px/1 'Geist Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: #6c6661; }
 #command-k .command-k-pf b { color: #a09994; font-weight: 500; }
-#command-k .command-k-pf span:last-child { margin-left: auto; color: #8f8883; }
 #command-k .command-k-prompt {
   all: unset; position: absolute; left: calc(50% + 105px); top: 330px; transform: translateX(-50%); z-index: 5; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px 10px 12px; cursor: pointer; white-space: nowrap;
   background: rgba(30,28,27,.92); border: 1px solid #45423f; font: 500 10.5px/1 'Geist Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #a09994; transition: opacity .25s, border-color .2s;
@@ -757,7 +749,6 @@ body {
   #command-k .command-k-pal { top: 54px; }
   #command-k .command-k-prompt { left: 50%; top: 300px; }
   #command-k .command-k-r { font-size: 13.5px; }
-  #command-k .command-k-pf span:not(:last-child) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   #command-k .command-k-pal, #command-k .command-k-term, #command-k .command-k-toast { transition-duration: .01s; }
