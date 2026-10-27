@@ -1062,15 +1062,22 @@ body {
 }
 
 /* ========== Get Agentbox: one column per computer, the visitor's lit and the others quiet ========== */
-#get { position: relative; overflow: hidden; padding: 24px 40px 120px; color: #efebe7; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#get { position: relative; overflow: hidden; padding: 128px 40px 200px; color: #efebe7; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 #get * { box-sizing: border-box; }
 #get::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(46% 50% at 50% 60%, rgba(238,96,24,.13), rgba(238,96,24,0) 70%);
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 200px, #000 calc(100% - 200px), transparent); mask-image: linear-gradient(180deg, transparent, #000 200px, #000 calc(100% - 200px), transparent); }
 #get .get-in { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
 #get .get-h2 { margin: 0; text-align: center; font-weight: 500; font-size: clamp(30px, 2.9vw, 40px); line-height: 1.1; letter-spacing: -.035em; text-wrap: balance; }
-#get .get-cols { margin: 64px auto 0; max-width: 1140px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#get .get-cols { margin: 88px auto 0; max-width: 1140px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 #get .get-col { padding: 0 44px; display: flex; flex-direction: column; align-items: flex-start; }
-#get .get-col + .get-col { border-left: 1px solid #2c2a29; }
+/* The visitor's computer takes the middle column, and only the middle column carries the dividers. Linux is the middle with no tag. */
+#get [data-os="mac"] { order: 1; }
+#get [data-os="linux"] { order: 2; border-left: 1px solid #2c2a29; border-right: 1px solid #2c2a29; }
+#get [data-os="windows"] { order: 3; }
+.is-mac #get [data-os="mac"] { order: 2; border-left: 1px solid #2c2a29; border-right: 1px solid #2c2a29; }
+.is-mac #get [data-os="linux"] { order: 1; border: 0; }
+.is-windows #get [data-os="windows"] { order: 2; border-left: 1px solid #2c2a29; border-right: 1px solid #2c2a29; }
+.is-windows #get [data-os="linux"] { order: 3; border: 0; }
 /* With no tag (no script, or a phone) every column stays lit and none is named */
 .is-mac #get .get-col:not([data-os="mac"]), .is-linux #get .get-col:not([data-os="linux"]), .is-windows #get .get-col:not([data-os="windows"]) { opacity: .55; }
 #get .get-me { visibility: hidden; display: inline-flex; align-items: center; gap: 8px; font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: #c4bdb8; }
@@ -1093,10 +1100,11 @@ body {
 #get .cmd-ok, #get .copied .cmd-c svg:not(.cmd-ok) { display: none; }
 #get .copied .cmd-ok { display: block; color: #efebe7; }
 @media (max-width: 860px) {
-  #get { padding: 24px 20px 96px; }
-  #get .get-cols { grid-template-columns: minmax(0, 1fr); gap: 44px; margin-top: 44px; }
-  #get .get-col { padding: 0; }
-  #get .get-col + .get-col { border-left: 0; }
+  #get { padding: 96px 20px 120px; }
+  #get .get-cols { grid-template-columns: minmax(0, 1fr); gap: 48px; margin-top: 52px; }
+  #get .get-col { padding: 0; border: 0 !important; }
+  /* Stacked, the visitor's computer comes first rather than in the middle */
+  .is-mac #get [data-os="mac"], .is-linux #get [data-os="linux"], .is-windows #get [data-os="windows"] { order: 0; }
   #get .get-me { display: none; }
   .is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me, .is-windows #get [data-os="windows"] .get-me { display: inline-flex; }
   #get .get-n { font-size: 40px; margin-top: 12px; }
