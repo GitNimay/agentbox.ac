@@ -7,6 +7,8 @@
 
 @font-face { font-family: 'Geist'; src: url('../assets/Geist-Variable.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: 'Geist Mono'; src: url('../assets/GeistMono-Variable.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+/* The head script tags <html> with the visitor's computer. With no script the Mac link shows. */
+.not-mac .for-mac, html:not(.not-mac) .for-nm, html:not(.is-linux) .for-linux, html:not(.is-windows) .for-windows, html:not(.is-other) .for-other { display: none !important; }
 
 :root {
   --bg: #1a1817; --surface: #282625; --panel: #1e1c1b; --line: #3a3836; --line-soft: #353331;

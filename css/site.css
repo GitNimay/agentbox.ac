@@ -22,14 +22,15 @@ body {
 }
 
 /* ========== Hero: the headline, the two buttons, and a dark app window answering tasks ========== */
-#hero { position: relative; overflow: hidden; color: #efebe7; padding: 26px 32px 112px; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#hero { position: relative; overflow: hidden; color: #efebe7; padding: 26px 32px 72px; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 #hero * { box-sizing: border-box; }
 #hero .mono { font-family: 'Geist Mono', ui-monospace, monospace; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; }
 /* The hero's background. #hero[data-bg] picks one of four; index.html ships "sunburst".
    Every layer sits in .bg, which fades out toward the hero's foot so the page runs on unbroken.
    --wx, --wy, --ww, --wh (set by the hero script) are the app window's centre and size, and the
    rays and the horizon are drawn from them. */
-#hero .bg { position: absolute; inset: 0; pointer-events: none; -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 220px), transparent); mask-image: linear-gradient(180deg, #000 calc(100% - 220px), transparent); }
+/* A 220px fade left the hero's foot flat and unlit, and one scroll landed a visitor in what read as a blank screen. */
+#hero .bg { position: absolute; inset: 0; pointer-events: none; -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 110px), transparent); mask-image: linear-gradient(180deg, #000 calc(100% - 110px), transparent); }
 #hero .bg > * { position: absolute; pointer-events: none; }
 #hero .paper { inset: 0; background-image: radial-gradient(60% 34% at 50% 0%, rgba(238,96,24,.11), rgba(238,96,24,0) 72%); }
 #hero .warm { right: -220px; top: 520px; width: 1100px; height: 960px; background: radial-gradient(ellipse, rgba(238,96,24,.17), rgba(238,96,24,.045) 45%, transparent 68%); }
@@ -567,8 +568,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   #inbox .fx-rv, #command-k .fx-rv, #features .fx-rv, #plans .fx-rv { opacity: 1; transform: none; transition: none; }
 }
-#inbox { padding: 128px 40px 136px; }
-#inbox::before { background: radial-gradient(55% 34% at 50% 16%, rgba(238,96,24,.14), rgba(238,96,24,0) 70%); }
+#inbox { padding: 96px 40px 136px; }
+#inbox::before { background: radial-gradient(55% 40% at 50% 8%, rgba(238,96,24,.14), rgba(238,96,24,0) 70%); }
 #inbox .inbox-hd { text-align: center; max-width: 980px; margin: 0 auto; }
 #inbox .inbox-ctl { display: flex; justify-content: center; align-items: center; gap: 22px; margin: 46px 0 40px; }
 #inbox .inbox-seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 4px; background: #1f1d1c; border: 1px solid #3a3836; box-shadow: inset 0 1px 0 rgba(255,255,255,.03); }
@@ -1117,6 +1118,59 @@ body {
 @media (prefers-reduced-motion: reduce) {
   #start * { animation: none !important; transition: none !important; }
   #start .c-rv { opacity: 1; transform: none; }
+}
+
+/* Off a Mac the download is the npx command, drawn as in the hero */
+#start .c-cmd { gap: 0; height: 42px; padding: 0; vertical-align: top; cursor: pointer; background: #141211; color: #efebe7; border: 1px solid #464443; box-shadow: 0 14px 30px -14px rgba(0,0,0,.8); font: 400 14.5px/1 var(--mono); letter-spacing: 0; }
+#start .c-cmd:hover { background: #141211; border-color: #6a6563; }
+#start .c-cmd .cmd-t { display: flex; align-items: center; gap: 10px; padding: 0 18px 0 16px; }
+#start .c-cmd .cmd-t i { font-style: normal; color: #ee6018; }
+#start .c-cmd .cmd-c { display: grid; place-items: center; width: 42px; height: 100%; border-left: 1px solid #464443; color: #a09994; }
+#start .c-cmd svg { width: 15px; height: 15px; margin: 0; }
+#start .c-cmd .cmd-ok, #start .c-cmd.copied .cmd-c svg:not(.cmd-ok) { display: none; }
+#start .c-cmd.copied .cmd-ok { display: block; color: #efebe7; }
+
+/* ========== Get Agentbox: one column per computer, the visitor's lit and the others quiet ========== */
+#get { position: relative; overflow: hidden; padding: 24px 40px 120px; color: #efebe7; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#get * { box-sizing: border-box; }
+#get::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(46% 50% at 50% 60%, rgba(238,96,24,.13), rgba(238,96,24,0) 70%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 200px, #000 calc(100% - 200px), transparent); mask-image: linear-gradient(180deg, transparent, #000 200px, #000 calc(100% - 200px), transparent); }
+#get .get-in { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+#get .get-h2 { margin: 0; text-align: center; font-weight: 500; font-size: clamp(30px, 2.9vw, 40px); line-height: 1.1; letter-spacing: -.035em; text-wrap: balance; }
+#get .get-cols { margin: 64px auto 0; max-width: 1140px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#get .get-col { padding: 0 44px; display: flex; flex-direction: column; align-items: flex-start; }
+#get .get-col + .get-col { border-left: 1px solid #2c2a29; }
+/* With no tag (no script, or a phone) every column stays lit and none is named */
+.is-mac #get .get-col:not([data-os="mac"]), .is-linux #get .get-col:not([data-os="linux"]), .is-windows #get .get-col:not([data-os="windows"]) { opacity: .55; }
+#get .get-me { visibility: hidden; display: inline-flex; align-items: center; gap: 8px; font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: #c4bdb8; }
+#get .get-me::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #ee6018; box-shadow: 0 0 10px rgba(238,96,24,.8); }
+.is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me, .is-windows #get [data-os="windows"] .get-me { visibility: visible; }
+#get .get-n { display: flex; align-items: center; gap: 16px; margin: 18px 0 0; font-weight: 500; font-size: 52px; line-height: 1; letter-spacing: -.045em; }
+#get .get-n svg { width: 38px; height: 38px; flex: none; }
+#get .get-col p { margin: 18px 0 34px; font-size: 16px; line-height: 1.45; color: #a09994; }
+#get .get-dl { display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px 0 18px; margin-top: auto; text-decoration: none; white-space: nowrap; font-weight: 600; font-size: 14.5px; letter-spacing: -.01em; background: #efebe7; color: #1a1817; box-shadow: 0 14px 30px -14px rgba(0,0,0,.8), 0 0 40px -12px rgba(238,96,24,.35); transition: background .2s; }
+#get .get-dl:hover { background: #fff; }
+#get .get-dl svg { width: 16px; height: 16px; margin-top: -2px; }
+.not-mac #get .get-dl { background: transparent; color: #efebe7; border: 1px solid #464443; box-shadow: none; }
+#get .get-cmd { all: unset; box-sizing: border-box; display: inline-flex; align-items: stretch; height: 46px; margin-top: auto; cursor: pointer; background: #141211; color: #efebe7; border: 1px solid #464443; font: 400 14.5px/1 var(--mono); white-space: nowrap; transition: border-color .2s; }
+#get .get-cmd:hover { border-color: #6a6563; }
+#get .get-dl:focus-visible, #get .get-cmd:focus-visible { outline: 2px solid #ee6018; outline-offset: 3px; }
+#get .cmd-t { display: flex; align-items: center; gap: 10px; padding: 0 18px 0 16px; }
+#get .cmd-t i { font-style: normal; color: #ee6018; }
+#get .cmd-c { display: grid; place-items: center; width: 44px; border-left: 1px solid #464443; color: #a09994; }
+#get .cmd-c svg { width: 15px; height: 15px; }
+#get .cmd-ok, #get .copied .cmd-c svg:not(.cmd-ok) { display: none; }
+#get .copied .cmd-ok { display: block; color: #efebe7; }
+@media (max-width: 860px) {
+  #get { padding: 24px 20px 96px; }
+  #get .get-cols { grid-template-columns: minmax(0, 1fr); gap: 44px; margin-top: 44px; }
+  #get .get-col { padding: 0; }
+  #get .get-col + .get-col { border-left: 0; }
+  #get .get-me { display: none; }
+  .is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me, .is-windows #get [data-os="windows"] .get-me { display: inline-flex; }
+  #get .get-n { font-size: 40px; margin-top: 12px; }
+  #get .get-n svg { width: 30px; height: 30px; }
+  #get .get-col p { margin: 12px 0 20px; }
 }
 
 /* ========== The footer ========== */
