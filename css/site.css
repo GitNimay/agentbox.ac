@@ -13,6 +13,8 @@
 html, body { margin: 0; }
 /* The head script tags <html> with the visitor's computer. With no script there is no tag and the Mac page shows. */
 .not-mac .for-mac, html:not(.not-mac) .for-nm, html:not(.is-linux) .for-linux, html:not(.is-windows) .for-windows, html:not(.is-other) .for-other { display: none !important; }
+/* npx agentbox-app does not run on Windows, so a Windows visitor is not handed it up top */
+.is-windows #hero .cta.cmd { display: none !important; }
 /* One continuous background for the whole page: the ground and its faint dot grid live here, on the
    body, and no section paints a tone, a grid or a border of its own. Sections only add soft glows,
    and every glow fades out before its section's edge, so nothing shows a seam. */
@@ -1068,21 +1070,14 @@ body {
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 200px, #000 calc(100% - 200px), transparent); mask-image: linear-gradient(180deg, transparent, #000 200px, #000 calc(100% - 200px), transparent); }
 #get .get-in { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
 #get .get-h2 { margin: 0; text-align: center; font-weight: 500; font-size: clamp(30px, 2.9vw, 40px); line-height: 1.1; letter-spacing: -.035em; text-wrap: balance; }
-#get .get-cols { margin: 88px auto 0; max-width: 1140px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#get .get-cols { margin: 88px auto 0; max-width: 760px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 #get .get-col { padding: 0 44px; display: flex; flex-direction: column; align-items: flex-start; }
-/* The visitor's computer takes the middle column, and only the middle column carries the dividers. Linux is the middle with no tag. */
-#get [data-os="mac"] { order: 1; }
-#get [data-os="linux"] { order: 2; border-left: 1px solid #2c2a29; border-right: 1px solid #2c2a29; }
-#get [data-os="windows"] { order: 3; }
-.is-mac #get [data-os="mac"] { order: 2; border-left: 1px solid #2c2a29; border-right: 1px solid #2c2a29; }
-.is-mac #get [data-os="linux"] { order: 1; border: 0; }
-.is-windows #get [data-os="windows"] { order: 2; border-left: 1px solid #2c2a29; border-right: 1px solid #2c2a29; }
-.is-windows #get [data-os="linux"] { order: 3; border: 0; }
-/* With no tag (no script, or a phone) every column stays lit and none is named */
-.is-mac #get .get-col:not([data-os="mac"]), .is-linux #get .get-col:not([data-os="linux"]), .is-windows #get .get-col:not([data-os="windows"]) { opacity: .55; }
+#get [data-os="linux"] { border-left: 1px solid #2c2a29; }
+/* With no tag (no script, a phone, or Windows) both columns stay lit and neither is named */
+.is-mac #get .get-col:not([data-os="mac"]), .is-linux #get .get-col:not([data-os="linux"]) { opacity: .55; }
 #get .get-me { visibility: hidden; display: inline-flex; align-items: center; gap: 8px; font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: #c4bdb8; }
 #get .get-me::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #ee6018; box-shadow: 0 0 10px rgba(238,96,24,.8); }
-.is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me, .is-windows #get [data-os="windows"] .get-me { visibility: visible; }
+.is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me { visibility: visible; }
 #get .get-n { display: flex; align-items: center; gap: 16px; margin: 18px 0 0; font-weight: 500; font-size: 52px; line-height: 1; letter-spacing: -.045em; }
 #get .get-n svg { width: 38px; height: 38px; flex: none; }
 #get .get-col p { margin: 18px 0 34px; font-size: 16px; line-height: 1.45; color: #a09994; }
@@ -1104,9 +1099,9 @@ body {
   #get .get-cols { grid-template-columns: minmax(0, 1fr); gap: 48px; margin-top: 52px; }
   #get .get-col { padding: 0; border: 0 !important; }
   /* Stacked, the visitor's computer comes first rather than in the middle */
-  .is-mac #get [data-os="mac"], .is-linux #get [data-os="linux"], .is-windows #get [data-os="windows"] { order: 0; }
+  .is-linux #get [data-os="linux"] { order: -1; }
   #get .get-me { display: none; }
-  .is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me, .is-windows #get [data-os="windows"] .get-me { display: inline-flex; }
+  .is-mac #get [data-os="mac"] .get-me, .is-linux #get [data-os="linux"] .get-me { display: inline-flex; }
   #get .get-n { font-size: 40px; margin-top: 12px; }
   #get .get-n svg { width: 30px; height: 30px; }
   #get .get-col p { margin: 12px 0 20px; }
