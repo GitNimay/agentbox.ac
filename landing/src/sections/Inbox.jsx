@@ -39,7 +39,6 @@ export default function Inbox() {
       <canvas ref={fall} className="fall" aria-hidden="true" />
       <div className="wrap ibhd">
         <h2 className="h2 rv">Your teammates and your agents reach you in one inbox.</h2>
-        <p className="lede rv d1">A question from Maya and a finished fix from Claude Code land in the same list. Answer each one where it lands.</p>
       </div>
       <div className="wrap stage ibs rv d2" aria-hidden="true">
         <div className="ibl">{MSGS.filter((_, i) => i % 2 === 0).map(m => <Msg key={m.name + m.at} {...m} i={MSGS.indexOf(m)} />)}</div>

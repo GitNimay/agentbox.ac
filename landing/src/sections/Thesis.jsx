@@ -1,20 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
-import { IcDoc } from '../components/AppIcons.jsx';
 import { Linear, Notion, Slack } from '../components/Brands.jsx';
-import Mark from '../components/Mark.jsx';
 import Who from '../components/Who.jsx';
 import { watch } from '../lib/motion.js';
 
-/* Why Agentbox and not the agent each tool added: those tools were built around people, so an
-   agent's work in them becomes one more message, status or page. Agentbox's thread is built
-   around the agent's work: what it changed, whether the tests pass, the file it made, the one
-   decision it needs, and the teammate who makes it. */
+/* The headline names no other tool; the logos make the comparison. Each of those tools holds one
+   part of the work, so a team with agents watches several. In Agentbox the agents are on the team,
+   beside the people. */
 const TOOLS = [
   [Slack, 'Slack', 'Built for chat. An agent’s work becomes one more message in a busy channel.'],
-  [Linear, 'Linear', 'Built for tickets. An agent’s work becomes a status on an issue.'],
-  [Notion, 'Notion', 'Built for pages. An agent’s work becomes a doc someone has to find.'],
+  [Linear, 'Linear', 'Built for tickets. Agents work there, but your team talks somewhere else.'],
+  [Notion, 'Notion', 'Built for docs. Agents write there, but the work happens somewhere else.'],
 ];
-const Y = [54, 160, 266];
+/* where each wire leaves a tool card, and where they meet on the team card, in the svg's own units */
+const Y = [48, 159, 271];
+const MEET = 137;
+
+const Status = ({ state, children }) => <span className="ust" data-state={state}><i className="gl" />{children}</span>;
+
+const TEAM = [
+  { who: 'maya', name: 'Maya Chen', role: 'Teammate', on: 'Reviewing the tax fix', state: 'working', word: 'Working' },
+  { who: 'claude', name: 'Claude Code', role: 'Agent', on: 'Fixed checkout tax', state: 'waiting', word: 'Needs Maya' },
+  { who: 'sam', name: 'Sam Ortiz', role: 'Teammate', on: 'Android sign-in bug', state: 'working', word: 'Working' },
+  { who: 'codex', name: 'Codex', role: 'Agent', on: 'Release notes', state: 'done', word: 'Done' },
+];
 
 export default function Thesis() {
   const ref = useRef(null);
@@ -24,32 +32,30 @@ export default function Thesis() {
   return (
     <section id="one" className={run ? 'sec run' : 'sec'} ref={ref}>
       <div className="wrap thh">
-        <h2 className="h2 rv">Slack, Linear and Notion added agents. Agentbox is built around them.</h2>
-        <p className="lede rv d1">In a tool made for people, an agent’s work becomes one more message, ticket or page. In Agentbox the thread is the work itself: the change, the tests, the files and the one decision your team makes.</p>
+        <h2 className="h2 rv">Agentbox is made for agent-native teams.</h2>
       </div>
       <div className="wrap stage thv rv d2" aria-hidden="true">
         <div className="tht">
-          <span className="thk">An agent added to one tool</span>
+          <span className="thk">Tools made for people</span>
           {TOOLS.map(([Logo, name, does]) => (
             <div key={name} className="glassy thi"><span className="thl"><Logo /></span><span><b>{name}</b><em>{does}</em></span></div>
           ))}
         </div>
         <svg className="thw" viewBox="0 0 300 320" preserveAspectRatio="none">
-          {Y.map(y => <path key={y} className="wire" d={`M0 ${y} C150 ${y} 150 160 300 160`} />)}
-          {Y.map((y, i) => <path key={`p${y}`} className={`pulse d${i + 2}`} d={`M0 ${y} C150 ${y} 150 160 300 160`} />)}
+          {Y.map(y => <path key={y} className="wire" d={`M0 ${y} C150 ${y} 150 ${MEET} 300 ${MEET}`} />)}
+          {Y.map((y, i) => <path key={`p${y}`} className={`pulse d${i + 2}`} d={`M0 ${y} C150 ${y} 150 ${MEET} 300 ${MEET}`} />)}
         </svg>
         <div className="thr">
-          <span className="thk">A thread in Agentbox</span>
-          <div className="glassy thb">
-            <div className="thbh"><span className="thm"><Mark /></span><b>Checkout fails for some carts</b><em>Storefront</em></div>
-            <div className="thbl"><Who who="claude" size={24} /><p><b>Claude Code</b>Tax now rounds once, on the cart total. Merge it?</p></div>
-            <div className="thbw">
-              <span className="thbx"><i className="ok">✓</i>48 tests pass</span>
-              <span className="thbx"><i>±</i>src/checkout/tax.ts<s><b>+2</b> −1</s></span>
-              <span className="thbx"><IcDoc />Checkout tax fix</span>
-            </div>
-            <div className="thbl"><Who who="maya" size={24} /><p><b>Maya</b>That matches the invoices.</p></div>
-            <div className="thbo"><span className="on"><kbd>1</kbd>Merge it</span><span><kbd>2</kbd>Not yet</span></div>
+          <span className="thk">A team in Agentbox</span>
+          <div className="glassy thb tcx">
+            <div className="tch"><b>Storefront</b><em>2 people, 2 agents</em></div>
+            {TEAM.map(m => (
+              <div key={m.name} className="tct">
+                <Who who={m.who} size={30} />
+                <div><div className="tcn"><b>{m.name}</b><em>{m.role}</em></div><p>{m.on}</p></div>
+                <Status state={m.state}>{m.word}</Status>
+              </div>
+            ))}
           </div>
         </div>
       </div>

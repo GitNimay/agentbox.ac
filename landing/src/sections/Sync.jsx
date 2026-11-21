@@ -42,8 +42,8 @@ export default function Sync() {
         <h2 className="h2 rv">Agents you start in your own terminal show up in your inbox.</h2>
       </div>
       <div className="wrap bento syg2" ref={grid}>
-        <BentoCard className="rv d1" title="Keep working where you work" body="Start Claude Code in a terminal or your editor, as you do now." visual={Terminal} />
-        <BentoCard className="rv d2" title="It lands beside the rest of the work" body="Your team sees it with every other thread. Personal projects stay yours." visual={Landed} />
+        <BentoCard className="rv d1" title="Even agents started outside Agentbox" body="A Claude Code session someone runs in a terminal still reaches the team." visual={Terminal} />
+        <BentoCard className="rv d2" title="One inbox, nothing scattered" body="It lands beside every other thread. Personal projects stay yours." visual={Landed} />
       </div>
     </section>
   );

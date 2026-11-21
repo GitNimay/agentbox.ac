@@ -925,3 +925,16 @@ section:not(.run) .shot *{animation-play-state:paused!important}
 .thbo kbd{display:grid;place-items:center;min-width:18px;height:18px;border-radius:5px;border:1px solid rgba(17,25,48,.14);font:10px var(--font-mono);color:var(--color-ink-soft)}
 @media (max-width:899px){.thbw,.thbo{margin-left:0}}
 .thbx s b{font-size:inherit;font-weight:400}
+.ibhd,.thh{margin-bottom:28px}
+.tcx{padding:16px 18px 18px}
+.tch{display:flex;align-items:center;gap:10px;min-height:34px;padding-bottom:12px;border-bottom:1px solid rgba(17,25,48,.07)}
+.tch b{font-size:15px;font-weight:500;letter-spacing:-.01em}
+.tch em{margin-left:auto;font-style:normal;font:10.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--color-ink-faint)}
+.tcn{display:flex;align-items:baseline;gap:8px}.tcn b{font-size:13px;font-weight:500;color:var(--color-ink)}
+.tcn em{font-style:normal;font:9.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--color-ink-faint)}
+.tct{display:flex;align-items:center;gap:12px;padding-top:14px}.tct>div{flex:1;min-width:0}.tct p{margin-top:1px;font-size:13.5px;line-height:19px;color:var(--color-ink-soft)}
+@media (max-width:899px){
+  .tcx{padding:14px 16px 16px}.tch b{font-size:14.5px}
+}
+.thv .thw{margin-top:30px}
+@media (max-width:899px){.thv>.thr{align-self:stretch}.thr>.thb{width:100%}}
