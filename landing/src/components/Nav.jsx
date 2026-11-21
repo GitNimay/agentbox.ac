@@ -1,8 +1,8 @@
 import Mark from './Mark.jsx';
-import Button from './Button.jsx';
 import GitHubIcon from './GitHubIcon.jsx';
 import { GITHUB_URL } from '../lib/links.js';
 
+/* The brand on the left and one quiet link on the right; the hero carries the download. */
 export default function Nav() {
   return (
     <nav className="nv">
@@ -11,7 +11,6 @@ export default function Nav() {
         <div className="links">
           <a href={GITHUB_URL} target="_blank" rel="noopener"><GitHubIcon />GitHub</a>
         </div>
-        <Button href="#get">Mac and Linux</Button>
       </div>
     </nav>
   );

@@ -866,3 +866,49 @@ section:not(.run) .shot *{animation-play-state:paused!important}
   .bc .bt h3{font-size:18px;line-height:25px}
   .bc .bt p{font-size:14.5px;line-height:21px}
 }
+
+/* ---------- thesis: today's three hand-offs, and the one thread that replaces them ---------- */
+.thv{grid-template-columns:minmax(0,340px) minmax(60px,220px) minmax(0,400px);height:auto;padding:56px 0 60px}
+.tht,.thr{display:flex;flex-direction:column;gap:16px}
+.thk{font:11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--color-ink-soft)}
+.thi{height:auto;min-height:88px;padding:16px 18px;align-items:flex-start}
+.thi em{margin-top:4px;line-height:1.4}
+.thw{height:320px;margin-top:28px}
+.thb{display:block;height:auto;padding:18px 18px 16px;text-align:left}
+.thbh{display:flex;align-items:center;gap:10px;padding-bottom:12px;margin-bottom:4px;border-bottom:1px solid rgba(17,25,48,.07)}
+.thbh .thm{width:28px;height:28px;margin:0;border-radius:8px}.thbh .thm .mk{width:14px;height:14px}
+.thbh b{font-size:15px;font-weight:500}.thbh em{margin-left:auto;font-style:normal;font:10.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--color-ink-faint)}
+.thbl{display:flex;gap:10px;padding:10px 0 0}
+.thbl p{font-size:14px;line-height:20px;color:var(--color-ink)}.thbl b{display:block;font-size:12.5px;font-weight:500;color:var(--color-ink-soft)}
+.thbf{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(17,25,48,.07)}
+.thbd{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.6);border:1px solid rgba(17,25,48,.08);font-size:12.5px}.thbd svg{width:12px;height:12px;color:var(--color-ink-faint)}
+
+/* ---------- agents from your terminal: two cards in the team recipe ---------- */
+#sync .bento{grid-template-columns:1fr 1fr}
+#sync .bc .bv{display:block;padding:0}
+#sync .shot{height:300px}
+#sync .shot>*{width:100%;max-width:470px;align-self:center}
+#sync .h2{max-width:820px}
+.syb em{margin-left:auto;font-style:normal;color:#8E939B}
+.syi{padding:4px 0;overflow:hidden}
+#sync .syr2{grid-template-columns:24px minmax(0,1fr) auto;height:60px}
+#sync .syr2:first-child{border-top:0}
+
+@media (max-width:899px){
+  .thv{display:flex;flex-direction:column;align-items:stretch;gap:18px;padding:22px 14px}
+  .tht{flex-direction:column;gap:8px}
+  .thi{flex-direction:row;text-align:left;min-height:0;padding:12px 14px;gap:12px}
+  .thi em{display:block;font-size:13px}
+  .thb{padding:16px}
+  #sync .bento{grid-template-columns:1fr}
+  #sync .shot{height:auto;min-height:240px;padding:24px 14px}
+}
+/* phones: more room above the headline, and between the buttons and the product */
+@media (max-width:899px){
+  .hero{padding:132px 0 0}
+  .hero .hshot{margin-top:56px}
+}
+.thv{align-items:start}
+.thw{margin-top:60px}
+[data-theme="light"] .soon{border-color:rgba(17,25,48,.12);background:rgba(255,255,255,.7);color:var(--color-ink-soft)}
+@media (max-width:899px){#sync .syr2{height:auto;padding:12px 14px}#sync .syn2{white-space:normal}}

@@ -1,36 +1,49 @@
+import { useEffect, useRef, useState } from 'react';
 import { Claude } from '../components/Brands.jsx';
+import BentoCard from '../components/BentoCard.jsx';
+import Who from '../components/Who.jsx';
+import { watch } from '../lib/motion.js';
 
-/* A Claude Code session started in your own terminal, and the same session in Agentbox beside
-   the rest of the work. Read left to right without the words: it starts there, it shows up here. */
-export default function Sync() {
-  return (
-    <section id="sync" className="sec">
-      <div className="wrap syh2">
-        <h2 className="h2 rv">Agents you start anywhere show up here.</h2>
-        <p className="lede rv d1">Run Claude Code in your own terminal and the session appears in Agentbox, next to the rest of the work. Personal projects stay yours.</p>
+/* Coming soon: a Claude Code session started in your own terminal shows up in Agentbox beside the
+   rest of the work. Two cards in the team cards' recipe: where it starts, and where it lands. */
+const Status = ({ state, children }) => <span className="ust" data-state={state}><i className="gl" />{children}</span>;
+
+const Terminal = (
+  <div className="shot" aria-hidden="true">
+    <div className="syt">
+      <div className="syb"><span>~/storefront</span><em>zsh</em></div>
+      <div className="sys2">
+        <div><span className="cp">$</span>claude</div>
+        <div className="syq">Fix the flaky checkout test</div>
+        <div className="syw"><span className="ust" data-state="working"><i className="gl" /></span>Reading src/checkout/tax.ts</div>
       </div>
-      <div className="wrap stage syv rv d2" aria-hidden="true">
-        <figure>
-          <div className="syt">
-            <div className="syb"><span>~/storefront</span></div>
-            <div className="sys2">
-              <div><span className="cp">$</span>claude</div>
-              <div className="syq">Fix the flaky checkout test</div>
-              <div className="syw"><span className="ust" data-state="working"><i className="gl" /></span>Reading src/checkout/tax.ts</div>
-            </div>
-          </div>
-          <figcaption>In your terminal</figcaption>
-        </figure>
-        <svg className="sya" viewBox="0 0 120 24"><path className="wire" d="M0 12 H112" /><path className="pulse d2" d="M0 12 H112" /><path className="sya-h" d="M104 5 L113 12 L104 19" /></svg>
-        <figure>
-          <div className="glassy syi">
-            <div className="syih"><span>Thread</span><span>Status</span></div>
-            <div className="syr2 on"><span className="syg"><Claude /></span><span className="syn2">Fix the flaky checkout test<em>Your terminal</em></span><span className="ust" data-state="working"><i className="gl" />Working</span></div>
-            <div className="syr2"><span className="syg"><Claude /></span><span className="syn2">Checkout fails for some carts<em>Storefront</em></span><span className="ust" data-state="waiting"><i className="gl" />Needs you</span></div>
-            <div className="syr2"><span className="syf">S</span><span className="syn2">Can an agent take the Android bug?<em>Sam Ortiz</em></span><span className="ust" data-state="done"><i className="gl" />Answered</span></div>
-          </div>
-          <figcaption>In Agentbox</figcaption>
-        </figure>
+    </div>
+  </div>
+);
+
+const Landed = (
+  <div className="shot" aria-hidden="true">
+    <div className="ui syi">
+      <div className="syr2 on"><Who who="claude" size={24} /><span className="syn2">Fix the flaky checkout test<em>From your terminal</em></span><Status state="working">Working</Status></div>
+      <div className="syr2"><Who who="claude" size={24} /><span className="syn2">Checkout fails for some carts<em>Storefront</em></span><Status state="waiting">Needs you</Status></div>
+      <div className="syr2"><Who who="sam" size={24} /><span className="syn2">Can an agent take the Android bug?<em>Sam Ortiz</em></span><Status state="done">Answered</Status></div>
+    </div>
+  </div>
+);
+
+export default function Sync() {
+  const grid = useRef(null);
+  const [run, setRun] = useState(false);
+  useEffect(() => watch(grid.current, setRun), []);
+  return (
+    <section id="sync" className={run ? 'sec run' : 'sec'}>
+      <div className="wrap" style={{ marginBottom: 40 }}>
+        <span className="soon rv">Coming soon</span>
+        <h2 className="h2 rv">Agents you start in your own terminal show up in your inbox.</h2>
+      </div>
+      <div className="wrap bento syg2" ref={grid}>
+        <BentoCard className="rv d1" title="Keep working where you work" body="Start Claude Code in a terminal or your editor, as you do now." visual={Terminal} />
+        <BentoCard className="rv d2" title="It lands beside the rest of the work" body="Your team sees it with every other thread. Personal projects stay yours." visual={Landed} />
       </div>
     </section>
   );
