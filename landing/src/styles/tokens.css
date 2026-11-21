@@ -1,0 +1,40 @@
+/* Design tokens, mirrored from the Doop canvas "Agentbox — Landing redesign". */
+@font-face{font-family:"Geist";src:url("/assets/fonts/Geist-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Geist Mono";src:url("/assets/fonts/GeistMono-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+
+/* dark only: the page is #24262a; "ink" is the light text on it, "night" the app windows a step darker */
+:root{color-scheme:dark;
+  --color-paper:#24262A;--color-paper-raised:#2C2F34;
+  --color-ink:#EDEEF0;--color-ink-soft:#A8ACB3;--color-ink-faint:#7E838B;--color-hairline:#3A3D44;
+  --color-night:#1A1C1F;--color-night-surface:#222428;--color-night-raised:#2B2E33;--color-night-line:#3B3E45;
+  --color-night-text:#EDEEF0;--color-night-dim:#B9BDC4;--color-night-faint:#8E939B;
+  --color-white:#FFFFFF;
+  --color-glass:rgba(255,255,255,0.12);--color-glass-strong:rgba(255,255,255,0.2);--color-glass-line:rgba(255,255,255,0.34);
+  --color-scrim:rgba(20,16,22,0.55);
+  --color-accent:#EE6018;--color-success:#7BC47F;
+  --font-sans:"Geist",-apple-system,sans-serif;--font-mono:"Geist Mono",ui-monospace,monospace;
+  --text-xs:12px;--text-sm:14px;--text-base:16px;--text-lg:17px;--text-xl:20px;--text-2xl:24px;--text-3xl:34px;--text-4xl:52px;
+  --leading-tight:1.04;--leading-snug:1.25;--leading-body:1.55;
+  --tracking-display:-0.04em;--tracking-tight:-0.02em;--tracking-mono:0.12em;
+  --radius-none:0px;
+  --spacing-1:4px;--spacing-2:8px;--spacing-3:12px;--spacing-4:16px;--spacing-6:24px;--spacing-8:32px;--spacing-12:48px;--spacing-16:64px;--spacing-24:96px;--spacing-32:128px;
+  --container-page:1200px;
+  /* the app mockups: the Agentbox app's own Dark theme (renderer/src/styles.css), one step
+     darker so its windows stand off the page. Hairlines, washes and radii are the app's values. */
+  --app-bg:var(--color-night);--app-surface:var(--color-night-surface);--app-raised:var(--color-night-raised);--app-selected:#30333A;
+  --app-line:rgba(255,255,255,0.1);--app-line-strong:rgba(255,255,255,0.19);
+  --app-text:var(--color-night-text);--app-dim:var(--color-night-dim);--app-faint:var(--color-night-faint);
+  --app-wash:rgba(255,255,255,0.065);--app-wash-strong:rgba(255,255,255,0.13);--app-underline:rgba(238,96,24,0.6);
+  --app-radius:6px;--app-card:10px;
+}
+
+/* Shared motion vocabulary: component states reference these names. */
+@keyframes k-blink{50%{opacity:.25}}
+@keyframes k-caret{50%{opacity:0}}
+@keyframes k-breathe{50%{opacity:.45}}
+@keyframes k-work{0%{opacity:1}50%{opacity:.4}100%{opacity:1}}
+@keyframes k-spin{to{transform:rotate(360deg)}}
+@keyframes k-pop{0%{transform:scale(.7);opacity:.2}100%{transform:none;opacity:1}}
+@keyframes k-run{0%{background:rgba(238,96,24,.45)}100%{background:rgba(255,255,255,.04)}}
+@keyframes k-flash{0%{box-shadow:0 0 0 0 rgba(238,96,24,.8)}100%{box-shadow:0 0 0 14px rgba(238,96,24,0)}}
+@keyframes k-nudge{0%{box-shadow:0 0 0 2px #ee6018,0 3px 0 #131417,0 0 0 2px rgba(238,96,24,.55)}100%{box-shadow:0 0 0 2px #ee6018,0 3px 0 #131417,0 0 0 14px rgba(238,96,24,0)}}

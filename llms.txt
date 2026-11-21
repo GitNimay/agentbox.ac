@@ -1,12 +1,12 @@
 # Agentbox
 
-> A free, open source desktop GUI for running dozens of Claude Code and Codex agents in parallel. Every task gets its own git worktree and its own agent, and the work comes back as a row to answer like email, or as a board. Runs on an existing Claude or Codex subscription, with no server, no account and no API key. macOS app, or `npx agentbox-app` in a browser on any platform with Node 22.
+> One inbox for a team and its agents, free and open source. Teammates' messages and the work Claude Code and Codex agents finish land in the same list, threads and the files agents make are handed between people with the work attached, and every task gets its own git worktree. Runs on an existing Claude or Codex subscription, with no server, no account and no API key. macOS app, or `npx agentbox-app` in a browser on any platform with Node 22.
 
 Licence: GPL-3.0. Source: https://github.com/savannahfeder/agentbox
 
 ## Pages
 
-- [Agentbox](https://agentbox.ac/): what it is, the inbox and board, priorities, Command K, built-in worktrees, terminals and diffs.
+- [Agentbox](https://agentbox.ac/): one inbox for teammates and agents, handing off threads and files, the team pages, every harness, Agentcloud, and built-in worktrees, terminals and diffs.
 - [How to run multiple Claude Code agents in parallel](https://agentbox.ac/run-multiple-claude-code-agents): the four approaches, 23 tools compared with licences and commit dates, a measurement of what three agents at once actually costs, and 14 questions answered.
 - [Is there a GUI for Claude Code?](https://agentbox.ac/claude-code-gui): Anthropic ships one, the Code tab in the Claude desktop app, with parallel sessions and optional git worktree isolation. The 21 third-party front ends beside it, which run on Windows and Linux, and when each is still worth running.
 - [Claude Code and git worktrees](https://agentbox.ac/claude-code-worktrees): every command with its gotcha, why a new worktree has no node_modules or .env, what .worktreeinclude does, where each tool puts them, and a worked example from three agents to merged.
