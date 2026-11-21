@@ -3,19 +3,34 @@
   "redirects": [
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "www.agentbox.ac" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.agentbox.ac"
+        }
+      ],
       "destination": "https://agentbox.ac/",
       "permanent": true
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.agentbox.ac" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.agentbox.ac"
+        }
+      ],
       "destination": "https://agentbox.ac/:path*",
       "permanent": true
     },
     {
       "source": "/download",
       "destination": "https://github.com/agentboxhq/agentbox-releases/releases/latest/download/Agentbox.dmg",
+      "permanent": false
+    },
+    {
+      "source": "/guides",
+      "destination": "/",
       "permanent": false
     }
   ]

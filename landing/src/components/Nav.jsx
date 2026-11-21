@@ -9,7 +9,6 @@ export default function Nav() {
       <a className="brand" href="/"><span className="tile"><Mark tone="ink" /></span>Agentbox</a>
       <div className="act">
         <div className="links">
-          <a href="/guides">Guides</a>
           <a href={GITHUB_URL} target="_blank" rel="noopener"><GitHubIcon />GitHub</a>
         </div>
         <Button href="#get">Mac and Linux</Button>

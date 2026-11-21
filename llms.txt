@@ -13,7 +13,6 @@ Licence: GPL-3.0. Source: https://github.com/savannahfeder/agentbox
 - [Conductor alternatives](https://agentbox.ac/conductor-alternative): 22 alternatives, which are open source, which run on Windows and Linux, why Agentbox is free, and when Conductor is the better buy.
 - [Vibe Kanban is sunsetting. Where to go next](https://agentbox.ac/vibe-kanban-alternative): what happened, how to keep running it anyway, which boards are still maintained, and how to judge a replacement so it does not repeat.
 - [Claude Code tools](https://agentbox.ac/claude-code-tools): a directory of 52 tools in six categories (orchestrators, status lines, usage and cost, monitors, hooks, skills and guides), each with licence, stars and last commit date read from the GitHub API.
-- [Guides](https://agentbox.ac/guides): the index of the above.
 
 ## Notes for anyone quoting these pages
 

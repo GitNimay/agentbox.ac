@@ -1,17 +1,27 @@
-/* Fit: the page is never zoomed as a whole, so the browser's own zoom works as on any site.
-   The content column is at most 1200px and narrows with the window; the few pictures drawn at
-   a fixed width ([data-fit]) shrink to their column instead. Below 900px the mobile layer at the
-   end of site.css reflows the page, and the hero inbox is zoomed to fit its card.
-   Runs as a layout effect, before the canvases size themselves. */
+/* Fit: the layout is drawn for a 1200px column. On a wide window the whole page is scaled up to
+   fill it, so a big monitor does not show a small page in the middle. The scale is read from the
+   window's own size (outerWidth), which the browser's zoom does not change, so zooming in and out
+   works on top of it as on any site. It never scales below 1: a narrower window gets the fluid
+   layout, and below 900px the mobile layer at the end of site.css. The few pictures drawn at a
+   fixed width ([data-fit]) shrink to their column.
+   Runs as a layout effect, before the canvases (which read the zoom) size themselves. */
 import { on, qa } from '../lib/motion.js';
 
-const RAIL = 40; // the hatched gutter's width on each side
+const RAIL = 40, GAP = 48; // screen px: the hatched gutter's width, and the room kept between rail and content
+const MOST = 1.8; // past this a wide screen gets more room around the page rather than bigger type
 
 function fit() {
   const w = window.innerWidth, h = window.innerHeight, s = document.body.style;
-  s.zoom = '';
-  s.setProperty('--sh', h + 'px');
-  s.setProperty('--rg', (w < 900 ? 12 : RAIL) + 'px');
+  let z = 1;
+  if (w >= 900) {
+    const ow = window.outerWidth || w, oh = window.outerHeight ? window.outerHeight - 90 : h;
+    const byWidth = (ow - 2 * (RAIL + GAP)) / 1200, byHeight = oh / 820;
+    // never so large that the column the browser leaves is cramped (a very deep browser zoom)
+    z = Math.max(1, Math.min(MOST, byWidth, byHeight, w / 1100));
+  }
+  s.zoom = z === 1 ? '' : z;
+  s.setProperty('--sh', (h / z) + 'px');
+  s.setProperty('--rg', (w < 900 ? 12 : RAIL / z) + 'px');
   if (w < 900) s.setProperty('--hz', (w - 56) / (w < 600 ? 560 : 1080)); // hero inbox: 560px wide on phones, 1080px on tablets
   for (const el of qa(document, '[data-fit]')) {
     el.style.zoom = '';

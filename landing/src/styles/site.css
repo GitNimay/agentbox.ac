@@ -466,7 +466,7 @@ section:not(.run) .shot *{animation-play-state:paused!important}
 .foot{position:relative;padding:96px 0 40px}
 .foot nav a{text-decoration:none;color:var(--color-ink-soft);transition:color .2s}
 .foot nav a:hover{color:var(--color-ink)}
-.foot .top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
+.foot .top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
 .foot .acts{display:flex;gap:12px;margin-top:32px}
 .foot .top nav{display:flex;flex-direction:column;gap:12px;font-size:var(--text-sm)}
 .foot .top nav .hint{margin-bottom:4px}

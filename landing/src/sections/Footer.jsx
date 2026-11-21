@@ -4,7 +4,6 @@ import { GITHUB_URL } from '../lib/links.js';
 
 const COLUMNS = [
   ['Product', [['/download', 'Download for Mac'], ['#get', 'Run on Linux'], ['#one-inbox', 'One inbox'], ['#work', 'Hand off and share'], ['#team', 'Multiplayer'], ['#cloud', 'Agentcloud']]],
-  ['Guides', [['/run-multiple-claude-code-agents', 'Run multiple agents'], ['/claude-code-gui', 'Claude Code GUIs'], ['/claude-code-worktrees', 'Git worktrees'], ['/claude-code-tools', 'Claude Code tools'], ['/guides', 'All guides']]],
   ['Open source', [[GITHUB_URL, 'GitHub'], [`${GITHUB_URL}/issues`, 'Report a bug'], ['/conductor-alternative', 'Conductor alternatives'], ['/vibe-kanban-alternative', 'Vibe Kanban alternatives']]],
 ];
 
