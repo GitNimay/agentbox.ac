@@ -812,3 +812,57 @@ section:not(.run) .shot *{animation-play-state:paused!important}
   .syr2{grid-template-columns:24px minmax(0,1fr) 92px;padding:0 12px}
   .syih{grid-template-columns:1fr 92px;padding-left:46px}
 }
+
+/* ---------- phones: each section laid out for the phone, not shrunk from the desktop ---------- */
+@media (max-width:899px){
+  /* every section heading starts at the left edge, like the text under it */
+  .thh,.syh2,.pnh,#get>.wrap:first-of-type,.ibhd{text-align:left!important}
+  .thh .h2,.thh .lede,.syh2 .lede,.ibhd .lede{margin-left:0;margin-right:0}
+  .h2{font-size:28px;line-height:1.12;letter-spacing:-.03em;text-wrap:pretty}
+  .lede,.thh .lede,.syh2 .lede,.ibhd .lede,.pnh .lede{font-size:15.5px;line-height:23px}
+  /* hero: the inbox as a phone list, the mountains a band underneath it */
+  body>:where(#root)>header.hero{min-height:0}
+  .hero{padding:104px 0 0}
+  .hero .dither{top:auto;bottom:0;height:300px}
+  .hero .sub{font-size:16px;line-height:24px;max-width:320px}
+  .hero .cta{margin-top:26px}
+  .hero .hshot{width:calc(100% - 2 * var(--rg) - 32px)!important;max-width:540px;zoom:1!important;margin:36px auto 0;padding-bottom:120px;-webkit-mask-image:none;mask-image:none}
+  .hbz{padding:6px;border-radius:20px}
+  .hbz .aw{border-radius:15px}
+  .hbz .ash{grid-template-columns:minmax(0,1fr);padding:0}
+  .hbz .arl{display:none}
+  .hbz .apn{min-height:0;border:0;border-radius:15px}
+  .hbz .atp{height:54px;padding:0 16px}
+  .hbz .atp h4{margin-left:10px;font-size:17px}
+  .hbz .aac .abt:not(.ic){display:none}
+  .hbz .atb{padding:0 16px;gap:16px}.hbz .atb span:nth-child(n+3){display:none}
+  .hrh{display:none}
+  .hrwi{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t t" "f s";row-gap:6px;column-gap:10px;height:auto;margin:0 16px;padding:13px 0}
+  .hrt{grid-area:t;font-size:14.5px;line-height:20px}
+  .hrt em{display:none}
+  .hrf{grid-area:f;display:flex;font-size:12.5px}
+  .hrs{grid-area:s;align-self:center;font-size:10px}
+  .hra{display:none}
+  .hbz .hrw:nth-last-child(-n+2){display:none}
+  /* one inbox: the four messages in one column with even gaps */
+  .ibs{flex-direction:column;align-items:stretch;gap:12px;padding:20px 14px}
+  .ibl{flex:none;width:100%;gap:12px}.ibl+.ibl{margin-top:0}
+  .ibc{padding:14px 16px}
+  /* the three tools in a row of small glass tiles, then Agentbox under them */
+  .thv{display:flex;flex-direction:column;align-items:stretch;gap:12px;height:auto;padding:20px 14px}
+  .tht{flex-direction:row;gap:8px}
+  .thi{flex:1;min-width:0;flex-direction:column;justify-content:center;gap:8px;height:auto;padding:16px 6px;text-align:center}
+  .thi em{display:none}.thi b{font-size:13.5px}
+  .thl{width:36px;height:36px}
+  .thw{display:none}
+  .thb{height:auto;padding:26px 20px}
+  .thm{width:52px;height:52px;margin-bottom:6px}.thm .mk{width:24px;height:24px}
+  /* the hand-off card: the note under who sent it, not squeezed beside it */
+  .wkg{flex-wrap:wrap;row-gap:4px}.wkg q{margin-left:0;width:100%;padding-left:29px}
+  .wkc>span{height:auto;min-height:36px;padding:8px 12px;line-height:1.35}
+  #work .wkf .wkd.table{display:none}
+  #work .wkfan{width:400px}
+  .crw .crm:nth-child(n+3){display:none}
+  .bc .bt h3{font-size:18px;line-height:25px}
+  .bc .bt p{font-size:14.5px;line-height:21px}
+}

@@ -27,7 +27,7 @@ function fit() {
     el.style.zoom = '';
     if (el.dataset.wide !== undefined && w < 900) continue; // below 900px it reflows instead
     const box = el.parentElement, pad = getComputedStyle(box);
-    const room = box.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight), want = Number(el.dataset.fit);
+    const room = box.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight), want = el.offsetWidth || Number(el.dataset.fit);
     if (room && want > room) el.style.zoom = room / want;
   }
 }
