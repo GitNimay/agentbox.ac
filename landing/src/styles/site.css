@@ -912,3 +912,16 @@ section:not(.run) .shot *{animation-play-state:paused!important}
 .thw{margin-top:60px}
 [data-theme="light"] .soon{border-color:rgba(17,25,48,.12);background:rgba(255,255,255,.7);color:var(--color-ink-soft)}
 @media (max-width:899px){#sync .syr2{height:auto;padding:12px 14px}#sync .syn2{white-space:normal}}
+/* the thread carries the work itself: tests, the change, the file, then the choice */
+.thh .h2{max-width:880px}
+.thbw{display:flex;flex-direction:column;gap:6px;margin:12px 0 2px 34px}
+.thbx{display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(17,25,48,.07);font-size:12.5px;color:var(--color-ink)}
+.thbx i{width:14px;font-style:normal;text-align:center;color:var(--color-ink-faint)}.thbx i.ok{color:#2E8540}
+.thbx svg{width:12px;height:12px;color:var(--color-ink-faint)}
+.thbx s{margin-left:auto;text-decoration:none;font:11.5px var(--font-mono);color:var(--color-accent)}.thbx s b{font-weight:400;color:#2E8540}
+.thbo{display:flex;gap:8px;margin:14px 0 0 34px}
+.thbo span{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 6px;border-radius:9px;border:1px solid rgba(17,25,48,.1);font-size:13px;color:var(--color-ink-soft)}
+.thbo span.on{background:rgba(255,255,255,.8);color:var(--color-ink)}
+.thbo kbd{display:grid;place-items:center;min-width:18px;height:18px;border-radius:5px;border:1px solid rgba(17,25,48,.14);font:10px var(--font-mono);color:var(--color-ink-soft)}
+@media (max-width:899px){.thbw,.thbo{margin-left:0}}
+.thbx s b{font-size:inherit;font-weight:400}

@@ -5,14 +5,14 @@ import Mark from '../components/Mark.jsx';
 import Who from '../components/Who.jsx';
 import { watch } from '../lib/motion.js';
 
-/* The problem in three concrete steps: today an agent's finished work has to be carried by hand
-   into Slack to discuss it, Linear to track it and Notion to keep it. On the right, the same
-   work as one Agentbox thread: the agent's message, the teammate's reply, the task's status and
-   the file, together. The wires carry a pulse while the section is on screen. */
+/* Why Agentbox and not the agent each tool added: those tools were built around people, so an
+   agent's work in them becomes one more message, status or page. Agentbox's thread is built
+   around the agent's work: what it changed, whether the tests pass, the file it made, the one
+   decision it needs, and the teammate who makes it. */
 const TOOLS = [
-  [Slack, 'Slack', 'You paste the agent’s answer into a channel to discuss it.'],
-  [Linear, 'Linear', 'You copy it into a ticket to track it.'],
-  [Notion, 'Notion', 'You save the doc it wrote into a page to keep it.'],
+  [Slack, 'Slack', 'Built for chat. An agent’s work becomes one more message in a busy channel.'],
+  [Linear, 'Linear', 'Built for tickets. An agent’s work becomes a status on an issue.'],
+  [Notion, 'Notion', 'Built for pages. An agent’s work becomes a doc someone has to find.'],
 ];
 const Y = [54, 160, 266];
 
@@ -24,12 +24,12 @@ export default function Thesis() {
   return (
     <section id="one" className={run ? 'sec run' : 'sec'} ref={ref}>
       <div className="wrap thh">
-        <h2 className="h2 rv">Slack, Linear and Notion were built for people.</h2>
-        <p className="lede rv d1">So today an agent finishes in a terminal, and someone carries its work into three tools by hand. In Agentbox it arrives as one thread your team can answer.</p>
+        <h2 className="h2 rv">Slack, Linear and Notion added agents. Agentbox is built around them.</h2>
+        <p className="lede rv d1">In a tool made for people, an agent’s work becomes one more message, ticket or page. In Agentbox the thread is the work itself: the change, the tests, the files and the one decision your team makes.</p>
       </div>
       <div className="wrap stage thv rv d2" aria-hidden="true">
         <div className="tht">
-          <span className="thk">Today</span>
+          <span className="thk">An agent added to one tool</span>
           {TOOLS.map(([Logo, name, does]) => (
             <div key={name} className="glassy thi"><span className="thl"><Logo /></span><span><b>{name}</b><em>{does}</em></span></div>
           ))}
@@ -39,12 +39,17 @@ export default function Thesis() {
           {Y.map((y, i) => <path key={`p${y}`} className={`pulse d${i + 2}`} d={`M0 ${y} C150 ${y} 150 160 300 160`} />)}
         </svg>
         <div className="thr">
-          <span className="thk">In Agentbox</span>
+          <span className="thk">A thread in Agentbox</span>
           <div className="glassy thb">
             <div className="thbh"><span className="thm"><Mark /></span><b>Checkout fails for some carts</b><em>Storefront</em></div>
-            <div className="thbl"><Who who="claude" size={24} /><p><b>Claude Code</b>Fixed and tested. Tax now rounds once, on the cart total.</p></div>
-            <div className="thbl"><Who who="maya" size={24} /><p><b>Maya</b>That matches the invoices. Merge it.</p></div>
-            <div className="thbf"><span className="ust" data-state="waiting"><i className="gl" />Needs you</span><span className="thbd"><IcDoc />Checkout tax fix</span></div>
+            <div className="thbl"><Who who="claude" size={24} /><p><b>Claude Code</b>Tax now rounds once, on the cart total. Merge it?</p></div>
+            <div className="thbw">
+              <span className="thbx"><i className="ok">✓</i>48 tests pass</span>
+              <span className="thbx"><i>±</i>src/checkout/tax.ts<s><b>+2</b> −1</s></span>
+              <span className="thbx"><IcDoc />Checkout tax fix</span>
+            </div>
+            <div className="thbl"><Who who="maya" size={24} /><p><b>Maya</b>That matches the invoices.</p></div>
+            <div className="thbo"><span className="on"><kbd>1</kbd>Merge it</span><span><kbd>2</kbd>Not yet</span></div>
           </div>
         </div>
       </div>
