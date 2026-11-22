@@ -5,8 +5,8 @@ The website for [Agentbox](https://github.com/savannahfeder/agentbox): one inbox
 ```
 index.html          the homepage, built from landing/ (do not edit it by hand)
 landing/            the homepage's source: React and Vite, prerendered to static HTML
-privacy.html        privacy policy (draft, see the launch checklist)
-terms.html          terms of service (draft, see the launch checklist)
+privacy.html        privacy policy
+terms.html          terms of service
 css/guide.css       the guide pages' stylesheet
 assets/             the app icon, the link preview (og.png), and the homepage's built files
 drafts/             approved.html, the first approved layout, kept to compare against
@@ -53,14 +53,8 @@ https://github.com/agentboxhq/agentbox-releases/releases/latest/download/Agentbo
 
 That is the app's public release feed, the same repo installed copies check for updates. The app's `scripts/publish-download.mjs` uploads each signed build there under the fixed name `Agentbox.dmg`.
 
-## Launch checklist
+## Public repository
 
-- [ ] A signed and notarized Agentbox build is published to the release feed, and `/download` returns it.
-- [ ] Legal review of `privacy.html` and `terms.html`. Both were renamed from an earlier product and have not been reviewed for Agentbox. They also need a contact email, which is left as a visible placeholder.
-- [ ] The domain agentbox.ac points at the Vercel project, with HTTPS.
-- [x] Remove the review-only Tweaks panel (done, with grid and glow and "Worktrees, terminals and diffs, built in." chosen).
-- [ ] An og:image for link previews. There is none yet. Add a 1200x630 image at `assets/og.png` and a `<meta property="og:image" content="https://agentbox.ac/assets/og.png">` tag (plus `twitter:card` set to `summary_large_image`) in the head of `index.html`.
+This repository is public. Keep it free of anything personal: no names, email addresses, home paths, keys or tokens. Commit as a GitHub no-reply address, never a personal email.
 
-## Open source
-
-This repository is meant to be open sourced later, alongside the app. Keep it free of anything personal: no names, email addresses, home paths, keys or tokens.
+On 2026-11-22 the history was rewritten to take a personal email out of four commits, and `main` refuses force pushes and merge commits. A copy cloned before then will not fast-forward: save its own work, then reset it to `origin/main`. Never merge the old `main` back in.
